@@ -1,0 +1,16 @@
+# Node.js dependencies
+node_modules/
+package-lock.json
+
+# Environment variables (MongoDB credentials, AWS keys, etc.)
+.env
+
+# Log files
+logs/
+*.log
+
+
+# Miscellaneous
+.DS_Store  # macOS system file
+.idea/     # JetBrains IDE settings
+.vscode/   # VS Code settings

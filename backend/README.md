@@ -41,11 +41,11 @@ backend/
 Hometasker - Tasks Gamified
 
 Household Chores + points
-Take out the trash	10
-Wash the dishes	15
-Vacuum the living room	20
+Take out the trash	3
+Wash the dishes	7
+Vacuum the living room	7
 Water the plants	10
-Cook a meal	30
+Cook a meal	10
 
 Learning & Productivity + points
 Read a book for 30 min	20

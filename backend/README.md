@@ -35,3 +35,27 @@ backend/
 │── README.md          # Backend documentation
 │── server.js          # Main server file (Express app entry point)
 
+
+
+
+Hometasker - Tasks Gamified
+
+Household Chores + points
+Take out the trash	10
+Wash the dishes	15
+Vacuum the living room	20
+Water the plants	10
+Cook a meal	30
+
+Learning & Productivity + points
+Read a book for 30 min	20
+Complete homework	25
+Practice a hobby	15
+
+Health & Fitness + points
+Go for a 30 min walk	20
+Do a home workout	25
+
+Family & Social + points
+Help a sibling with homework	15
+Play a board game together	10

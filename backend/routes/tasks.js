@@ -7,13 +7,14 @@ const router = express.Router();
 name → Task description.
 points → Points rewarded for completing the task.
 completedBy → Stores the name of the user who completed the task (null means it’s not completed yet).*/
-let tasks = [
+/* let tasks = [
     { id: 1, name: "Take out the trash", points: 10, completedBy: null },
     { id: 2, name: "Wash the dishes", points: 15, completedBy: null },
-];
+]; */
 
 // GET all tasks
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+    const tasks = await Task.find(); // Find all tasks from Mongo and fetch them and returns an array
     res.json(tasks);
 });
 
@@ -26,13 +27,13 @@ Creates a new task object.
 Adds it to the tasks array.
 Responds with the newly created task. */
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
     const { name, points } = req.body;
     if (!name || !points) {
         return res.status(400).json({ error: "Task name and points are required" });
     }
-    const newTask = { id: tasks.length + 1, name, points, completedBy: null };
-    tasks.push(newTask);
+    const newTask = new Task({ name, points });
+    await newTask.save(); // Save the new task to the database
     res.status(201).json(newTask);
 });
 
@@ -50,14 +51,13 @@ Otherwise, it:
 Updates completedBy with the user's name.
 Sends back the updated task.
 */ 
-router.put("/:id", (req, res) => {
-    const taskId = parseInt(req.params.id); // Convert string to number
+router.put("/:id", async (req, res) => {
     const { user } = req.body;
-
-    const task = tasks.find((t) => t.id === taskId); //Find task where ID matches taskId - (t) Represents each task object in the array.
+    const task = await Task.findById(req.params.id);
     if (!task) return res.status(404).json({ error: "Task not found" });
 
     task.completedBy = user;
+    await task.save();
     res.json(task);
 });
 

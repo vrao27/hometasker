@@ -13,7 +13,8 @@ connectDB(); // Connect to MongoDB
 
 // Middleware setup: Enable CORS and JSON parsing
 app.use(express.json()); // Allows parsing JSON requests
-app.use(cors()); // Allows frontend to access backend APIs
+//app.use(cors()); // Allows frontend to access backend APIs
+app.use(cors({ origin: "*", credentials: true, methods: ["GET", "POST", "PUT", "DELETE"] })); // Allows requests from any frontend origin * (change * to your frontend URL in production)  
 
 // Setup Swagger API documentation
 setupSwagger(app);

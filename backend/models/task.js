@@ -16,3 +16,8 @@ const taskSchema = new mongoose.Schema({
         default: null
     }
 });
+
+//schema is assigned to the Task variable
+const Task = mongoose.model('Task', taskSchema);
+
+module.exports = Task;

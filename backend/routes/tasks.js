@@ -1,5 +1,6 @@
 const express = require("express"); //create api routes
 const router = express.Router();
+const Task = require("../models/task"); // Import the Task model
 
 // Temporary array to store tasks - will be updated to DB later
 // store tasks in memory inside an array. - Each task is an object with:
@@ -13,6 +14,16 @@ completedBy → Stores the name of the user who completed the task (null means i
 ]; */
 
 // GET all tasks
+/** comments tell Swagger how to document and display API endpoints.
+ * @swagger
+ * /tasks:
+ *   get:
+ *     summary: Retrieve all tasks
+ *     description: Fetch all tasks stored in the database.
+ *     responses:
+ *       200:
+ *         description: List of tasks retrieved successfully.
+ */
 router.get("/", async (req, res) => {
     const tasks = await Task.find(); // Find all tasks from Mongo and fetch them and returns an array
     res.json(tasks);
@@ -26,6 +37,28 @@ Otherwise, it:
 Creates a new task object.
 Adds it to the tasks array.
 Responds with the newly created task. */
+
+/** comments tell Swagger how to document and display API endpoints.
+ * @swagger
+ * /tasks:
+ *   post:
+ *     summary: Create a new task
+ *     description: Add a new task with a name and points.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               points:
+ *                 type: number
+ *     responses:
+ *       201:
+ *         description: Task successfully created.
+ */
 
 router.post("/", async (req, res) => {
     const { name, points } = req.body;
@@ -51,6 +84,36 @@ Otherwise, it:
 Updates completedBy with the user's name.
 Sends back the updated task.
 */ 
+
+/** . comments tell Swagger how to document and display API endpoints.
+ * @swagger
+ * /tasks/{id}:
+ *   put:
+ *     summary: Mark a task as completed
+ *     description: Updates a task's `completedBy` field.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the task to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Task successfully updated.
+ *       404:
+ *         description: Task not found.
+ */
+
 router.put("/:id", async (req, res) => {
     const { user } = req.body;
     const task = await Task.findById(req.params.id);

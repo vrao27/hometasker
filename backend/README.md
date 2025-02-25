@@ -1,11 +1,12 @@
-#HomeTasker Backend 
+# HomeTasker Backend 
 
-#A Gamified Task Management API for Families  
+## A Gamified Task Management API for Families  
 This backend is built using *Node.js + Express.js* and provides RESTful APIs for managing household tasks. Users can add tasks, assign points, and track completion**.
 
 ---
 
-#Backend Setup
+## Backend Setup
+```
 backend/
 │── config/            # Configuration files (e.g., database connection)
 │   ├── db.js          # MongoDB connection setup
@@ -34,28 +35,28 @@ backend/
 │── package.json       # Project metadata & dependencies
 │── README.md          # Backend documentation
 │── server.js          # Main server file (Express app entry point)
+```
 
 
 
-
-Hometasker - Tasks Gamified
+## Hometasker - Tasks Gamified
 
 Household Chores + points
-Take out the trash	3
+- Take out the trash	3
 Wash the dishes	7
-Vacuum the living room	7
-Water the plants	10
-Cook a meal	10
+- Vacuum the living room	7
+- Water the plants	10
+- Cook a meal	10
 
 Learning & Productivity + points
-Read a book for 30 min	20
-Complete homework	25
-Practice a hobby	15
+- Read a book for 30 min	20
+- Complete homework	25
+- Practice a hobby	15
 
 Health & Fitness + points
-Go for a 30 min walk	20
-Do a home workout	25
+- Go for a 30 min walk	20
+- Do a home workout	25
 
 Family & Social + points
-Help a sibling with homework	15
-Play a board game together	10
+- Help a sibling with homework	15
+- Play a board game together	10

@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const setupSwagger = require("./swagger");
+const taskRoutes = require("./routes/tasks");
 
 dotenv.config();
 
@@ -13,15 +15,18 @@ connectDB(); // Connect to MongoDB
 app.use(express.json()); // Allows parsing JSON requests
 app.use(cors()); // Allows frontend to access backend APIs
 
+// Setup Swagger API documentation
+setupSwagger(app);
+
 
 //Import task routes
-const taskRoutes = require("./routes/tasks");
+//const taskRoutes = require("./routes/tasks"); We have already imported it above
 app.use("/tasks", taskRoutes);
 
 
 //Test route
 app.get("/", (req, res) => {
-    res.send("hometask test");
+    res.send("hometasker api running");
 });
 
 // Start the server

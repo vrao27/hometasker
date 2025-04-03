@@ -12,8 +12,8 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:5000", // API Base URL (change this in production with your public IP)
-                description: "Local server",
+                url: "http://192.168.2.31:5000", // API Base URL (change this in production with your public IP)
+                description: "Local network server",
             },
         ],
     },
@@ -23,7 +23,12 @@ const options = {
 const swaggerSpec = swaggerJsDoc(options);
 
 const setupSwagger = (app) => {
-    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+    
+    app.get("/api-docs.json", (req, res) => {
+        res.setHeader("Content-Type", "application/json");
+        res.send(swaggerSpec);
+    });
 };
 
 module.exports = setupSwagger;

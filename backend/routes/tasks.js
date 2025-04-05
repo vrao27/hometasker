@@ -76,31 +76,33 @@ Responds with the newly created task. */
 
 router.post(
     "/",
-    body("taskName").notEmpty().withMessage("Task name is required"),
-    body("points").custom((value) => {
-        if (isNaN(value)) {
-            throw new Error("Points must be a number");
-        }
-        // Check if points is a positive integer
-        if (parseInt(value) <= 0) {
-            throw new Error("Points must be a positive number");
-        }
-        return true; // Indicates the value is valid
-    }),
-    // body("points").isNumeric().withMessage("Points must be a number"),
-    // body("points").isInt({ gt: 0 }).withMessage("Points must be a positive integer"),
-        
-        async (req, res) => {
-        const errors = validationResult(req);   
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-        const { taskName, points } = req.body;
-        const newTask = new Task({ taskName, points });
-        await newTask.save(); // Save the new task to the database
-        res.status(201).json(newTask);
+    [
+      body("taskName")
+        .notEmpty()
+        .withMessage("Task name is required"),
+  
+      body("points")
+        .custom((value) => {
+          // Reject anything that is not a pure number
+          const isValid = /^([1-9]\d*)$/.test(value);
+          if (!isValid) {
+            throw new Error("Points must be a valid positive number without letters or symbols");
+          }
+          return true;
+        }),
+    ],
+    async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+  
+      const { taskName, points } = req.body;
+      const newTask = new Task({ taskName, points: parseInt(points) });
+      await newTask.save();
+      res.status(201).json(newTask);
     }
-);
+  );
 
 // PUT: Mark a task as completed
 /*

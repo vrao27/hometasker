@@ -30,6 +30,18 @@ app.get("/", (req, res) => {
     res.send("hometasker api running");
 });
 
+
+// Error handling middleware Gloabal handler
+app.use((err, req, res, next) => {
+    if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
+      return res.status(400).json({
+        error: "Invalid JSON. Please check your request body.",
+      });
+    }
+    next();
+  });
+  
+
 // Start the server
 const PORT = process.env.PORT || 5000; // Use PORT from .env or default to 5000
 app.listen(PORT, () => {

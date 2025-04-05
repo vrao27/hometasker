@@ -1,6 +1,8 @@
 const express = require("express"); //create api routes
+const { body, validationResult } = require("express-validator"); // for validation
 const router = express.Router();
 const Task = require("../models/task"); // Import the Task model
+const { append } = require("express/lib/response");
 
 // Temporary array to store tasks - will be updated to DB later
 // store tasks in memory inside an array. - Each task is an object with:
@@ -43,7 +45,7 @@ Responds with the newly created task. */
  * /tasks:
  *   post:
  *     summary: Create a new task
- *     description: Add a new task with a name and points.
+ *     description: Add a new task with a task name and points.
  *     requestBody:
  *       required: true
  *       content:
@@ -51,7 +53,7 @@ Responds with the newly created task. */
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               taskName:
  *                 type: string
  *               points:
  *                 type: number
@@ -59,19 +61,46 @@ Responds with the newly created task. */
  *       201:
  *         description: Task successfully created.
  */
+//Manual validation test
+// router.post("/", async (req, res) => {
+//     const { name, points } = req.body;
+//     if (!name || !points) {
+//         return res.status(400).json({ error: "Task name and points are required" });
+//     }
+//     const newTask = new Task({ name, points });
+//     await newTask.save(); // Save the new task to the database
+//     res.status(201).json(newTask);
+// });
 
-router.post("/", async (req, res) => {
-    const { name, points } = req.body;
-    if (!name || !points) {
-        return res.status(400).json({ error: "Task name and points are required" });
+//express validator code for POST 
+
+router.post(
+    "/",
+    body("taskName").notEmpty().withMessage("Task name is required"),
+    body("points").custom((value) => {
+        if (isNaN(value)) {
+            throw new Error("Points must be a number");
+        }
+        // Check if points is a positive integer
+        if (parseInt(value) <= 0) {
+            throw new Error("Points must be a positive number");
+        }
+        return true; // Indicates the value is valid
+    }),
+    // body("points").isNumeric().withMessage("Points must be a number"),
+    // body("points").isInt({ gt: 0 }).withMessage("Points must be a positive integer"),
+        
+        async (req, res) => {
+        const errors = validationResult(req);   
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        const { taskName, points } = req.body;
+        const newTask = new Task({ taskName, points });
+        await newTask.save(); // Save the new task to the database
+        res.status(201).json(newTask);
     }
-    const newTask = new Task({ name, points });
-    await newTask.save(); // Save the new task to the database
-    res.status(201).json(newTask);
-});
-
-
-
+);
 
 // PUT: Mark a task as completed
 /*
@@ -113,15 +142,63 @@ Sends back the updated task.
  *       404:
  *         description: Task not found.
  */
+//Manual validation test for PUT
+// router.put("/:id", async (req, res) => {
+//     const { user } = req.body;
+//     const task = await Task.findById(req.params.id);
+//     if (!task) return res.status(404).json({ error: "Task not found" });
 
-router.put("/:id", async (req, res) => {
-    const { user } = req.body;
-    const task = await Task.findById(req.params.id);
+//     task.completedBy = user;
+//     await task.save();
+//     res.json(task);
+// });
+
+//express validator code for POST 
+
+router.put(
+    "/:id",
+    body("user").notEmpty().withMessage("User name is required"),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        const { user } = req.body;
+        const task = await Task.findById(req.params.id);
+        if (!task) return res.status(404).json({ error: "Task not found" });
+
+        task.completedBy = user;
+        await task.save();
+        res.json(task);
+    }
+)
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   delete:
+ *     summary: Delete a task
+ *     description: Deletes a task by its ID.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the task to delete
+ *     responses:
+ *       200:
+ *         description: Task deleted successfully
+ *       404:
+ *         description: Task not found
+ */
+
+router.delete("/:id", async (req, res) => {
+    const task = await Task.findByIdAndDelete(req.params.id);
     if (!task) return res.status(404).json({ error: "Task not found" });
-
-    task.completedBy = user;
-    await task.save();
-    res.json(task);
+    res.json({ message: "Task deleted successfully" });
 });
 
+
+// Export the router to use in server.js
 module.exports = router;

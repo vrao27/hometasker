@@ -31,6 +31,9 @@ exports.login = async (req, res) => {
 
 //signup a new user
 exports.signup = async (req, res) => {
+
+  console.log("Signup attempt:", req.body); // Log the request body for debugging 
+
   const { name, email, password } = req.body;
 
   try {
@@ -56,8 +59,8 @@ exports.signup = async (req, res) => {
 
     res.json({ accessToken: token });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Signup Failed" });
+    console.error("Signup error", error);
+    res.status(500).json({ message: "Signup Failed", error: error.message });
   }
    
 }

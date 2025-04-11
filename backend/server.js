@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const setupSwagger = require("./swagger");
 const taskRoutes = require("./routes/tasks");
+const authRoutes = require("./routes/authRoutes");
 
 dotenv.config();
 
@@ -15,6 +16,11 @@ connectDB(); // Connect to MongoDB
 app.use(express.json()); // Allows parsing JSON requests
 //app.use(cors()); // Allows frontend to access backend APIs
 app.use(cors({ origin: "*", credentials: true, methods: ["GET", "POST", "PUT", "DELETE"] })); // Allows requests from any frontend origin * (change * to your frontend URL in production)  
+
+// authRoutes is the route for authentication
+app.use("/auth", authRoutes);
+
+
 
 // Setup Swagger API documentation
 setupSwagger(app);

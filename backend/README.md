@@ -60,3 +60,28 @@ Health & Fitness + points
 Family & Social + points
 - Help a sibling with homework	15
 - Play a board game together	10
+
+
+
+backend/
+├── controllers/        # Logic behind routes
+│   ├── authController.js
+│   └── taskController.js
+│
+├── routes/             # API endpoints
+│   ├── authRoutes.js
+│   └── taskRoutes.js
+│
+├── models/             # Database schemas
+│   ├── User.js
+│   └── Task.js
+│
+├── middleware/         # JWT auth, validators
+│   └── authMiddleware.js
+│
+├── config/             # MongoDB connection, env
+│   └── db.js
+│
+├── swagger.js
+├── server.js           # App entry point
+└── .env

@@ -25,9 +25,6 @@ const userSchema = new mongoose.Schema({
     },
   });
 
-module.exports = mongoose.model('User', userSchema);
-
-
 // Hash password before saving to the database, this is a middleware function anbd should never be saved in plain text
 
 userSchema.pre("save", async function (next) {
@@ -44,3 +41,4 @@ userSchema.pre("save", async function (next) {
 
   });
   
+  module.exports = mongoose.model('User', userSchema);

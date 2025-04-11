@@ -32,7 +32,7 @@ exports.login = async (req, res) => {
 //signup a new user
 exports.signup = async (req, res) => {
 
-  console.log("Signup attempt:", req.body); // Log the request body for debugging 
+  //console.log("Signup attempt:", req.body); // Log the request body for debugging 
 
   const { name, email, password } = req.body;
 

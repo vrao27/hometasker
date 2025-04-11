@@ -63,7 +63,7 @@ Family & Social + points
 
 
 
-backend/
+backend/ (structure)
 ├── controllers/        # Logic behind routes
 │   ├── authController.js
 │   └── taskController.js

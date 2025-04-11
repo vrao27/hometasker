@@ -3,6 +3,8 @@ const { body, validationResult } = require("express-validator"); // for validati
 const router = express.Router();
 const Task = require("../models/task"); // Import the Task model
 const { append } = require("express/lib/response");
+const authenticateToken = require("../middleware/authMiddleware");
+
 
 // Temporary array to store tasks - will be updated to DB later
 // store tasks in memory inside an array. - Each task is an object with:
@@ -26,7 +28,7 @@ completedBy → Stores the name of the user who completed the task (null means i
  *       200:
  *         description: List of tasks retrieved successfully.
  */
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
     const tasks = await Task.find(); // Find all tasks from Mongo and fetch them and returns an array
     res.json(tasks);
 });
@@ -76,6 +78,13 @@ Responds with the newly created task. */
 
 router.post(
     "/",
+    authenticateToken, // Middleware to check if the user is authenticated
+    // Validation rules
+    // Check if taskName is not empty and points is a valid positive number
+    // points must be a pure number without letters or symbols
+    // points must be a positive integer
+    // points must be a number
+    // points must be a positive integer
     [
       body("taskName")
         .notEmpty()
@@ -159,6 +168,9 @@ Sends back the updated task.
 
 router.put(
     "/:id",
+    authenticateToken, // Middleware to check if the user is authenticated
+    // Validation rules
+    // Check if user is not empty 
     body("user").notEmpty().withMessage("User name is required"),
     async (req, res) => {
         const errors = validationResult(req);
@@ -195,7 +207,7 @@ router.put(
  *         description: Task not found
  */
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticateToken, async (req, res) => {
     const task = await Task.findByIdAndDelete(req.params.id);
     if (!task) return res.status(404).json({ error: "Task not found" });
     res.json({ message: "Task deleted successfully" });

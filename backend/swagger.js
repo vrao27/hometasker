@@ -16,6 +16,21 @@ const options = {
                 description: "Local network server",
             },
         ],
+
+        components: {
+            securitySchemes: {
+              bearerAuth: {
+                type: "http",
+                scheme: "bearer",
+                bearerFormat: "JWT",
+              },
+            },
+          },
+          security: [
+            {
+              bearerAuth: [],
+            },
+          ],
     },
     apis: ["./routes/*.js"], // Path where Swagger looks for route documentation
 };

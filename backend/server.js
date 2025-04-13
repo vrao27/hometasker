@@ -21,7 +21,7 @@ app.use(express.json()); // Allows parsing JSON requests
 
 
 // authRoutes is the route for authentication
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 
 
 

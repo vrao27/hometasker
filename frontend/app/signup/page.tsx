@@ -102,20 +102,60 @@ export default function SignUp() {
     return isValid;
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (nameError || emailError || passwordError) {
-      event.preventDefault();
+
+  //use async fucntion here to handle the form submission 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); //needed to prevent page refresh or reloading
+    
+    //changed this to check validation since validateInputs() will return false if any of the inputs are invalid
+    // if (nameError || emailError || passwordError) {
+    //   return;
+  
+    const isValid = validateInputs();
+    if (!isValid) {
       return;
     }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get('name'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
 
+    const data = new FormData(event.currentTarget);
+    // console.log({
+    //   name: data.get('name'),
+    //   lastName: data.get('lastName'),
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+    
+    //code to connect to backend and send data 
+    const payload = {
+      name: data.get("name"),
+      email: data.get("email"),
+      password: data.get("password"),
+    };
+    
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+    
+      const result = await response.json();
+    
+      if (response.ok) {
+        localStorage.setItem("token", result.accessToken);
+        console.log("Signup success:", result);
+        // Redirect or show success
+        window.location.href = "/dashboard";
+      } else {
+        console.error("Signup error:", result.message);
+        alert(result.message);
+      }
+    } catch (err) {
+      console.error("Network error:", err);
+      alert("Something went wrong.");
+    }
+  }
   return (
     <Container>
       <CssBaseline enableColorScheme />
@@ -182,7 +222,7 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              onClick={validateInputs}
+              color="primary"
             >
               Sign up
             </Button>

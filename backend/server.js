@@ -40,6 +40,18 @@ app.get("/", (req, res) => {
 });
 
 
+
+//testing in dev tools to verify protected route - mainly for testing jwt 
+// const authenticateToken = require('./middleware/authMiddleware');
+
+// app.get("/api/protected", authenticateToken, (req, res) => {
+//   res.json({
+//     message: "You are authenticated!",
+//     user: req.user,
+//   });
+// });
+
+
 // Error handling middleware Gloabal handler
 app.use((err, req, res, next) => {
     if (err instanceof SyntaxError && err.status === 400 && "body" in err) {

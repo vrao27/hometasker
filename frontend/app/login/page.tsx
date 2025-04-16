@@ -90,17 +90,54 @@ export default function LogIn() {
     return isValid;
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
+  //made this an async function to fetch the data from the server in the backend
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    // if (emailError || passwordError) {
+    //   event.preventDefault();
+    //   return;
+    const isValid = validateInputs();
+    if (!isValid) {
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+
+    const payload = {
+      email: data.get("email"),
+      password: data.get("password"),
+    };
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+    
+      const result = await response.json();
+    
+      if (response.ok) {
+        localStorage.setItem("token", result.accessToken);
+        console.log("Login success:", result);
+        // Optional: redirect to a dashboard
+        window.location.href = "/";
+      } else {
+        console.error("Login error:", result.message);
+        alert(result.message);
+      }
+    } catch (err) {
+      console.error("Network error:", err);
+      alert("Something went wrong.");
+    }
   };
+
 
   return (
     <Container>
@@ -154,7 +191,7 @@ export default function LogIn() {
               type="submit"
               fullWidth
               variant="contained"
-              onClick={validateInputs}
+              color='primary'
             >
               Log in
             </Button>

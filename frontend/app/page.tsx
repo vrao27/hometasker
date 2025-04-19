@@ -1,11 +1,15 @@
-import { Container, Typography } from "@mui/material";
+"use client";
 
+import { Box, Typography } from "@mui/material";
+import Sidebar from "../components/Sidebar";
 
 export default function Home() {
   return (
-    <Container>
-      <Typography variant="h1" sx={{my: 4, textAlign: 'center'}}>HOMETASKER</Typography>
-      <Typography variant="h4" sx={{my: 4, textAlign: 'center'}}>This site is under construction!</Typography>
-    </Container>
+    <Box sx={{ display: "flex" }}>
+      <Sidebar></Sidebar>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Typography sx={{ marginBottom: 2 }}>Content</Typography>
+      </Box>
+    </Box>
   );
 }

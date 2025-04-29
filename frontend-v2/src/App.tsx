@@ -5,17 +5,19 @@ import Dashboard from './pages/Dashboard';
 import Scoreboard from './pages/Scoreboard';
 import Settings from './pages/Settings';
 import About from './pages/About';
-
+import ProtectedRoute from './components/ProtectedRoutes';
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/scoreboard" element={<Scoreboard />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/about" element={<About />} />
+        {/* Protected routes */}
+
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/scoreboard" element={<ProtectedRoute><Scoreboard /></ProtectedRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+        <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
       </Routes>
     </Router>
   );

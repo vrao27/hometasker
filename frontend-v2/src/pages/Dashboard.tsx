@@ -1,13 +1,135 @@
-import React from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
+import { Task,getTasks,createTask,completeTask,deleteTask  } from '../services/taskService';
 
 const Dashboard: React.FC = () => {
-  return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Welcome to HomeTasker!</h1>
-      <p>This is your dashboard where you can manage your tasks and track your progress.</p>
-      {/* Future enhancements will include task lists, progress bars, and achievement badges */}
-    </div>
-  );
+
+
+  // State to hold the list of tasks
+  // This will be an array of Task objects
+  // Task is an interface defined in the taskService.ts file
+  // Task interface is imported from the taskService.ts file
+  const [tasks, setTasks] = useState<Task[]>([]); // Declares a “state variable” of type T, initialized to initialValue.
+  // Text for the “new task” input
+  const [newTitle, setNewTitle] = useState<string>('');
+  // Loading & error indicators
+  const [loading, setLoading] = useState<boolean>(false); //A simple flag to show “Loading…” while we’re waiting for an API response.
+  const [error, setError] = useState<string | null>(null);
+
+
+  //Load tasks helper function
+  const loadTasks = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getTasks();
+      setTasks(data);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load tasks');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+    // Fetch tasks once when component mounts
+    useEffect(() => {
+      loadTasks();
+    }, []); // empty deps → run only on first render
+
+// Action Handlers to call service and  reload tasks
+// Add a new task 
+const handleAdd = async (e: FormEvent) => {
+  e.preventDefault();              // stop form from reloading the page
+  const title = newTitle.trim();
+  if (!title) return;              // ignore empty submissions
+
+  try {
+    await createTask(title);
+    setNewTitle('');               // clear the input
+    await loadTasks();             // refresh list
+  } catch (err: any) {
+    setError(err.message || 'Create Task failed');
+  }
 };
+
+// Mark a task completed
+const handleComplete = async (id: string) => {
+  try {
+    await completeTask(id);
+    await loadTasks();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Delete a task
+const handleDelete = async (id: string) => {
+  if (!window.confirm('Delete this task?')) return;
+  try {
+    await deleteTask(id);
+    await loadTasks();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+return (
+  <div style={{ padding: '2rem' }}>
+    <h1>Welcome to HomeTasker!</h1>
+
+    {/* — Add Task Form — */}
+    <form onSubmit={handleAdd} style={{ marginBottom: '1.5rem' }}>
+      <input
+        type="text"
+        placeholder="New task title…"
+        value={newTitle}
+        onChange={e => setNewTitle(e.target.value)}
+      />
+      <button type="submit" style={{ marginLeft: '0.5rem' }}>
+        Add Task
+      </button>
+    </form>
+
+    {/* — Loading & Error States — */}
+    {loading && <p>Loading tasks…</p>}
+    {error && <p style={{ color: 'red' }}>{error}</p>}
+
+    {/* — Task List — */}
+    {!loading && !error && (
+      tasks.length === 0 ? (
+        <p>No tasks yet.</p>
+      ) : (
+        <ul>
+          {tasks.map(task => (
+            <li key={task.id} style={{ marginBottom: '0.75rem' }}>
+              <span
+                style={{
+                  textDecoration: task.completed ? 'line-through' : 'none',
+                }}
+              >
+                {task.title}
+              </span>
+              {!task.completed && (
+                <button
+                  onClick={() => handleComplete(task.id)}
+                  style={{ marginLeft: '1rem' }}
+                >
+                  Complete
+                </button>
+              )}
+              <button
+                onClick={() => handleDelete(task.id)}
+                style={{ marginLeft: '0.5rem', color: 'darkred' }}
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      )
+    )}
+  </div>
+);
+
+}
 
 export default Dashboard;

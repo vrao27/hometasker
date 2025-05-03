@@ -18,7 +18,7 @@ async function completeTask(userId, taskId) {
         throw new Error('Task not found'); //error handling if no task is found
     }
 
-    if (task.completed) {
+    if (task.completedBy) {
         throw new Error('Task already completed'); //error handling if task is already completed
     }
     //Step 2 - mark the task as completed
@@ -52,16 +52,24 @@ async function getUserStats(userId) {
         throw new Error('User not found'); //error handling if no user is found
     }
 
+    // calculate personal stats
+    const totalPoints = user.points || 0;
+    const level = Math.floor(totalPoints / 100);
+
+    // Find all users, sort by descending points, take top 10, and only return name+points.
+    const leaderboard = await User.find()
+    .sort({ points: -1 })
+    .limit(10)
+    .select('name points');
 
 
 
-
+    return { totalPoints, level, leaderboard };
 
 }
 
 
-
-
+module.exports = { completeTask, getUserStats };
 
 
 

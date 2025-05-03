@@ -41,3 +41,31 @@ async function completeTask(userId, taskId) {
     return { task, user };
 
 }
+
+//Block 2
+//Game logic steps using the async function - define the status of the user based on points and then add to the public leaderboard
+
+async function getUserStats(userId) {
+    //fetch the user by id
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new Error('User not found'); //error handling if no user is found
+    }
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -49,13 +49,14 @@ exports.login = async (req, res) => {
     // Send the token back to the client
     res.json({ accessToken: token });
   } catch (error) {
-    //console.error("Login error", error);
+    console.error("Login error", error);
     res.status(500).json({ message: "Server error during login" });
   }
 
 }
 
-
+//OLD Signup method -use for reference
+/*
 //signup a new user
 exports.signup = async (req, res) => {
 
@@ -89,5 +90,29 @@ exports.signup = async (req, res) => {
     console.error("Signup error", error);
     res.status(500).json({ message: "Signup Failed", error: error.message });
   }
-   
 }
+  */
+  //Updated SIGNUP method using model instance methods
+exports.signup = async (req, res) => {
+  //signup a new user
+  const { name, email, password } = req.body;
+  try {
+    //check if user exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
+    //if not, create new user
+    const newUser = new User({ name, email, password });
+    await newUser.save(); // password gets hashed in user.js (pre-save hook)
+    // Generate JWT token using the method defined in the user model
+    const token = newUser.generateAuthToken();
+
+    res.json({ accessToken: token });
+  } catch (error) {
+    console.error("Signup error", error);
+    res.status(500).json({ message: "Signup Failed", error: error.message });
+  }
+
+ }
+

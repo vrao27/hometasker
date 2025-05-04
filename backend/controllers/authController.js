@@ -2,6 +2,8 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+//Old Login method
+/*
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -11,7 +13,7 @@ exports.login = async (req, res) => {
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ message: "Invalid password" });
-
+    // Generate JWT token
     const payload = {
       id: user._id,
       email: user.email,
@@ -19,14 +21,14 @@ exports.login = async (req, res) => {
     };
 
     const token = jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: "1h" });
-
+    // Send the token back to the client
     res.json({ accessToken: token });
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     res.status(500).json({ message: "Server error during login" });
   }
 };
-
+*/
 
 
 //signup a new user

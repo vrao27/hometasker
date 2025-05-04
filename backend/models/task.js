@@ -44,6 +44,12 @@ const taskSchema = new mongoose.Schema({
 });
 
 //schema is assigned to the Task variable
+//use indexing here to speed up the search for 'status' and 'assignedTo' fields
+// check status in ascending oreder i.e. "status: 1" use "-1" for descending order
+taskSchema.index({ status: 1, assignedTo: 1 });
+
+
+// Create the Task model using the taskSchema ans export 
 const Task = mongoose.model('Task', taskSchema);
 
 module.exports = Task;

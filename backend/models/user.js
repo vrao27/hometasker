@@ -51,8 +51,35 @@ userSchema.pre("save", async function (next) {
     // this.password is the password field in the schema
     this.password = await bcrypt.hash(this.password, salt);
 
-    next();
-
-  });
+    next();//move to saving the iser
+});
   
-  module.exports = mongoose.model('User', userSchema);
+
+// Instance Method to compare password input with hashed password
+userSchema.methods.comparePassword = async function (inputPassword) {
+  //comnpare the input password with the hashed password
+  // this.password is the hashed password in the database
+  // inputPassword is the password entered by the user
+  return await bcrypt.compare(inputPassword, this.password);
+}
+
+  //Instance method to generate JWT token for the user
+  userSchema.methods.generateAuthToken = function () {
+    //token payload build
+    const payload = {
+      id: this._id,
+      email: this.email,
+      name: this.name,
+    };
+
+    //sign and retuen the token
+    return jwt.sign(
+      payload,
+    process.env.TOKEN_SECRET,
+      { expiresIn: "1h" }
+    )
+  };
+
+// Create and Export the model
+const User = mongoose.model('User', userSchema);
+module.exports = User;

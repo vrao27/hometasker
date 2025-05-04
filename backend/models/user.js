@@ -6,6 +6,9 @@ const jwt = require('jsonwebtoken');
 
 // Define the User schema
 const userSchema = new mongoose.Schema({
+
+  //basic user profile and autherntication fields
+  // name, email and password
     name: {
       type: String,
       required: true,
@@ -22,6 +25,17 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: true,
       minlength: 8, // Basic security
+  },
+    
+    
+    //game related fields - points and badges based on the tasks completed
+    points: {
+      type: Number,
+      default: 0,
+    },
+    badges: {
+      type: [String],
+      default: [],
     },
   });
 
@@ -30,7 +44,7 @@ const userSchema = new mongoose.Schema({
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) 
     
-    return next();
+    return next(); //move on if the password is not modified
   
     const salt = await bcrypt.genSalt(10);
     // Hash the password using bcrypt

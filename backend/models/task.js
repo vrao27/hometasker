@@ -9,10 +9,25 @@ const taskSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    completedBy: {
+ //   completedBy: {
+ //       type: String,
+ //       default: null }
+
+    // Schema to capture who is working on the task
+    assignedTo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    
+    // Current status of the task - available, in progress or completed
+    status: {
         type: String,
-        default: null
-    }
+        enum: ['available', 'inProgress', 'completed'],
+        default: 'available'
+    },
+
+    // Updated completedBy field 
 });
 
 //schema is assigned to the Task variable

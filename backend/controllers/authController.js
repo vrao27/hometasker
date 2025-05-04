@@ -30,6 +30,31 @@ exports.login = async (req, res) => {
 };
 */
 
+//Updated LOGIN method using modek instance methods
+//docs: https://mongoosejs.com/docs/guide.html#methods
+
+exports.login = async (req, res) => { 
+ const { email, password } = req.body;
+   //find user based on email 
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(401).json({ message: "User not found" });
+
+    //NOTE: use the method defined in the user model to compare the password
+    const isValid = await user.comparePassword(password);
+    if (!isValid) return res.status(401).json({ message: "Invalid password" });
+
+    //NOte: use the method defined in the user model to generate the JWT token
+    const token = user.generateAuthToken();
+    // Send the token back to the client
+    res.json({ accessToken: token });
+  } catch (error) {
+    //console.error("Login error", error);
+    res.status(500).json({ message: "Server error during login" });
+  }
+
+}
+
 
 //signup a new user
 exports.signup = async (req, res) => {

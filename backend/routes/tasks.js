@@ -1,10 +1,33 @@
+//The tasks.js constists of endpoints for game logic and for regurlar CRUD operations
+
+
+/**
+ * Game-Flow Endpoints:
+ *  - /:taskId/assign    : Claim a task (inProgress)
+ *  - /:taskId/complete  : Complete a claimed task, award points
+ *
+ * CRUD Endpoints:
+ *  - POST /            : Create a task
+ *  - GET  /            : List tasks
+ *  - DELETE /:id       : Delete a task
+ *
+ * (Old PUT /:id is commented out—replaced by game-flow above.)
+ */
+
+
+
+
 const express = require("express"); //create api routes
 const { body, validationResult } = require("express-validator"); // for validation
 const router = express.Router();
 const Task = require("../models/task"); // Import the Task model
-const { append } = require("express/lib/response");
 const authenticateToken = require("../middleware/authMiddleware");
+const gameController = require("../controllers/gameControllers");
 
+
+// The game logic enpoints are to complte tasks, enforce assignment conditions and award points
+router.post("/taskID/assign", authenticateToken, gameController.assign); // Assign a task to a user
+router.post("/taskID/complete", authenticateToken, gameController.complete); // Complete a task
 
 // Temporary array to store tasks - will be updated to DB later
 // store tasks in memory inside an array. - Each task is an object with:
@@ -123,7 +146,13 @@ If the task does not exist, it returns a 404 error.
 Otherwise, it:
 Updates completedBy with the user's name.
 Sends back the updated task.
-*/ 
+*/
+
+
+//NOTE: 
+// PUT /tasks/:id was previously used here to mark a task completed, but
+// we have replaced it with the game flow endpoints above (assign/complete).
+// Keeping the old route commented out for reference and to maintain history.
 
 /** . comments tell Swagger how to document and display API endpoints.
  * @swagger
@@ -165,7 +194,7 @@ Sends back the updated task.
 // });
 
 //express validator code for POST 
-
+/*
 router.put(
     "/:id",
     authenticateToken, // Middleware to check if the user is authenticated
@@ -186,6 +215,7 @@ router.put(
         res.json(task);
     }
 )
+ */   
 
 /**
  * @swagger

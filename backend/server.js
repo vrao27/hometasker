@@ -6,22 +6,22 @@ const setupSwagger = require("./swagger");
 const taskRoutes = require("./routes/tasks");
 const authRoutes = require("./routes/authRoutes");
 
+
 dotenv.config();
 
 const app = express();
 
 connectDB(); // Connect to MongoDB
 
-
+// Middleware setup: Enable CORS and JSON parsing
 //app.use(cors()); // Allows frontend to access backend APIs
 app.use(cors({ origin: "*", credentials: true, methods: ["GET", "POST", "PUT", "DELETE"] })); // Allows requests from any frontend origin * (change * to your frontend URL in production)  
-
-// Middleware setup: Enable CORS and JSON parsing
 app.use(express.json()); // Allows parsing JSON requests
 
 
 // authRoutes is the route for authentication
 app.use("/api/auth", authRoutes);
+app.use("/api/tasks", taskRoutes);
 
 
 
@@ -29,12 +29,7 @@ app.use("/api/auth", authRoutes);
 setupSwagger(app);
 
 
-//Import task routes
-//const taskRoutes = require("./routes/tasks"); We have already imported it above
-app.use("/tasks", taskRoutes);
-
-
-//Test route
+//Test route -health check
 app.get("/", (req, res) => {
     res.send("hometasker api running");
 });

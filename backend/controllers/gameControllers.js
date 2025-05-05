@@ -7,11 +7,15 @@ const gameLogic = require('../services/gameLogic');
  * - Reads `req.params.taskId` from the URL
  * - Calls GL.assignTask(userId, taskId)
  * - Returns the updated task JSON or a 400 with an error message
+ * 
+ * 
+ *  * Note: we must use req.user.id (set by authMiddleware), not req.body.userId,
+ * so we know exactly which authenticated user is claiming.
  */
 
 exports.assign = async (req, res) => {
     try {
-        const task = await gameLogic.assignTask(req.body.userId, req.params.taskId);//userIdfrom the auth middleware poins to who is claiming the task
+        const task = await gameLogic.assignTask(req.user.userId, req.params.taskId);//userIdfrom the auth middleware poins to who is claiming the task
     
         return res.json({ task });
     } catch (error) {
@@ -48,8 +52,44 @@ exports.complete = async (req, res) => {
 exports.stats = async (req, res) => {
     try {
         const data = await gameLogic.getUserStats(req.user.id);
+        // data === { totalPoints, level, leaderboard  }
         return res.json(data);
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
 }
+
+/**
+ * Weekly Stats
+ * GET /users/me/weekly
+ *
+ * Returns for *this* week (Mon→Fri):
+ *  - weeklyPoints: points earned between weekStart and weekEnd
+ *  - hasHitGoal: boolean (weeklyPoints >= 100)
+ */
+
+exports.weeklyStats = async (req, res) => {
+    try {
+      const data = await gameLogic.getWeeklyStats(req.user.id);
+      // data === { weeklyPoints, hasHitGoal }
+      res.json(data);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+};
+  
+/**
+ * Weekly Leaderboard
+ * GET /leaderboard/weekly
+ *
+ * Returns top-10 users by points *this* week:
+ *
+ */
+exports.weeklyLeader = async (req, res) => {
+    try {
+      const board = await gameLogic.getWeeklyLeaderboard();
+      res.json(board);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  };

@@ -244,5 +244,29 @@ router.delete("/:id", authenticateToken, async (req, res) => {
 });
 
 
+//Game stats for the user, weekly stats and leaderboard 
+// All‐time stats for the authenticated user
+// GET /tasks/stats
+router.get(
+  "/stats",
+  authenticateToken,       // protects the route
+  gameController.stats     // calls gameLogic.getUserStats()
+);
+
+// This week’s stats for the authenticated user
+// GET /tasks/weekly
+router.get(
+  "/weekly",
+  authenticateToken,
+  gameController.weeklyStats
+);
+
+// This week’s top‐10 leaderboard (public)
+// GET /tasks/leaderboard
+router.get(
+  "/leaderboard",
+  gameController.weeklyLeader
+);
+
 // Export the router to use in server.js
 module.exports = router;

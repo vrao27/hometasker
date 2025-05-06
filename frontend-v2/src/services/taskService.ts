@@ -11,18 +11,34 @@ export interface Task {
 const API = process.env.REACT_APP_API_URL;
 const BASE = `${API}/api/tasks`;
 
+const token = localStorage.getItem('token');
+
   //function to get all tasks and return them in an array of Task objects
-  export async function getTasks(): Promise<Task[]> {
-    const res = await fetch(BASE);
-    if (!res.ok) throw new Error('Unable to fetch tasks');
-    return res.json();
-  }
+export async function getTasks(): Promise<Task[]> {
+ 
+  if (!token) throw new Error('Authorization token is missing');
+
+  const res = await fetch(BASE, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) throw new Error('Unable to fetch tasks');
+  return await res.json(); // Ensure the response is returned
+}
 
 // PUT /api/tasks/:id → creates a new task
 export async function createTask(title: string): Promise<Task> {
+  
     const res = await fetch(BASE, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ title }),
     });
     if (!res.ok) throw new Error('Unable to create task');
@@ -34,6 +50,10 @@ export async function createTask(title: string): Promise<Task> {
   export async function completeTask(id: string): Promise<void> {
     const res = await fetch(`${BASE}/${id}/complete`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!res.ok) throw new Error('Unable to complete task');
   }
@@ -43,6 +63,10 @@ export async function createTask(title: string): Promise<Task> {
   export async function deleteTask(id: string): Promise<void> {
     const res = await fetch(`${BASE}/${id}`, {
       method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!res.ok) throw new Error('Unable to delete task');
   }

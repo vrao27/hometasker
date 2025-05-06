@@ -7,8 +7,9 @@ export interface Task {
     completed: boolean;
   }
 
-  //define base url for all tasks endpoints
-  const BASE = '/api/tasks';
+//define base url for all tasks endpoints
+const API = process.env.REACT_APP_API_URL;
+const BASE = `${API}/api/tasks`;
 
   //function to get all tasks and return them in an array of Task objects
   export async function getTasks(): Promise<Task[]> {

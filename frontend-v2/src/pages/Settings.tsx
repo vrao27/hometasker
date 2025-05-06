@@ -5,6 +5,9 @@
 
 import { useState, useEffect, FormEvent } from 'react';
 
+const API = process.env.REACT_APP_API_URL;
+const token = localStorage.getItem('token');
+
 const Settings = () => {
   //Form state holds the current input values 
   const [name, setName] = useState('');                   // user’s name
@@ -24,8 +27,8 @@ const Settings = () => {
       setError(null);
       try {
         // read JWT from localStorage
-        const API = process.env.REACT_APP_API_URL;
-        const token = localStorage.getItem('accessToken');
+        //const API = process.env.REACT_APP_API_URL;
+        //const token = localStorage.getItem('accessToken');
         // fetch /api/auth/me with Authorization header
         const res = await fetch(`${API}/api/auth/me`, {
           headers: { Authorization: `Bearer ${token}`}
@@ -52,8 +55,6 @@ const Settings = () => {
     setSuccess(null);
 
     try {
-      const API = process.env.REACT_APP_API_URL;
-      const token = localStorage.getItem('accessToken');
       const res = await fetch(`${API}/api/auth/me`, {
         method: 'PUT',
         headers: {
@@ -90,8 +91,6 @@ const Settings = () => {
     setSuccess(null);
 
     try {
-      const API = process.env.REACT_APP_API_URL;
-      const token = localStorage.getItem('accessToken');
       const res = await fetch(`${API}/api/auth/me/password`, {
         method: 'PUT',
         headers: {

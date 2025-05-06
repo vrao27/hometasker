@@ -10,13 +10,23 @@ export interface ScoreEntry {
 const API = process.env.REACT_APP_API_URL;
 const BASE = `${API}/api/scoreboard`;
 
+const token = localStorage.getItem('token');
+
     // Function to get the scoreboard data
 /**
  * GET /api/scoreboard
  * Returns a list of users with their aggregated points.
  */
 export async function getLeaderboard(): Promise<ScoreEntry[]> {
-    const res = await fetch(BASE);
+  const res = await fetch(BASE
+    , {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    );
     if (!res.ok) throw new Error('Unable to fetch leaderboard');
     return res.json();
   }

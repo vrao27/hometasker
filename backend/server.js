@@ -15,7 +15,7 @@ connectDB(); // Connect to MongoDB
 
 // Middleware setup: Enable CORS and JSON parsing
 //app.use(cors()); // Allows frontend to access backend APIs
-app.use(cors({ origin: "*", credentials: true, methods: ["GET", "POST", "PUT", "DELETE"] })); // Allows requests from any frontend origin * (change * to your frontend URL in production)  
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true, methods: ["GET", "POST", "PUT", "DELETE"] })); // Allows requests from FRONTEND_URL
 app.use(express.json()); // Allows parsing JSON requests
 
 

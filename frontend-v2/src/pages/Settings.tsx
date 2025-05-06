@@ -24,10 +24,11 @@ const Settings = () => {
       setError(null);
       try {
         // read JWT from localStorage
+        const API = process.env.REACT_APP_API_URL;
         const token = localStorage.getItem('accessToken');
         // fetch /api/auth/me with Authorization header
-        const res = await fetch('/api/auth/me', {
-          headers: { Authorization: `Bearer ${token}` },
+        const res = await fetch(`${API}/api/auth/me`, {
+          headers: { Authorization: `Bearer ${token}`}
         });
         if (!res.ok) throw new Error('Could not load profile');
         // parse JSON and populate form fields
@@ -51,8 +52,9 @@ const Settings = () => {
     setSuccess(null);
 
     try {
+      const API = process.env.REACT_APP_API_URL;
       const token = localStorage.getItem('accessToken');
-      const res = await fetch('/api/auth/me', {
+      const res = await fetch(`${API}/api/auth/me`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -88,8 +90,9 @@ const Settings = () => {
     setSuccess(null);
 
     try {
+      const API = process.env.REACT_APP_API_URL;
       const token = localStorage.getItem('accessToken');
-      const res = await fetch('/api/auth/me/password', {
+      const res = await fetch(`${API}/api/auth/me/password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

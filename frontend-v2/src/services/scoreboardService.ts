@@ -6,8 +6,9 @@ export interface ScoreEntry {
     points: number;
   }
 
-    // Define the base URL for the scoreboard API
-    const BASE = '/api/scoreboard';
+// Define the base URL for the scoreboard API
+const API = process.env.REACT_APP_API_URL;
+const BASE = `${API}/api/scoreboard`;
 
     // Function to get the scoreboard data
 /**

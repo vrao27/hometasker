@@ -14,7 +14,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
     // If no token, redirect to login
     if (!token) {
-        return <Navigate to="/login" replace />; //use replace to prevent redirect history in browser - prevents the protected URL from remaining in your history,
+        return <Navigate to="/" replace />; //use replace to prevent redirect history in browser - prevents the protected URL from remaining in your history,
     }
 
     // If token exists, render the children (protected component)

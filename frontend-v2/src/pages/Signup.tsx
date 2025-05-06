@@ -29,7 +29,9 @@ if (!strongPasswordRegex.test(password)) {
 
     try {
       // POST to your backend signup route 
-      const resp = await fetch('http://localhost:5000/api/auth/signup', {
+      const API = process.env.REACT_APP_API_URL;
+      
+      const resp = await fetch(`${API}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify({ name, email, password }), 

@@ -22,7 +22,7 @@ const Login: React.FC = () => {
       // Call backend login route
       const API = process.env.REACT_APP_API_URL;
 
-      const resp = await fetch(`{API}/api/auth/login`, {
+      const resp = await fetch(`${API}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

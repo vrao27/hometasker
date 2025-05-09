@@ -11,10 +11,12 @@ export interface Task {
 const API = process.env.REACT_APP_API_URL;
 const BASE = `${API}/api/tasks`;
 
-const token = localStorage.getItem('token');
+
 
   //function to get all tasks and return them in an array of Task objects
 export async function getTasks(): Promise<Task[]> {
+
+  const token = localStorage.getItem('token');
  
   if (!token) throw new Error('Authorization token is missing');
 
@@ -32,6 +34,8 @@ export async function getTasks(): Promise<Task[]> {
 
 // PUT /api/tasks/:id → creates a new task
 export async function createTask(title: string): Promise<Task> {
+
+  const token = localStorage.getItem('token');
   
     const res = await fetch(BASE, {
       method: 'POST',
@@ -47,7 +51,8 @@ export async function createTask(title: string): Promise<Task> {
 
 
   //PUT /api/tasks/:id/complete → marks a task as completed
-  export async function completeTask(id: string): Promise<void> {
+export async function completeTask(id: string): Promise<void> {
+    const token = localStorage.getItem('token');
     const res = await fetch(`${BASE}/${id}/complete`, {
       method: 'PUT',
       headers: {
@@ -60,7 +65,8 @@ export async function createTask(title: string): Promise<Task> {
 
 
   //PUT /api/tasks/:id/delete → deletes a task
-  export async function deleteTask(id: string): Promise<void> {
+export async function deleteTask(id: string): Promise<void> {
+  const token = localStorage.getItem('token');
     const res = await fetch(`${BASE}/${id}`, {
       method: 'DELETE',
       headers: {

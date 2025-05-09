@@ -1,5 +1,5 @@
 //this file calls the gamelogic from the services folder to handle http requests and responses
-const gameLogic = require('../services/gameLogic');
+const gameLogic = require('../gameLogic');
 
 //controller to handle assigning a task to a user - POST /tasks/:taskId/assign
 /* * This controller “claims” a task for the current user.

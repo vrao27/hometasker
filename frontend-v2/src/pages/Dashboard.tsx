@@ -10,7 +10,8 @@ const Dashboard: React.FC = () => {
   // Task interface is imported from the taskService.ts file
   const [tasks, setTasks] = useState<Task[]>([]); // Declares a “state variable” of type T, initialized to initialValue.
   // Text for the “new task” input
-  const [newTitle, setNewTitle] = useState<string>('');
+  const [newTitle, setNewTitle] = useState<string>('');//make sure the new title is empty when the component mounts
+  const [newPoints, setNewPoints] = useState<number>(1); //make sure the new points is 1 when the component mounts
   // Loading & error indicators
   const [loading, setLoading] = useState<boolean>(false); //A simple flag to show “Loading…” while we’re waiting for an API response.
   const [error, setError] = useState<string | null>(null);

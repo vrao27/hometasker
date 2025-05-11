@@ -13,7 +13,7 @@ const Dashboard: React.FC = () => {
   const [newTitle, setNewTitle] = useState<string>('');//make sure the new title is empty when the component mounts
   const [newPoints, setNewPoints] = useState<number>(1); //make sure the new points is 1 when the component mounts
   // Loading & error indicators
-  const [loading, setLoading] = useState<boolean>(false); //A simple flag to show “Loading…” while we’re waiting for an API response.
+  const [loading, setLoading] = useState<boolean>(false); //A flag to show “Loading…” while waiting for an API response.
   const [error, setError] = useState<string | null>(null);
 
 

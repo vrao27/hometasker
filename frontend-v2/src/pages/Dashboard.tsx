@@ -85,6 +85,13 @@ return (
         value={newTitle}
         onChange={e => setNewTitle(e.target.value)}
       />
+      <input
+          type="number"
+          min={1}
+          value={newPoints}
+          onChange={e => setNewPoints(Number(e.target.value))}
+          style={{ width: '4rem', marginLeft: '0.5rem' }}
+      />
       <button type="submit" style={{ marginLeft: '0.5rem' }}>
         Add Task
       </button>

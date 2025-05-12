@@ -43,7 +43,10 @@ const Scoreboard: React.FC = () => {
   <div className="spinner-border text-primary" role="status" />
 </div>
 }
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <div className="alert alert-danger" role="alert">
+  {error}
+</div>
+}
 
       {!loading && !error && (
         entries.length === 0 ? (

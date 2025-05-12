@@ -35,17 +35,23 @@ const Scoreboard: React.FC = () => {
 
   //Render
   return (
-    <div style={{ padding: '2rem' }}>
+    <div className="container py-4">
+
       <h2>Leaderboard</h2>
 
-      {loading && <p>Loading leaderboard…</p>}
+      {loading && <div className="d-flex justify-content-center py-2">
+  <div className="spinner-border text-primary" role="status" />
+</div>
+}
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {!loading && !error && (
         entries.length === 0 ? (
           <p>No scores to show.</p>
         ) : (
-          <table>
+          <div className="card shadow-sm p-4">
+          <h4 className="mb-3">Leaderboard</h4>
+          <table className='table table-striped'>
             <thead>
               <tr>
                 <th>Name</th>
@@ -60,7 +66,8 @@ const Scoreboard: React.FC = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+              </table>
+              </div>
         )
       )}
     </div>

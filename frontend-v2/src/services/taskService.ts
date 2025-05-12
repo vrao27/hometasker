@@ -33,7 +33,7 @@ export async function getTasks(): Promise<Task[]> {
 }
 
 // PUT /api/tasks/:id → creates a new task
-export async function createTask(title: string): Promise<Task> {
+export async function createTask(title: string, points: number): Promise<Task> {
 
   const token = localStorage.getItem('token');
   
@@ -43,7 +43,7 @@ export async function createTask(title: string): Promise<Task> {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ title }),
+      body: JSON.stringify({ taskName: title, points }),
     });
     if (!res.ok) throw new Error('Unable to create task');
     return res.json();  // The new Task object

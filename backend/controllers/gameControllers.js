@@ -25,6 +25,14 @@ exports.assign = async (req, res) => {
     }
 }
 
+exports.complete = async (req, res) => {
+    try {
+        const { task, user } = await gameLogic.completeTask(req.user.userId, req.params.taskId);
+        return res.json({ task, user });
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+
 //controller to handle completion of a task -/tasks/:taskId/complete
 /* POST /tasks/:taskId/complete
 *
@@ -33,13 +41,7 @@ exports.assign = async (req, res) => {
 * - Returns both the updated task and the updated user
 */
     
-exports.complete = async (req, res) => {
-    try {
-        const { task, user } = await gameLogic.completeTask(req.user.id, req.params.taskId);
-        return res.json({ task, user });
-    } catch (error) {
-        return res.status(400).json({ error: error.message });
-    }
+
 }
 
 //controller to handle getting user stats - GET /tasks/stats
@@ -51,6 +53,20 @@ exports.complete = async (req, res) => {
 * - Global top-5 leaderboard (by total points)
 */
 
+//this controller gets the user stats and returns the data
+exports.createTask = async (req, res) => {
+    try {
+      const { title, points } = req.body;
+  
+      // Call gameLogic and pass the logged-in user ID from the auth middleware
+      const task = await gameLogic.createTask(req.user.id, title, points);
+  
+      res.status(201).json(task);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  };
+  
 exports.stats = async (req, res) => {
     try {
         const data = await gameLogic.getUserStats(req.user.id);

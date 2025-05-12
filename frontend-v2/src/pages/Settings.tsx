@@ -119,10 +119,17 @@ const Settings = () => {
   // It shows loading, error, and success messages based on the state.
   return (
     <main className="container py-4" style={{ maxWidth: 600 }}>
-      <h1>Settings</h1>
+      <div className="card p-4 shadow-sm">
+      <h1 className="mb-4">Settings</h1>
+
 
       {/* Show loading spinner or message */}
-      {loading && <p>Loading…</p>}
+      {loading && (
+          <div className="d-flex justify-content-center py-2">
+          <div className="spinner-border text-primary" role="status" />
+         </div>
+        )}
+
       {/* Show error message in red */}
       {error && <p className="text-danger">{error}</p>}
       {/* Show success message in green */}
@@ -189,7 +196,8 @@ const Settings = () => {
         <button type="submit" className="btn btn-secondary" disabled={loading}>
           Change Password
         </button>
-      </form>
+        </form>
+        </div>
     </main>
   );
 };

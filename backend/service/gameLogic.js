@@ -10,6 +10,18 @@ const User = require('../models/user');
 //Block 1
 //Game logic steps using the async function - mark a task as completed by a user
 
+// Create a new task assigned to a user
+async function createTask(userId, title, points) {
+    const task = new Task({
+      title,
+      points,
+      assignedTo: userId,  //required field from Task model
+    });
+  
+    await task.save();
+    return task;
+  }
+
 async function completeTask(userId, taskId) { 
     //Step 1 - find the task by its id
     //find the task by its id
@@ -69,7 +81,7 @@ async function getUserStats(userId) {
 }
 
 
-module.exports = { completeTask, getUserStats };
+module.exports = { completeTask, getUserStats, createTask };
 
 
 

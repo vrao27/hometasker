@@ -75,28 +75,40 @@ const handleDelete = async (id: string) => {
 };
 
 return (
-  <div style={{ padding: '2rem' }}>
+  <div className="container py-4">
     <h1>Welcome to HomeTasker!</h1>
 
     {/* — Add Task Form — */}
-    <form onSubmit={handleAdd} style={{ marginBottom: '1.5rem' }}>
+    <div className="card shadow-sm p-4 mb-4">
+  <h5 className="mb-3">Add New Task</h5>
+  <form className="row g-2 align-items-end" onSubmit={handleAdd}>
+    <div className="col-sm-6">
+      <label className="form-label">Task Title</label>
       <input
         type="text"
+        className="form-control"
         placeholder="New task title…"
         value={newTitle}
         onChange={e => setNewTitle(e.target.value)}
       />
+    </div>
+    <div className="col-sm-3">
+      <label className="form-label">Points</label>
       <input
-          type="number"
-          min={1}
-          value={newPoints}
-          onChange={e => setNewPoints(Number(e.target.value))}
-          style={{ width: '4rem', marginLeft: '0.5rem' }}
+        type="number"
+        min={1}
+        className="form-control"
+        value={newPoints}
+        onChange={e => setNewPoints(Number(e.target.value))}
       />
-      <button type="submit" style={{ marginLeft: '0.5rem' }}>
+    </div>
+    <div className="col-sm-3">
+      <button type="submit" className="btn btn-primary w-100">
         Add Task
       </button>
-    </form>
+    </div>
+  </form>
+</div>
 
     {/* — Loading & Error States — */}
     {loading && <p>Loading tasks…</p>}

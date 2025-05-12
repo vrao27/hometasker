@@ -111,41 +111,51 @@ return (
 </div>
 
     {/* — Loading & Error States — */}
-    {loading && <p>Loading tasks…</p>}
-    {error && <p style={{ color: 'red' }}>{error}</p>}
+    {loading && (
+  <div className="d-flex justify-content-center py-2">
+    <div className="spinner-border text-primary" role="status" />
+  </div>
+)}
+ {error && (
+  <div className="alert alert-danger" role="alert">
+    {error}
+  </div>
+)}
+
+    
 
     {/* — Task List — */}
     {!loading && !error && (
       tasks.length === 0 ? (
         <p>No tasks yet.</p>
       ) : (
-        <ul>
-          {tasks.map(task => (
-            <li key={task.id} style={{ marginBottom: '0.75rem' }}>
-              <span
-                style={{
-                  textDecoration: task.completed ? 'line-through' : 'none',
-                }}
-              >
+       
+        <ul className="list-group">
+        {tasks.map(task => (
+          <li key={task.id} className="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <span className={task.completed ? 'text-decoration-line-through' : ''}>
                 {task.title}
               </span>
+              <span className="badge bg-info text-dark ms-2">{task.points} pts</span>
+            </div>
+            <div>
               {!task.completed && (
-                <button
-                  onClick={() => handleComplete(task.id)}
-                  style={{ marginLeft: '1rem' }}
-                >
+                <button className="btn btn-success btn-sm me-2" onClick={() => handleComplete(task.id)}>
                   Complete
                 </button>
               )}
-              <button
-                onClick={() => handleDelete(task.id)}
-                style={{ marginLeft: '0.5rem', color: 'darkred' }}
-              >
+              <button className="btn btn-danger btn-sm" onClick={() => handleDelete(task.id)}>
                 Delete
               </button>
-            </li>
-          ))}
-        </ul>
+            </div>
+          </li>
+        ))}
+      </ul>
+      
+          
+          
+          
       )
     )}
   </div>

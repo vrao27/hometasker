@@ -1,57 +1,73 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+// NavLink instead of Link allows dynamic styling for the "active" route
 
 const Navbar: React.FC = () => {
-    const navigate = useNavigate(); //useNavigate hook for navigation 
+  const navigate = useNavigate(); // useNavigate hook to programmatically redirect
 
-// Called when the user clicks “Logout”
-const handleLogout = () => {
-    //follows logic same as in ProtectedRoute.tsx
-    // Remove the JWT token from localStorage
-    localStorage.removeItem('token');
-    // Redirect back to the login page, replacing history so Back won’t return here
-    navigate('/', { replace: true });
+  // Called when the user clicks “Logout”
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Remove the JWT token
+    navigate('/', { replace: true }); // Redirect to login and prevent back nav
+  };
 
-};
-
-return (
-    <nav
-      className="navbar navbar-expand-lg navbar-light bg-light px-4"
-      //   ↑ Bootstrap classes for a light-colored navbar with horizontal padding
-    >
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-light px-4 shadow-sm">
       {/* Brand/logo on the left */}
-      <Link className="navbar-brand" to="/dashboard">
+      <NavLink className="navbar-brand" to="/dashboard">
         HomeTasker
-      </Link>
+      </NavLink>
 
-      {/* Collapsible menu (links) */}
-      <div className="collapse navbar-collapse">
+      {/* Collapsible hamburger menu for mobile */}
+      <button
+        className="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarContent"
+      >
+        <span className="navbar-toggler-icon" />
+      </button>
+
+      {/* Collapsible container for nav links */}
+      <div className="collapse navbar-collapse" id="navbarContent">
         <ul className="navbar-nav me-auto">
-          {/* Dashboard link */}
+          {/* NavLink adds 'active' class when the route matches */}
           <li className="nav-item">
-            <Link className="nav-link" to="/dashboard">
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                'nav-link' + (isActive ? ' active fw-bold text-primary' : '')
+              }
+            >
               Dashboard
-            </Link>
+            </NavLink>
           </li>
-          {/* Scoreboard link */}
+
           <li className="nav-item">
-            <Link className="nav-link" to="/scoreboard">
+            <NavLink
+              to="/scoreboard"
+              className={({ isActive }) =>
+                'nav-link' + (isActive ? ' active fw-bold text-primary' : '')
+              }
+            >
               Scoreboard
-            </Link>
+            </NavLink>
           </li>
-          {/* Settings link */}
+
           <li className="nav-item">
-            <Link className="nav-link" to="/settings">
+            <NavLink
+              to="/settings"
+              className={({ isActive }) =>
+                'nav-link' + (isActive ? ' active fw-bold text-primary' : '')
+              }
+            >
               Settings
-            </Link>
+            </NavLink>
           </li>
         </ul>
 
-        {/* Logout button on the right */}
-        <button
-          className="btn btn-outline-danger"
-          onClick={handleLogout}
-        >
+        {/* Logout button aligned right */}
+        <button className="btn btn-outline-danger" onClick={handleLogout}>
           Logout
         </button>
       </div>
@@ -60,7 +76,6 @@ return (
 };
 
 export default Navbar;
-
 
 
 

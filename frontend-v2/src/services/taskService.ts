@@ -4,7 +4,8 @@
 export interface Task {
     id: string;
     title: string;
-    completed: boolean;
+    completed: boolean
+    points: number;
   }
 
 //define base url for all tasks endpoints

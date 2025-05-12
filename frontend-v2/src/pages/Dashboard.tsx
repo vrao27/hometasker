@@ -44,9 +44,10 @@ const handleAdd = async (e: FormEvent) => {
   if (!title) return;              // ignore empty submissions
 
   try {
-    await createTask(title);
-    setNewTitle('');               // clear the input
-    await loadTasks();             // refresh list
+    await createTask(title, newPoints); // send pounts and title
+    setNewTitle('');
+    setNewPoints(1)// reset to default value
+    await loadTasks(); // refresh list
   } catch (err: any) {
     setError(err.message || 'Create Task failed');
   }

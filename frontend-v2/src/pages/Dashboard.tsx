@@ -132,7 +132,7 @@ return (
        
         <ul className="list-group">
         {tasks.map(task => (
-          <li key={task.id} className="list-group-item d-flex justify-content-between align-items-center">
+          <li key={task._id} className="list-group-item d-flex justify-content-between align-items-center">
             <div>
               <span className={task.completed ? 'text-decoration-line-through' : ''}>
                 {task.title}

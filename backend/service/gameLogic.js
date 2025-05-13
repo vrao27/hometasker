@@ -13,7 +13,7 @@ const User = require('../models/user');
 // Create a new task assigned to a user
 async function createTask(userId, title, points) {
     const task = new Task({
-      title,
+      taskName: title,
       points,
       assignedTo: userId,  //required field from Task model
     });

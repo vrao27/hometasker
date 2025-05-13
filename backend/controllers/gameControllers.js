@@ -54,11 +54,14 @@ exports.complete = async (req, res) => {
  */
 exports.createTask = async (req, res) => {
   try {
+    console.log('DEBUG req.user:', req.user);
     const { title, points } = req.body;
     const userId = req.user.userId;
 
     const task = await gameLogic.createTask(userId, title, points);
     res.status(201).json(task);
+    
+
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

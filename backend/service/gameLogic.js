@@ -10,19 +10,28 @@ const User = require('../models/user');
 //Block 1
 //Game logic steps using the async function - mark a task as completed by a user
 
-// Create a new task assigned to a user
-async function createTask(userId, points) {
+// Create a new task assigned to a user - updated to be able to assigne unclaimed tasks to other users
+async function createTask(userId, taskName, points, assignee = userId) {
     const task = new Task({
       taskName,
       points,
-      assignedTo: userId,  //required field from Task model
-      status: "claimed", // Or "unclaimed" if task is not yet assigned"
-    //completedBy: userId, // Initially null, will be set when the task is completed
+      assignedTo: assignee,  // The user who is assigned to the task
+      status: assignee === userId ? "inProgress" : "available", // Set status based on whether the task is assigned to the user
     });
   
     await task.save();
     return task;
-  }
+}
+  async function assignTask(userId, taskId) {
+  const task = await Task.findById(taskId);
+  if (!task) throw new Error("Task not found");
+  if (task.assignedTo) throw new Error("Task already claimed");
+
+  task.assignedTo = userId;
+  task.status = "inProgress";
+  await task.save();
+  return await task.populate("assignedTo", "name");
+}
 
 async function completeTask(userId, taskId) { 
     //Step 1 - find the task by its id
@@ -94,7 +103,7 @@ async function getUserStats(userId) {
 }
 
 
-module.exports = { completeTask, getUserStats, createTask };
+module.exports = { completeTask, getUserStats, createTask, assignTask };
 
 
 

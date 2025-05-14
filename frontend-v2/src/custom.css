@@ -286,3 +286,30 @@
 .auth-background span[role="button"]:hover {
   text-shadow: 0 0 6px rgba(111,66,193,0.8);
 }
+
+
+
+
+/* ===== About Page Styles ===== */
+
+/* Section header styling matches other pages */
+.game-section-header {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  color: var(--color-purple);
+  margin-bottom: 0.75rem;
+}
+
+/* Flush list-group items for Key Features */
+.list-group-flush .list-group-item {
+  background: transparent;
+  border: none;
+  padding-left: 0;
+}
+
+/* Ordered list indent */
+ol {
+  font-family: sans-serif;
+  margin-left: 0.5rem;
+}

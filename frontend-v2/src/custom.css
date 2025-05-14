@@ -125,3 +125,10 @@
 }
 
 
+/* Pulsing list-item on hover */
+.list-group-item {
+  transition: transform 0.15s ease-in-out;
+}
+.list-group-item:hover {
+  transform: scale(1.02);
+}

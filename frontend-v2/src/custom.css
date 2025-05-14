@@ -287,6 +287,25 @@
   text-shadow: 0 0 6px rgba(111,66,193,0.8);
 }
 
+/* ===== Fix auth input visibility ===== */
+/* Scope this to only pages wrapped in .auth-background */
+.auth-background .game-input {
+  background-color: var(--color-white) !important;
+  color: var(--color-dark) !important;
+  border: 2px solid var(--color-dark);
+}
+
+/* Make placeholder text dark so it shows up on white */
+.auth-background .game-input::placeholder {
+  color: #6c757d;  /* Bootstrap’s default placeholder shade */
+  opacity: 1;      /* ensure full visibility */
+}
+
+
+
+
+
+
 
 
 
@@ -313,3 +332,51 @@ ol {
   font-family: sans-serif;
   margin-left: 0.5rem;
 }
+
+
+/* ===== Responsive Design Tweaks ===== */
+@media (max-width: 576px) {
+  /* Make cards span nearly the full viewport */
+  .container > .card,
+  .auth-background .card {
+    margin: 0 0.5rem;
+    width: calc(100% - 1rem) !important;
+    max-width: none !important;
+  }
+
+  /* Shrink header banners slightly */
+  .header-banner h1,
+  .header-banner h2,
+  .header-banner h5 {
+    font-size: 1rem !important;
+  }
+
+  /* Ensure all inputs & buttons fill the width */
+  .game-input,
+  .game-btn {
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  /* Dashboard: force form row to stack fully */
+  .row.g-3.align-items-end {
+    flex-direction: column !important;
+  }
+  .row.g-3.align-items-end .col-sm-6,
+  .row.g-3.align-items-end .col-sm-3 {
+    width: 100%;
+  }
+
+  /* Reduce padding on score table cells */
+  .game-table th,
+  .game-table td {
+    padding: 0.5rem !important;
+  }
+
+  /* Tweak section headers on About & Settings */
+  .game-section-header {
+    font-size: 0.75rem;
+  }
+}
+
+

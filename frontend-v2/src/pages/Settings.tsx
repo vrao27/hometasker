@@ -117,88 +117,93 @@ const Settings = () => {
   //Render the settings page
   // It includes a form for updating the profile and another for changing the password.
   // It shows loading, error, and success messages based on the state.
+
   return (
-    <main className="container py-4" style={{ maxWidth: 600 }}>
-      <div className="card p-4 shadow-sm">
-      <h1 className="mb-4">Settings</h1>
-
-
-      {/* Show loading spinner or message */}
-      {loading && (
-          <div className="d-flex justify-content-center py-2">
-          <div className="spinner-border text-primary" role="status" />
-         </div>
-        )}
-
-      {/* Show error message in red */}
-      {error && <p className="text-danger">{error}</p>}
-      {/* Show success message in green */}
-      {success && <p className="text-success">{success}</p>}
-
-      {/* Profile update form */}
-      <form onSubmit={handleProfileSave} className="mb-4">
-        <h2>Profile</h2>
-
-        {/* Name field */}
-        <div className="mb-3">
-          <label className="form-label">Name</label>
-          <input
-            className="form-control"
-            value={name}
-            onChange={e => setName(e.target.value)}
-          />
+    <div className="container py-4">
+      <div className="card bg-mint shadow-sm rounded-3 mx-auto" style={{ maxWidth: 600 }}>
+        <div className="header-banner">
+          <h1 className="h4 mb-0">Settings ⚙️</h1>
         </div>
+        <div className="card-body">
+          {loading && (
+            <div className="d-flex justify-content-center py-2">
+              <div className="spinner-border text-success" role="status" />
+            </div>
+          )}
+          {error && <div className="alert alert-danger">{error}</div>}
+          {success && <div className="alert alert-success">{success}</div>}
 
-        {/* Email field */}
-        <div className="mb-3">
-          <label className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
+          {/* Profile Form */}
+          <form onSubmit={handleProfileSave} className="mb-5">
+            <h5 className="mb-3 game-section-header">Profile</h5>
+
+            <div className="mb-3">
+              <label className="form-label">Name</label>
+              <input
+                className="form-control game-input"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="form-label">Email</label>
+              <input
+                type="email"
+                className="form-control game-input"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="game-btn game-btn-success me-2"
+              disabled={loading}
+            >
+              Save Profile
+            </button>
+          </form>
+
+          {/* Password Form */}
+          <form onSubmit={handlePasswordSave}>
+            <h5 className="mb-3 game-section-header">Change Password</h5>
+
+            <div className="mb-3">
+              <label className="form-label">Current Password</label>
+              <input
+                type="password"
+                className="form-control game-input"
+                value={currentPassword}
+                onChange={e => setCurrentPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="form-label">New Password</label>
+              <input
+                type="password"
+                className="form-control game-input"
+                value={newPassword}
+                onChange={e => setNewPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="game-btn game-btn-secondary"
+              disabled={loading}
+            >
+              Change Password
+            </button>
+          </form>
         </div>
-
-        {/* Submit button */}
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          Save Profile
-        </button>
-      </form>
-
-      {/* Password change form */}
-      <form onSubmit={handlePasswordSave}>
-        <h2>Change Password</h2>
-
-        {/* Current password */}
-        <div className="mb-3">
-          <label className="form-label">Current Password</label>
-          <input
-            type="password"
-            className="form-control"
-            value={currentPassword}
-            onChange={e => setCurrentPassword(e.target.value)}
-          />
-        </div>
-
-        {/* New password */}
-        <div className="mb-3">
-          <label className="form-label">New Password</label>
-          <input
-            type="password"
-            className="form-control"
-            value={newPassword}
-            onChange={e => setNewPassword(e.target.value)}
-          />
-        </div>
-
-        {/* Submit button */}
-        <button type="submit" className="btn btn-secondary" disabled={loading}>
-          Change Password
-        </button>
-        </form>
-        </div>
-    </main>
+      </div>
+    </div>
   );
 };
 

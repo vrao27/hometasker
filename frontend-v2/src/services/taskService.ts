@@ -1,12 +1,14 @@
 //use the service to get the tasks and display them in the component
 
 //define the task interface
-export interface Task {
-    id: string;
-    title: string;
-    completed: boolean
-    points: number;
-  }
+ export interface Task {
+  _id: string;
+  taskName: string;
+  points: number;
+  completed: boolean;
+  assignedTo: { _id: string; name: string } | null; // The assigned user object or null if not assigned
+}
+
 
 //define base url for all tasks endpoints
 const API = process.env.REACT_APP_API_URL;
@@ -33,8 +35,8 @@ export async function getTasks(): Promise<Task[]> {
   return await res.json(); // Ensure the response is returned
 }
 
-// PUT /api/tasks/:id → creates a new task
-export async function createTask(title: string, points: number): Promise<Task> {
+// POST /api/tasks/:id → creates a new task
+export async function createTask(taskName: string, points: number, assignedTo?: string ): Promise<Task> {
 
   const token = localStorage.getItem('token');
   
@@ -44,31 +46,34 @@ export async function createTask(title: string, points: number): Promise<Task> {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ taskName: title, points }),
+      body: JSON.stringify({ taskName, points }),
     });
     if (!res.ok) throw new Error('Unable to create task');
     return res.json();  // The new Task object
   }
 
 
-  //PUT /api/tasks/:id/complete → marks a task as completed
-export async function completeTask(id: string): Promise<void> {
+  //POST /api/tasks/:id/complete → marks a task as completed
+export async function completeTask(_id: string): Promise<void> {
     const token = localStorage.getItem('token');
-    const res = await fetch(`${BASE}/${id}/complete`, {
-      method: 'PUT',
+    const res = await fetch(`${BASE}/${_id}/complete`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("Response status:", res.status);
+    const text = await res.text();
+    console.log("Response body:", text);
     if (!res.ok) throw new Error('Unable to complete task');
   }
 
 
   //PUT /api/tasks/:id/delete → deletes a task
-export async function deleteTask(id: string): Promise<void> {
+export async function deleteTask(_id: string): Promise<void> {
   const token = localStorage.getItem('token');
-    const res = await fetch(`${BASE}/${id}`, {
+    const res = await fetch(`${BASE}/${_id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -76,4 +81,18 @@ export async function deleteTask(id: string): Promise<void> {
       },
     });
     if (!res.ok) throw new Error('Unable to delete task');
-  }
+}
+  
+  // POST /api/tasks/:id/assign → “claim” an unassigned task
+export async function claimTask(_id: string): Promise<Task> {
+  const token = localStorage.getItem('token');
+  const res = await fetch(`${BASE}/${_id}/assign`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) throw new Error('Unable to claim task');
+  return res.json();
+}

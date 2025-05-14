@@ -67,7 +67,7 @@ userSchema.methods.comparePassword = async function (inputPassword) {
   userSchema.methods.generateAuthToken = function () {
     //token payload build
     const payload = {
-      id: this._id,
+      userId: this._id,
       email: this.email,
       name: this.name,
     };

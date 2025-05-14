@@ -14,6 +14,7 @@ const authenticateToken = (req, res, next) => {
   try {
     //Decode and verify the token
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    
     req.user = decoded; // Now req.user holds the info from the token
     next(); // User is authenticated, move to the route handler
   } catch (err) {

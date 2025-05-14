@@ -26,8 +26,8 @@ const gameController = require("../controllers/gameControllers");
 
 
 // The game logic enpoints are to complte tasks, enforce assignment conditions and award points
-router.post("/taskID/assign", authenticateToken, gameController.assign); // Assign a task to a user
-router.post("/taskID/complete", authenticateToken, gameController.complete); // Complete a task
+router.post("/:taskId/assign", authenticateToken, gameController.assign); // Assign a task to a user
+router.post("/:taskId/complete", authenticateToken, gameController.complete); // Complete a task
 
 // Temporary array to store tasks - will be updated to DB later
 // store tasks in memory inside an array. - Each task is an object with:

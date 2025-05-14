@@ -54,9 +54,9 @@ const handleAdd = async (e: FormEvent) => {
 };
 
 // Mark a task completed
-const handleComplete = async (id: string) => {
+const handleComplete = async (_id: string) => {
   try {
-    await completeTask(id);
+    await completeTask(_id);
     await loadTasks();
   } catch (err) {
     console.error(err);
@@ -64,10 +64,10 @@ const handleComplete = async (id: string) => {
 };
 
 // Delete a task
-const handleDelete = async (id: string) => {
+const handleDelete = async (_id: string) => {
   if (!window.confirm('Delete this task?')) return;
   try {
-    await deleteTask(id);
+    await deleteTask(_id);
     await loadTasks();
   } catch (err) {
     console.error(err);
@@ -135,17 +135,17 @@ return (
           <li key={task._id} className="list-group-item d-flex justify-content-between align-items-center">
             <div>
               <span className={task.completed ? 'text-decoration-line-through' : ''}>
-                {task.title}
+                {task.taskName}
               </span>
               <span className="badge bg-info text-dark ms-2">{task.points} pts</span>
             </div>
             <div>
               {!task.completed && (
-                <button className="btn btn-success btn-sm me-2" onClick={() => handleComplete(task.id)}>
+                <button className="btn btn-success btn-sm me-2" onClick={() => handleComplete(task._id)}>
                   Complete
                 </button>
               )}
-              <button className="btn btn-danger btn-sm" onClick={() => handleDelete(task.id)}>
+              <button className="btn btn-danger btn-sm" onClick={() => handleDelete(task._id)}>
                 Delete
               </button>
             </div>

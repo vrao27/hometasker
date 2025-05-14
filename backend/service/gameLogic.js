@@ -11,12 +11,13 @@ const User = require('../models/user');
 //Game logic steps using the async function - mark a task as completed by a user
 
 // Create a new task assigned to a user
-async function createTask(userId, title, points) {
+async function createTask(userId, points) {
     const task = new Task({
       taskName,
       points,
       assignedTo: userId,  //required field from Task model
-      status: "claimed" // Or "unclaimed" if task is not yet assigned"
+      status: "claimed", // Or "unclaimed" if task is not yet assigned"
+    //completedBy: userId, // Initially null, will be set when the task is completed
     });
   
     await task.save();
@@ -25,8 +26,9 @@ async function createTask(userId, title, points) {
 
 async function completeTask(userId, taskId) { 
     //Step 1 - find the task by its id
-    //find the task by its id
+   
     const task = await Task.findById(taskId);
+    
     if (!task) {
         throw new Error('Task not found'); //error handling if no task is found
     }
@@ -35,7 +37,17 @@ async function completeTask(userId, taskId) {
         throw new Error('Task already completed'); //error handling if task is already completed
     }
     //Step 2 - mark the task as completed
-    task.completedBy = userId;
+    if (!task.assignedTo || task.assignedTo.toString() !== userId) {
+        throw new Error('Task not claimed by this user');
+      }
+      if (task.completedBy) {
+        throw new Error('Task already completed');
+      }
+    
+     // 2.3. Mark completed fields
+  task.status      = 'completed';// update status
+  task.completedBy = userId;// who completed
+  task.completedAt = new Date();// timestamp
     // Save the change back to MongoDB.
     await task.save();
 

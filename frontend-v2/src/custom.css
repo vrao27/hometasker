@@ -181,3 +181,38 @@
 .game-table tbody tr:nth-child(odd) {
   background: rgba(255, 255, 255, 0.05);
 }
+
+
+/* ===== Settings Page Styles ===== */
+
+/* Section headers with hover glow */
+.game-section-header {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  color: var(--color-purple);
+  transition: text-shadow 0.2s;
+  cursor: default;
+}
+.game-section-header:hover {
+  text-shadow: 0 0 8px rgba(111, 66, 193, 0.75);
+}
+
+/* Success alert theming */
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+/* Gear icon next to Settings header */
+.header-banner h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header-banner h1::before {
+  content: '⚙️';
+  margin-right: 0.5rem;
+}

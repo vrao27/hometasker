@@ -20,7 +20,7 @@ const Scoreboard: React.FC = () => {
     setError(null);
     try {
       const data = await getLeaderboard();
-      setEntries(data);
+      setEntries(data); // Set the players state with the fetched data
     } catch (err: any) {
       setError(err.message || 'Failed to load leaderboard');
     } finally {
@@ -36,43 +36,50 @@ const Scoreboard: React.FC = () => {
   //Render
   return (
     <div className="container py-4">
+      <div
+        className="card bg-mint shadow-sm rounded-3 mx-auto"
+        style={{ maxWidth: 800 }}
+      >
+        <div className="header-banner">
+          <h1 className="h4 mb-0">Scoreboard</h1>
+        </div>
 
-      <h2>Leaderboard</h2>
+        <div className="card-body">
+          {error && (
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          )}
 
-      {loading && <div className="d-flex justify-content-center py-2">
-  <div className="spinner-border text-primary" role="status" />
-</div>
-}
-      {error && <div className="alert alert-danger" role="alert">
-  {error}
-</div>
-}
-
-      {!loading && !error && (
-        entries.length === 0 ? (
-          <p>No scores to show.</p>
-        ) : (
-          <div className="card shadow-sm p-4">
-          <h4 className="mb-3">Leaderboard</h4>
-          <table className='table table-striped'>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Points</th>
-              </tr>
-            </thead>
-            <tbody>
-              {entries.map((e, idx) => (
-                <tr key={idx}>
-                  <td>{e.name}</td>
-                  <td>{e.points}</td>
+          {loading ? (
+            <div className="d-flex justify-content-center py-5">
+              <div className="spinner-border text-success" role="status" />
+            </div>
+          ) : (
+            <table className="table game-table">
+              <thead>
+                <tr className="game-table-header">
+                  <th>#</th>
+                  <th>Player</th>
+                  <th className="text-end">Points</th>
                 </tr>
-              ))}
-            </tbody>
-              </table>
-              </div>
-        )
-      )}
+              </thead>
+              <tbody>
+                {entries.map((entry, idx) => (
+                  <tr
+                    key={entry.id}
+                    className={idx === 0 ? 'highlight-row' : ''}
+                  >
+                    <td>{idx + 1}</td>
+                    <td>{entry.name}</td>
+                    <td className="text-end">{entry.points}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

@@ -216,3 +216,73 @@
   content: '⚙️';
   margin-right: 0.5rem;
 }
+
+
+
+/* ===== Auth Screen Background -- Login and Signup ===== */
+.auth-background {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Override for full-width arcade header on auth cards */
+.header-banner {
+  background-color: var(--color-purple) !important;
+  color: var(--color-white) !important;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-family: 'Press Start 2P', cursive;
+  text-align: center;
+}
+
+/* Mint card for auth forms */
+.auth-background .card {
+  background-color: var(--color-mint) !important;
+  border: 2px solid var(--color-purple);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Console-style inputs on auth forms */
+.auth-background .game-input {
+  background-color: #1e1e2f;
+  border: 2px solid var(--color-dark);
+  color: var(--color-white);
+  font-family: monospace;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+}
+
+/* Arcade-style buttons on auth forms */
+.auth-background .game-btn-success {
+  background: linear-gradient(145deg, #34c759 0%, #28a745 100%);
+  color: var(--color-white);
+  font-family: 'Press Start 2P', cursive;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.auth-background .game-btn-success:active {
+  transform: translateY(2px);
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Link styling under auth form */
+.auth-background a,
+.auth-background span[role="button"] {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.75rem;
+  color: var(--color-purple);
+  text-decoration: none;
+  cursor: pointer;
+}
+.auth-background a:hover,
+.auth-background span[role="button"]:hover {
+  text-shadow: 0 0 6px rgba(111,66,193,0.8);
+}

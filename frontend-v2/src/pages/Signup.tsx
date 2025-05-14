@@ -54,25 +54,26 @@ if (!strongPasswordRegex.test(password)) {
       setLoading(false);
     }
   };
-
-  return (
-    <div
-      className="d-flex flex-column align-items-center justify-content-center min-vh-100"
-      style={{ background: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)' }}
-    >
+   
+   return (
+    <div className="auth-background d-flex flex-column align-items-center justify-content-center min-vh-100">
+      {/* Toast container to display messages */}
       <ToastContainer position="top-center" />
 
-      <div className="card shadow-sm p-4" style={{ width: '100%', maxWidth: '400px' }}>
-        <h2 className="text-center mb-4">📝 Sign Up</h2>
+      <div className="card bg-mint shadow-sm rounded-3 p-4" style={{ width: '100%', maxWidth: '400px' }}>
+        {/* Header banner with icon and arcade font */}
+        <div className="header-banner mb-4">
+          <h2 className="h5 mb-0">📝 Sign Up</h2>
+        </div>
 
         <form onSubmit={handleSubmit} className="d-flex flex-column">
           {/* Name Input */}
           <input
             type="text"
             placeholder="Full Name"
-            className="form-control mb-3"
+            className="form-control game-input mb-3"
             value={name}
-            onChange={e => setName(e.target.value)} 
+            onChange={e => setName(e.target.value)}
             required
           />
 
@@ -80,7 +81,7 @@ if (!strongPasswordRegex.test(password)) {
           <input
             type="email"
             placeholder="Email"
-            className="form-control mb-3"
+            className="form-control game-input mb-3"
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
@@ -90,17 +91,20 @@ if (!strongPasswordRegex.test(password)) {
           <input
             type="password"
             placeholder="Password"
-            className="form-control mb-4"
+            className="form-control game-input mb-4"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
-            //minLength={6}
-            pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$'
-            title='Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number.'
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$"
+            title="Password must be at least 6 characters, include uppercase, lowercase, and a number."
           />
 
           {/* Submit Button */}
-          <button type="submit" className="btn btn-success" disabled={loading}>
+          <button
+            type="submit"
+            className="game-btn game-btn-success"
+            disabled={loading}
+          >
             {loading ? 'Signing up…' : 'Create Account'}
           </button>
         </form>
@@ -109,7 +113,7 @@ if (!strongPasswordRegex.test(password)) {
           Already have an account?{' '}
           <span
             role="button"
-            className="text-success"
+            className="text-primary"
             style={{ cursor: 'pointer' }}
             onClick={() => navigate('/')}
           >
@@ -122,3 +126,4 @@ if (!strongPasswordRegex.test(password)) {
 };
 
 export default Signup;
+  

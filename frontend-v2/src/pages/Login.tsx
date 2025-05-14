@@ -48,21 +48,30 @@ const Login: React.FC = () => {
     }
   };
 
-  return (
-    <div className="d-flex flex-column align-items-center justify-content-center min-vh-100"
-         style={{ background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' }}>
-      {/* Toast container to display messages */}
-      <ToastContainer position="top-center" />
+   return (
+    <div
+      className="d-flex flex-column align-items-center justify-content-center min-vh-100 auth-background"
+     >
+       
+      {/* Toast container to display messages 
+      // Render area for toast notifications.  
+      // All toast.* calls (success, error, etc.) will appear here.  
+      // Only one ToastContainer is needed per page or app.
+      */}
+      <ToastContainer position="top-center" />   
 
-      <div className="card shadow-sm p-4" style={{ width: '100%', maxWidth: '400px' }}>
-        <h2 className="text-center mb-4">🔑 Log In</h2>
+      <div className="card bg-mint shadow-sm rounded-3 p-4" style={{ width: '100%', maxWidth: '400px' }}>
+        {/* Header banner with icon */}
+        <div className="header-banner mb-4">
+          <h2 className="h5 mb-0">🔑 Log In</h2>
+        </div>
 
         <form onSubmit={handleSubmit} className="d-flex flex-column">
           {/* Email Input */}
           <input
             type="email"
             placeholder="Email"
-            className="form-control mb-3"
+            className="form-control game-input mb-3"
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
@@ -72,7 +81,7 @@ const Login: React.FC = () => {
           <input
             type="password"
             placeholder="Password"
-            className="form-control mb-3"
+            className="form-control game-input mb-3"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
@@ -81,7 +90,7 @@ const Login: React.FC = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="btn btn-primary"
+            className="game-btn game-btn-success"
             disabled={loading}
           >
             {loading ? 'Logging in…' : 'Log In'}
@@ -90,8 +99,12 @@ const Login: React.FC = () => {
 
         <p className="text-center mt-3">
           Don’t have an account?{' '}
-          <span role="button" className="text-primary" style={{ cursor: 'pointer' }}
-                onClick={() => navigate('/signup')}>
+          <span
+            role="button"
+            className="text-primary"
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate('/signup')}
+          >
             Sign Up
           </span>
         </p>
@@ -101,3 +114,4 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+   

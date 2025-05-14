@@ -76,93 +76,129 @@ const handleDelete = async (_id: string) => {
 
 return (
   <div className="container py-4">
-    <div className="card bg-mint shadow-sm rounded-3 p-4 mb-4">
-    <h1>Welcome to HomeTasker!</h1>
+    <div className="card bg-mint shadow-sm rounded-3 mx-auto"
+    style={{ maxWidth: 800 }}>
+     <div className="header-banner">
+          <h1 className="h4 mb-0">Welcome to HomeTasker!</h1>
+        </div>
+        <div className="card-body">
+          {/* — Add Task Form — */}
+          <div className="card bg-white shadow-sm rounded-2 p-4 mb-4">
+            <h5 className="mb-3">Add New Task</h5>
+            {error && (
+              <div className="alert alert-danger" role="alert">
+                {error}
+              </div>
+            )}
+            <form
+              className="row g-3 align-items-end"
+              onSubmit={handleAdd}
+            >
+              <div className="col-sm-6">
+                <label htmlFor="newTask" className="form-label">
+                  Task Title
+                </label>
+                <input
+                  id="newTask"
+                  type="text"
+                  className="form-control game-input"
+                  placeholder="New task title…"
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="col-sm-3">
+                <label htmlFor="newPoints" className="form-label">
+                  Points
+                </label>
+                <input
+                  id="newPoints"
+                  type="number"
+                  min={1}
+                  className="form-control game-input"
+                  value={newPoints}
+                  onChange={(e) =>
+                    setNewPoints(Number(e.target.value))
+                  }
+                  required
+                />
+              </div>
+              <div className="col-sm-3">
+                {loading ? (
+                  <div className="d-flex justify-content-center">
+                    <div
+                      className="spinner-border text-success"
+                      role="status"
+                    />
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="game-btn game-btn-success w-100"
+                  >
+                    Add Task
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
 
-    {/* — Add Task Form — */}
-    <div className="card shadow-sm p-4 mb-4">
-  <h5 className="mb-3">Add New Task</h5>
-  <form className="row g-2 align-items-end" onSubmit={handleAdd}>
-    <div className="col-sm-6">
-      <label className="form-label">Task Title</label>
-      <input
-        type="text"
-        className="form-control"
-        placeholder="New task title…"
-        value={newTitle}
-        onChange={e => setNewTitle(e.target.value)}
-      />
-    </div>
-    <div className="col-sm-3">
-      <label className="form-label">Points</label>
-      <input
-        type="number"
-        min={1}
-        className="form-control"
-        value={newPoints}
-        onChange={e => setNewPoints(Number(e.target.value))}
-      />
-    </div>
-    <div className="col-sm-3">
-      <button type="submit" className="btn btn-primary w-100">
-        Add Task
-      </button>
-    </div>
-  </form>
-</div>
-
-    {/* — Loading & Error States — */}
-    {loading && (
-  <div className="d-flex justify-content-center py-2">
-    <div className="spinner-border text-primary" role="status" />
-  </div>
-)}
- {error && (
-  <div className="alert alert-danger" role="alert">
-    {error}
-  </div>
-)}
-
-    
-
-    {/* — Task List — */}
-    {!loading && !error && (
-      tasks.length === 0 ? (
-        <p>No tasks yet.</p>
-      ) : (
-       
-        <ul className="list-group">
-        {tasks.map(task => (
-          <li key={task._id} className="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              <span className={task.completed ? 'text-decoration-line-through' : ''}>
-                {task.taskName}
-              </span>
-              <span className="badge bg-info text-dark ms-2">{task.points} pts</span>
+          {/* — Task List — */}
+          {loading && !tasks.length ? (
+            <div className="d-flex justify-content-center py-2">
+              <div
+                className="spinner-border text-success"
+                role="status"
+              />
             </div>
-            <div>
-              {!task.completed && (
-                <button className="btn btn-success btn-sm me-2" onClick={() => handleComplete(task._id)}>
-                  Complete
-                </button>
-              )}
-              <button className="btn btn-danger btn-sm" onClick={() => handleDelete(task._id)}>
-                Delete
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-      
-          
-          
-          
-      )
-      )}
+          ) : tasks.length === 0 ? (
+            <p className="text-center">No tasks yet.</p>
+          ) : (
+            <ul className="list-group">
+              {tasks.map((task) => (
+                <li
+                  key={task._id}
+                  className="list-group-item d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <span
+                      className={
+                        task.completed
+                          ? 'text-decoration-line-through'
+                          : ''
+                      }
+                    >
+                      {task.taskName}
+                    </span>
+                    <span className="badge-points ms-2">
+                      {task.points} pts
+                    </span>
+                  </div>
+                  <div>
+                    {!task.completed && (
+                      <button
+                        className="game-btn game-btn-secondary btn-sm me-2"
+                        onClick={() => handleComplete(task._id)}
+                      >
+                        Complete
+                      </button>
+                    )}
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(task._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
-  </div>
-);
-
-}
+    </div>
+  );
+};
 
 export default Dashboard;

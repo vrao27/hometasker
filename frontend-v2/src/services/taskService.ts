@@ -1,12 +1,14 @@
 //use the service to get the tasks and display them in the component
 
 //define the task interface
-export interface Task {
-    _id: string;
-    taskName: string;
-    completed: boolean
-    points: number;
-  }
+ export interface Task {
+  _id: string;
+  taskName: string;
+  points: number;
+  completed: boolean;
+  assignedTo: { _id: string; name: string } | null; // The assigned user object or null if not assigned
+}
+
 
 //define base url for all tasks endpoints
 const API = process.env.REACT_APP_API_URL;
@@ -34,7 +36,7 @@ export async function getTasks(): Promise<Task[]> {
 }
 
 // POST /api/tasks/:id → creates a new task
-export async function createTask(taskName: string, points: number): Promise<Task> {
+export async function createTask(taskName: string, points: number, assignedTo?: string ): Promise<Task> {
 
   const token = localStorage.getItem('token');
   
@@ -79,4 +81,18 @@ export async function deleteTask(_id: string): Promise<void> {
       },
     });
     if (!res.ok) throw new Error('Unable to delete task');
-  }
+}
+  
+  // POST /api/tasks/:id/assign → “claim” an unassigned task
+export async function claimTask(_id: string): Promise<Task> {
+  const token = localStorage.getItem('token');
+  const res = await fetch(`${BASE}/${_id}/assign`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) throw new Error('Unable to claim task');
+  return res.json();
+}

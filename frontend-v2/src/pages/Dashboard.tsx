@@ -76,6 +76,7 @@ const handleDelete = async (_id: string) => {
 
 return (
   <div className="container py-4">
+    <div className="card bg-mint shadow-sm rounded-3 p-4 mb-4">
     <h1>Welcome to HomeTasker!</h1>
 
     {/* — Add Task Form — */}
@@ -157,7 +158,8 @@ return (
           
           
       )
-    )}
+      )}
+      </div>
   </div>
 );
 

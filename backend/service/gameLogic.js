@@ -13,9 +13,10 @@ const User = require('../models/user');
 // Create a new task assigned to a user
 async function createTask(userId, title, points) {
     const task = new Task({
-      taskName: title,
+      taskName,
       points,
       assignedTo: userId,  //required field from Task model
+      status: "claimed" // Or "unclaimed" if task is not yet assigned"
     });
   
     await task.save();

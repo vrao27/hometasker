@@ -15,7 +15,7 @@ const gameLogic = require('../service/gameLogic');
 exports.assign = async (req, res) => {
   try {
     const taskId = req.params.taskId;
-    const userId = req.user.userId; // Set by your auth middleware after decoding JWT
+    const userId = req.user._id; // Set by your auth middleware after decoding JWT
 
     const task = await gameLogic.assignTask(userId, taskId);
     return res.json({ task });
@@ -35,7 +35,7 @@ exports.assign = async (req, res) => {
 exports.complete = async (req, res) => {
   try {
     const taskId = req.params.taskId;
-    const userId = req.user.userId;
+    const userId = req.user._id;
 
     const { task, user } = await gameLogic.completeTask(userId, taskId);
     return res.json({ task, user });
@@ -56,7 +56,7 @@ exports.createTask = async (req, res) => {
   try {
     console.log('DEBUG req.user:', req.user);
     const { title, points } = req.body;
-    const userId = req.user.userId;
+    const userId = req.user._id; //changed: use '_id' from the token payload
 
     const task = await gameLogic.createTask(userId, title, points);
     res.status(201).json(task);
@@ -75,7 +75,7 @@ exports.createTask = async (req, res) => {
  */
 exports.stats = async (req, res) => {
   try {
-    const data = await gameLogic.getUserStats(req.user.userId);
+    const data = await gameLogic.getUserStats(req.user._id);
     return res.json(data);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -90,7 +90,7 @@ exports.stats = async (req, res) => {
  */
 exports.weeklyStats = async (req, res) => {
   try {
-    const data = await gameLogic.getWeeklyStats(req.user.userId);
+    const data = await gameLogic.getWeeklyStats(req.user._id);
     res.json(data);
   } catch (err) {
     res.status(400).json({ error: err.message });

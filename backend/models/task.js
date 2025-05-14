@@ -14,11 +14,12 @@ const taskSchema = new mongoose.Schema({
  //       default: null }
 
     // Schema to capture who is working on the task once a task has been claimed (ensures that only one user can work on a task at a time)
-    //use Object.id to link to the user model i.e. the id of a user
+    //use Objectid to link to the user model i.e. the id of a user
     assignedTo: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: false,
+        default: null
     },
     
     // Current status of the task - available, in progress or completed

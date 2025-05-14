@@ -26,6 +26,11 @@ const userSchema = new mongoose.Schema({
       required: true,
       minlength: 8, // Basic security
   },
+    householdId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Household',
+    required: true,
+  },
     
     
     //game related fields - points and badges based on the tasks completed

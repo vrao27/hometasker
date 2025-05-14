@@ -25,6 +25,12 @@ const authenticateToken = require("../middleware/authMiddleware");
 const gameController = require("../controllers/gameControllers");
 
 
+
+// routes/users.js
+router.get('/', authMiddleware, userController.listHouseholdMembers);
+
+
+
 // The game logic enpoints are to complte tasks, enforce assignment conditions and award points
 router.post("/:taskId/assign", authenticateToken, gameController.assign); // Assign a task to a user
 router.post("/:taskId/complete", authenticateToken, gameController.complete); // Complete a task

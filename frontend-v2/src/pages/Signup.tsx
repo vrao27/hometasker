@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Signup: React.FC = () => {
   const navigate = useNavigate(); // useNavigate hook for navigation
-  // Controlled inputs for name, email, password
+  // Controlled inputs for name, email, password 
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -56,14 +56,17 @@ if (!strongPasswordRegex.test(password)) {
   };
    
    return (
-    <div className="auth-background d-flex flex-column align-items-center justify-content-center min-vh-100">
-      {/* Toast container to display messages */}
-      <ToastContainer position="top-center" />
+       <div className="auth-background">
+         {/* Toast messages */}
+         <ToastContainer position="top-center" />
 
-      <div className="card bg-mint shadow-sm rounded-3 p-4" style={{ width: '100%', maxWidth: '400px' }}>
-        {/* Header banner with icon and arcade font */}
+      <div
+        className="card bg-card shadow-sm rounded-3 p-4"
+         style={{ width: '100%', maxWidth: '400px' }}
+       >
+          {/* Gradient header */}
         <div className="header-banner mb-4">
-          <h2 className="h5 mb-0">📝 Sign Up</h2>
+          <h2 className="h5 mb-0 text-white">📝 Sign Up</h2>
         </div>
 
         <form onSubmit={handleSubmit} className="d-flex flex-column">
@@ -71,7 +74,7 @@ if (!strongPasswordRegex.test(password)) {
           <input
             type="text"
             placeholder="Full Name"
-            className="form-control game-input mb-3"
+            className="form-control mb-3"
             value={name}
             onChange={e => setName(e.target.value)}
             required
@@ -81,7 +84,7 @@ if (!strongPasswordRegex.test(password)) {
           <input
             type="email"
             placeholder="Email"
-            className="form-control game-input mb-3"
+            className="form-control mb-3"
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
@@ -91,7 +94,7 @@ if (!strongPasswordRegex.test(password)) {
           <input
             type="password"
             placeholder="Password"
-            className="form-control game-input mb-4"
+            className="form-control mb-4"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
@@ -102,7 +105,7 @@ if (!strongPasswordRegex.test(password)) {
           {/* Submit Button */}
           <button
             type="submit"
-            className="game-btn game-btn-success"
+            className="btn btn-success w-100"
             disabled={loading}
           >
             {loading ? 'Signing up…' : 'Create Account'}
@@ -113,7 +116,7 @@ if (!strongPasswordRegex.test(password)) {
           Already have an account?{' '}
           <span
             role="button"
-            className="text-primary"
+            className="text-purple"
             style={{ cursor: 'pointer' }}
             onClick={() => navigate('/')}
           >

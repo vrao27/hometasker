@@ -15,7 +15,7 @@ const Scoreboard: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-    const [meId, setMeId] = useState<string>(''); // State to store the current user's ID
+  const [meId, setMeId] = useState<string>(''); // State to store the current user's ID
 
   //Helper func to fetch the leaderboard
   const loadLeaderboard = async () => {
@@ -45,11 +45,11 @@ const Scoreboard: React.FC = () => {
   return (
     <div className="container py-4">
       <div
-        className="card bg-mint shadow-sm rounded-3 mx-auto"
+        className="card bg-panel shadow-sm rounded-3 mx-auto"
         style={{ maxWidth: 800 }}
       >
         <div className="header-banner">
-          <h1 className="h4 mb-0">Scoreboard</h1>
+          <h1 className="h4 mb-0 text-white">Scoreboard</h1>
         </div>
 
         <div className="card-body">
@@ -64,21 +64,21 @@ const Scoreboard: React.FC = () => {
               <div className="spinner-border text-success" role="status" />
             </div>
           ) : (
-            <table className="table game-table">
+            <table className="table game-table mb-0">
               <thead>
                 <tr className="game-table-header">
-                  <th>#</th>
+                  <th style={{ width: '10%' }}>#</th>
                   <th>Player</th>
-                  <th className="text-end">Points</th>
+                  <th className="text-end" style={{ width: '25%' }}>Points</th>
                 </tr>
               </thead>
               <tbody>
-                {entries.map((entry, idx) => (
+                {entries.map((entry, idx) => ( //Iterates over entries array and starts on index 0 
                   <tr
                     key={entry.id}
-                    className={idx === 0 ? 'highlight-row' : ''}
+                     className={entry.id === meId ? 'highlight-row' : ''}  //UPDATED: highlight current user’s row - if  entry’s id matches meId (the logged-in user’s ID) then apy the special background
                   >
-                    <td>{idx + 1}</td>
+                    <td>{idx + 1}</td>   //Displays the user rank in the table: 1 for the first entry, 2 for the second, etc.
                     <td>{entry.name}</td>
                     <td className="text-end">{entry.points}</td>
                   </tr>

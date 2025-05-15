@@ -20,8 +20,11 @@ const router = express.Router();
 const Task = require("../models/task"); // Import the Task model
 const authenticateToken = require("../middleware/authMiddleware");
 const gameController = require("../controllers/gameControllers");
+const authMiddleware = require('../middleware/authMiddleware');
+const userController = require('../controllers/userControllers');
 
-
+// protect all /api/tasks routes
+router.use(authMiddleware);
 
 // routes/users.js
 router.get('/', authMiddleware, userController.listHouseholdMembers);

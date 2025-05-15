@@ -8,6 +8,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require('./routes/users');
 
 
+
 dotenv.config();
 
 const app = express();
@@ -23,8 +24,9 @@ app.use(express.json()); // Allows parsing JSON requests
 
 // authRoutes is the route for authentication
 app.use("/api/auth", authRoutes);
-app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/tasks", taskRoutes);
+
 
 
 

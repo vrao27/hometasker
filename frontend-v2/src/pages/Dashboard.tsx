@@ -20,6 +20,7 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+
   // Load tasks + members + current user
   const loadAll = async () => {
     setLoading(true);
@@ -40,6 +41,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
+
   useEffect(() => {
     loadAll();
   }, []);
@@ -59,115 +61,188 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleClaim    = async (id: string) => { await claimTask(id).then(loadAll).catch(console.error); };
+  const handleClaim = async (id: string) => { await claimTask(id).then(loadAll).catch(console.error); };
   const handleComplete = async (id: string) => { await completeTask(id).then(loadAll).catch(console.error); };
-  const handleDelete   = async (id: string) => {
+  const handleDelete = async (id: string) => {
     if (!window.confirm('Delete this task?')) return;
     await deleteTask(id).then(loadAll).catch(console.error);
   };
 
+  // Render
   return (
     <div className="container py-4">
-      {/* … your card wrapper, header, etc. … */}
+      {/* ─── Two-column layout ─── */}
+      <div className="row g-4">
 
-      {/* — Add Task Form — */}
-      <form onSubmit={handleAdd} className="row g-3 align-items-end mb-4">
-        {/* Title & points inputs (as you already have) */}
-        <div className="col-sm-4">
-          <label htmlFor="newTask" className="form-label">Task Title</label>
-          <input
-            id="newTask"
-            type="text"
-            className="form-control"
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-sm-2">
-          <label htmlFor="newPoints" className="form-label">Points</label>
-          <input
-            id="newPoints"
-            type="number"
-            min={1}
-            className="form-control"
-            value={newPoints}
-            onChange={(e) => setNewPoints(Number(e.target.value))}
-            required
-          />
-        </div>
+        {/* ─── Left column: Add Task form + Rewards panel ─── */}
+        <div className="col-lg-4">
+          {/* Add Task Card */}
+          <div className="card bg-card p-4 mb-4">
+            <h5 className="mb-3">Add New Task</h5>
+            <form onSubmit={handleAdd} className="row g-3 align-items-end">
+              {/* Task Title input */}
+              <div className="col-sm-6">
+                <label htmlFor="newTask" className="form-label">
+                  Task Title
+                </label>
+                <input
+                  id="newTask"
+                  type="text"
+                  className="form-control"
+                  placeholder="New task title…"
+                  value={newTitle}
+                  onChange={e => setNewTitle(e.target.value)}
+                  required
+                />
+              </div>
+              {/* Points input */}
+              <div className="col-sm-3">
+                <label htmlFor="newPoints" className="form-label">
+                  Points
+                </label>
+                <input
+                  id="newPoints"
+                  type="number"
+                  min={1}
+                  className="form-control"
+                  value={newPoints}
+                  onChange={e => setNewPoints(Number(e.target.value))}
+                  required
+                />
+              </div>
+              {/* “Who’s Responsible?” dropdown */}
+              <div className="col-sm-3">
+                <label htmlFor="assignedTo" className="form-label">
+                  Who’s Responsible?
+                </label>
+                <select
+                  id="assignedTo"
+                  className="form-select"
+                  value={assignedTo}
+                  onChange={e => setAssignedTo(e.target.value)}
+                >
+                  <option value="">Me</option>
+                  {members.map(m => (
+                    <option key={m._id} value={m._id}>
+                      {m.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* Submit button */}
+              <div className="col-12">
+                <button
+                  type="submit"
+                  className="btn btn-success w-100"
+                  disabled={loading}
+                >
+                  {loading ? 'Adding…' : 'Add Task'}
+                </button>
+              </div>
+            </form>
+          </div>
 
-        {/* ← New: Assignee dropdown */}
-        <div className="col-sm-4">
-          <label htmlFor="assignedTo" className="form-label">Who’s Responsible?</label>
-          <select
-            id="assignedTo"
-            className="form-select"
-            value={assignedTo}
-            onChange={(e) => setAssignedTo(e.target.value)}
-          >
-            <option value="">Me</option>
-            {members.map(m => (
-              <option key={m._id} value={m._id}>{m.name}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className="col-sm-2">
-          <button type="submit" className="btn btn-success w-100" disabled={loading}>
-            {loading ? 'Adding…' : 'Add Task'}
-          </button>
-        </div>
-      </form>
-
-      {/* — Task List — */}
-      {error && <div className="alert alert-danger">{error}</div>}
-      {loading && !tasks.length ? (
-        <div className="text-center">Loading tasks…</div>
-      ) : tasks.length === 0 ? (
-        <p className="text-center">No tasks yet.</p>
-      ) : (
-        <ul className="list-group">
-          {tasks.map(task => {
-            const isMine = me ? task.assignedTo?._id === me._id : false;
-            return (
-              <li key={task._id} className="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                  <span className={task.completed ? 'text-decoration-line-through' : ''}>
-                    {task.taskName}
-                  </span>
-                  <span className="badge bg-light ms-2">{task.points} pts</span>
-                  {task.assignedTo && (
-                    <small className="text-muted d-block">
-                      Claimed by {task.assignedTo.name}
-                    </small>
-                  )}
-                </div>
-                <div>
-                  {!task.assignedTo && (
-                    <button className="btn btn-outline-primary btn-sm me-2" onClick={() => handleClaim(task._id)}>
-                      Claim
-                    </button>
-                  )}
-                  {isMine && !task.completed && (
-                    <button className="btn btn-success btn-sm me-2" onClick={() => handleComplete(task._id)}>
-                      Complete
-                    </button>
-                  )}
-                  {isMine && (
-                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(task._id)}>
-                      Delete
-                    </button>
-                  )}
-                </div>
+          {/* Rewards Card */}
+          <div className="card bg-card p-4">
+            <h5 className="mb-3">Rewards</h5>
+            <ul className="rewards-list">
+              <li>
+                Movie Night <span className="float-end">5 pts</span>
               </li>
-            );
-          })}
-        </ul>
-      )}
+              <li>
+                New Book <span className="float-end">8 pts</span>
+              </li>
+              <li>
+                Dessert <span className="float-end">3 pts</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* ─── Right column: Error, Loading, Task List ─── */}
+        <div className="col-lg-8">
+          {/* Error Alert */}
+          {error && (
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          )}
+
+          {/* Loading state */}
+          {loading && !tasks.length ? (
+            <div className="text-center">Loading tasks…</div>
+
+            /* Empty state */
+          ) : tasks.length === 0 ? (
+            <p className="text-center">No tasks yet.</p>
+
+            /* Task List */
+          ) : (
+            <ul className="list-group">
+              {tasks.map(task => {
+                const isMine = me ? task.assignedTo?._id === me._id : false;
+                return (
+                  <li
+                    key={task._id}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      {/* Task name & points */}
+                      <span
+                        className={
+                          task.completed ? 'text-decoration-line-through' : ''
+                        }
+                      >
+                        {task.taskName}
+                      </span>
+                      <span className="badge bg-light ms-2">
+                        {task.points} pts
+                      </span>
+                      {/* Claimed by info */}
+                      {task.assignedTo && (
+                        <small className="text-muted d-block">
+                          Claimed by {task.assignedTo.name}
+                        </small>
+                      )}
+                    </div>
+                    <div>
+                      {/* Claim button for unassigned */}
+                      {!task.assignedTo && (
+                        <button
+                          className="btn btn-outline-primary btn-sm me-2"
+                          onClick={() => handleClaim(task._id)}
+                        >
+                          Claim
+                        </button>
+                      )}
+                      {/* Complete button for assignee */}
+                      {isMine && !task.completed && (
+                        <button
+                          className="btn btn-success btn-sm me-2"
+                          onClick={() => handleComplete(task._id)}
+                        >
+                          Complete
+                        </button>
+                      )}
+                      {/* Delete button for assignee */}
+                      {isMine && (
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDelete(task._id)}
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+      </div>
     </div>
   );
-};
+}
 
 export default Dashboard;
-

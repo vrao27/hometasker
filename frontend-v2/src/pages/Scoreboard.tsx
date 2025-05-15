@@ -8,11 +8,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { ScoreEntry, getLeaderboard } from '../services/scoreboardService';
+import { getMe } from '../services/authService';  
 
 const Scoreboard: React.FC = () => {
   const [entries, setEntries] = useState<ScoreEntry[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+    const [meId, setMeId] = useState<string>(''); // State to store the current user's ID
 
   //Helper func to fetch the leaderboard
   const loadLeaderboard = async () => {
@@ -30,6 +33,11 @@ const Scoreboard: React.FC = () => {
 
   //Fetch once on component mount
   useEffect(() => {
+    // Fetch the current user's ID
+    getMe()
+      .then(u => setMeId(u._id))
+      .catch(console.error);
+    // Fetch the leaderboard data when the component mounts
     loadLeaderboard();
   }, []);
 

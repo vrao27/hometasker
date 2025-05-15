@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 
 
 // Define the User schema
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
 
   //basic user profile and autherntication fields
   // name, email and password

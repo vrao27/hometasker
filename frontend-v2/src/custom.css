@@ -1,382 +1,185 @@
 /* custom.css */
 
-/* Color variables */
+/* 1. Pastel-RPG Palette */
 :root {
-  --color-mint: #d2f4ea;
-  --color-purple: #6f42c1;
-  --color-green: #28a745;
-  --color-white: #ffffff;
-  --color-dark: #343a40;
+  --gradient-start: #6c63ff;    /* lavender */
+  --gradient-end:   #8a76ff;    /* deeper purple */
+
+  --bg-page:    #f0fcf9;        /* mint-cream page background */
+  --bg-card:    #ffffff;        /* white cards */
+  --bg-panel:   #e6fffa;        /* very light mint panels */
+
+  --accent-green:  #3fc979;     /* pastel green for Add/Redeem */
+  --accent-purple: #d987e4;     /* pastel purple for “Cast” */
+  --accent-coral:  #ff9f80;     /* pastel coral for “Dismiss” */
+
+  --text-dark:   #1e293b;       /* dark slate text */
+  --text-muted:  #64748b;       /* muted captions */
+
+  --shadow-soft: 0 2px 8px rgba(0,0,0,0.06);
 }
 
-/* ===== Card & Backgrounds ===== */
-
-/* Mint-green background wrapper */
-.bg-mint {
-  background-color: var(--color-mint) !important;
+/* 2. Global Background & Text */
+body {
+  background-color: var(--bg-page);
+  color: var(--text-dark);
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-/* Force white cards where needed */
-.card.bg-white {
-  background-color: var(--color-white) !important;
+/* 3. Gradient Header + Avatar Badge */
+.navbar, .header-banner {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  color: #fff !important;
+  border-radius: 0 0 1rem 1rem;
+  box-shadow: var(--shadow-soft);
+  position: relative;
 }
-
-/* ===== Header Banner ===== */
-
-/* Purple top banner for cards */
-.header-banner {
-  background-color: var(--color-purple) !important;
-  color: var(--color-white) !important;
-  border-top-left-radius: 0.75rem;
-  border-top-right-radius: 0.75rem;
-  padding: 0.75rem 1rem;
-  font-family: 'Press Start 2P', cursive; /* arcade font, load via Google Fonts */
-  text-align: center;
+.header-banner .avatar-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  overflow: hidden;
+  background: #fff;
 }
-
-/* ===== Task List Styling ===== */
-
-/* Rounded list items with spacing */
-.list-group-item {
-  border-radius: 0.5rem;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
-}
-
-/* Custom “points” badge styled as a pill */
-.badge-points {
-  background-color: var(--color-white);
-  color: var(--color-dark);
-  padding: 0.25em 0.5em;
-  border-radius: 10rem;
-  font-weight: 500;
-  font-size: 0.875rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-
-/* ===== Game-Style Form Controls ===== */
-
-/* Input fields with “console” look */
-.game-input {
-  background-color: #1e1e2f;
-  border: 2px solid var(--color-dark);
-  color: var(--color-white);
-  font-family: monospace;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-}
-
-/* ===== Game-Style Buttons ===== */
-
-.game-btn {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  border-radius: 0.25rem;
-  border: 2px solid transparent;
-  padding: 0.5rem 1rem;
-  transition: transform 0.1s ease-in-out, box-shadow 0.1s;
-  cursor: pointer;
-  display: inline-block;
-  text-align: center;
-}
-
-/* Green “success” button */
-.game-btn-success {
-  composes: game-btn;
-  background: linear-gradient(145deg, #34c759 0%, #28a745 100%);
-  color: var(--color-white);
-  box-shadow:  5px 5px 10px rgba(0,0,0,0.2),
-              -5px -5px 10px rgba(255,255,255,0.1);
-}
-.game-btn-success:active {
-  transform: translateY(2px);
-  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2);
-}
-
-/* Purple “secondary” button */
-.game-btn-secondary {
-  composes: game-btn;
-  background: linear-gradient(145deg, #8360c3 0%, #6f42c1 100%);
-  color: var(--color-white);
-  box-shadow:  5px 5px 10px rgba(0,0,0,0.2),
-              -5px -5px 10px rgba(255,255,255,0.1);
-}
-.game-btn-secondary:active {
-  transform: translateY(2px);
-  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2);
-}
-
-/* ===== Spinner & Alerts ===== */
-
-/* Spinner override */
-.spinner-border.text-success {
-  color: var(--color-green) !important;
-}
-
-/* Alert overrides to match theme */
-.alert-danger {
-  background-color: #f8d7da;
-  color: #842029;
-  border: none;
-  border-radius: 0.5rem;
-  font-family: sans-serif;
-}
-
-
-/* Pulsing list-item on hover */
-.list-group-item {
-  transition: transform 0.15s ease-in-out;
-}
-.list-group-item:hover {
-  transform: scale(1.02);
-}
-
-
-
-
-/* ===== Arcade‐style Scoreboard Table ===== */
-
-/* Base table styling */
-.game-table {
+.header-banner .avatar-badge img {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background: #1e1e2f;
-  color: var(--color-white);
-  font-family: 'Press Start 2P', cursive;
+  height: auto;
 }
 
-/* Cell padding and borders */
-.game-table th,
-.game-table td {
-  padding: 0.75rem 1rem;
-  border-bottom: 2px solid #343a40;
-  border-right: 2px solid #343a40;
-}
-.game-table th:last-child,
-.game-table td:last-child {
-  border-right: none;
-}
-
-/* Neon‐glow header row */
-.game-table-header th {
-  background: linear-gradient(145deg, #8360c3 0%, #6f42c1 100%);
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  box-shadow: 0 0 8px rgba(111, 66, 193, 0.7);
-}
-
-/* Highlight the top scorer with a “boss fight” banner */
-.highlight-row {
-  background: linear-gradient(145deg, #34c759 0%, #28a745 100%);
-  color: var(--color-dark);
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
-  font-weight: bold;
-}
-
-/* Zebra stripes for the rest */
-.game-table tbody tr:nth-child(odd) {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-
-/* ===== Settings Page Styles ===== */
-
-/* Section headers with hover glow */
-.game-section-header {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  color: var(--color-purple);
-  transition: text-shadow 0.2s;
-  cursor: default;
-}
-.game-section-header:hover {
-  text-shadow: 0 0 8px rgba(111, 66, 193, 0.75);
-}
-
-/* Success alert theming */
-.alert-success {
-  background-color: #d4edda;
-  color: #155724;
-  border: none;
-  border-radius: 0.5rem;
-}
-
-/* Gear icon next to Settings header */
-.header-banner h1 {
+/* 4. Stat Ribbon */
+.stat-ribbon {
+  background: var(--bg-card);
+  border-radius: 0 0 1rem 1rem;
+  box-shadow: var(--shadow-soft);
+  margin-top: -1rem;  /* tuck under header */
+  padding: 0.5rem 1rem;
   display: flex;
-  align-items: center;
+  gap: 1rem;
   justify-content: center;
 }
-.header-banner h1::before {
-  content: '⚙️';
-  margin-right: 0.5rem;
-}
-
-
-
-/* ===== Auth Screen Background -- Login and Signup ===== */
-.auth-background {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+.stat-pill {
+  background: #fff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-soft);
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-dark);
 }
 
-/* Override for full-width arcade header on auth cards */
-.header-banner {
-  background-color: var(--color-purple) !important;
-  color: var(--color-white) !important;
-  border-top-left-radius: 0.75rem;
-  border-top-right-radius: 0.75rem;
-  padding: 0.75rem 1rem;
-  font-family: 'Press Start 2P', cursive;
-  text-align: center;
-}
-
-/* Mint card for auth forms */
-.auth-background .card {
-  background-color: var(--color-mint) !important;
-  border: 2px solid var(--color-purple);
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-/* Console-style inputs on auth forms */
-.auth-background .game-input {
-  background-color: #1e1e2f;
-  border: 2px solid var(--color-dark);
-  color: var(--color-white);
-  font-family: monospace;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-}
-
-/* Arcade-style buttons on auth forms */
-.auth-background .game-btn-success {
-  background: linear-gradient(145deg, #34c759 0%, #28a745 100%);
-  color: var(--color-white);
-  font-family: 'Press Start 2P', cursive;
+/* 5. Cards & Panels */
+.card {
+  background-color: var(--bg-card);
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-soft);
+}
+.bg-panel {
+  background-color: var(--bg-panel) !important;
+}
+
+/* 6. Form Controls */
+.form-control, .form-select {
+  background: #fff;
+  border: 1px solid #d1e7dd;
+  border-radius: 1rem;
+  padding: 0.75rem 1rem;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 0.2rem rgba(63,201,121,0.25);
+}
+
+/* 7. Buttons & Pills */
+.btn, .game-btn {
+  border-radius: 2rem;
+  font-weight: 500;
   padding: 0.5rem 1rem;
-  transition: transform 0.1s, box-shadow 0.1s;
-}
-.auth-background .game-btn-success:active {
-  transform: translateY(2px);
-  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow-soft);
+  text-transform: none;
 }
 
-/* Link styling under auth form */
-.auth-background a,
-.auth-background span[role="button"] {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.75rem;
-  color: var(--color-purple);
-  text-decoration: none;
-  cursor: pointer;
+/* Add / Redeem */
+.btn-success, .game-btn-success {
+  background-color: var(--accent-green);
+  border-color: var(--accent-green);
+  color: #fff;
 }
-.auth-background a:hover,
-.auth-background span[role="button"]:hover {
-  text-shadow: 0 0 6px rgba(111,66,193,0.8);
+.btn-success:hover { background-color: #35b86a; }
+
+/* Cast (Complete) */
+.btn-secondary, .game-btn-secondary {
+  background-color: var(--accent-purple);
+  border-color: var(--accent-purple);
+  color: #fff;
 }
+.btn-secondary:hover { background-color: #c776d9; }
 
-/* ===== Fix auth input visibility ===== */
-/* Scope this to only pages wrapped in .auth-background */
-.auth-background .game-input {
-  background-color: var(--color-white) !important;
-  color: var(--color-dark) !important;
-  border: 2px solid var(--color-dark);
+/* Dismiss (Delete) */
+.btn-danger {
+  background-color: var(--accent-coral);
+  border-color: var(--accent-coral);
+  color: #fff;
 }
+.btn-danger:hover { background-color: #ff7266; }
 
-/* Make placeholder text dark so it shows up on white */
-.auth-background .game-input::placeholder {
-  color: #6c757d;  /* Bootstrap’s default placeholder shade */
-  opacity: 1;      /* ensure full visibility */
-}
-
-
-
-
-
-
-
-
-
-/* ===== About Page Styles ===== */
-
-/* Section header styling matches other pages */
-.game-section-header {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  color: var(--color-purple);
+/* 8. Task List Items */
+.list-group-item {
+  background-color: #fff;
+  border: none;
+  border-radius: 1rem;
   margin-bottom: 0.75rem;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+.list-group-item .task-icon {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.75rem;
+}
+.list-group-item .task-content {
+  flex: 1;
+}
+.progress {
+  height: 0.5rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #e9ecef;
+}
+.progress .progress-bar {
+  background-color: var(--accent-green);
 }
 
-/* Flush list-group items for Key Features */
-.list-group-flush .list-group-item {
-  background: transparent;
-  border: none;
-  padding-left: 0;
+/* 9. Rewards Panel */
+.rewards-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.rewards-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #dee2e6;
+}
+.rewards-list li:last-child {
+  border-bottom: none;
 }
 
-/* Ordered list indent */
-ol {
-  font-family: sans-serif;
-  margin-left: 0.5rem;
+/* 10. Responsive Tweaks */
+@media (max-width: 768px) {
+  .stat-ribbon { flex-wrap: wrap; }
+  .row.g-4 { flex-direction: column !important; }
 }
-
-
-/* ===== Responsive Design Tweaks ===== */
-@media (max-width: 576px) {
-  /* Make cards span nearly the full viewport */
-  .container > .card,
-  .auth-background .card {
-    margin: 0 0.5rem;
-    width: calc(100% - 1rem) !important;
-    max-width: none !important;
-  }
-
-  /* Shrink header banners slightly */
-  .header-banner h1,
-  .header-banner h2,
-  .header-banner h5 {
-    font-size: 1rem !important;
-  }
-
-  /* Ensure all inputs & buttons fill the width */
-  .game-input,
-  .game-btn {
-    width: 100% !important;
-    box-sizing: border-box;
-  }
-
-  /* Dashboard: force form row to stack fully */
-  .row.g-3.align-items-end {
-    flex-direction: column !important;
-  }
-  .row.g-3.align-items-end .col-sm-6,
-  .row.g-3.align-items-end .col-sm-3 {
-    width: 100%;
-  }
-
-  /* Reduce padding on score table cells */
-  .game-table th,
-  .game-table td {
-    padding: 0.5rem !important;
-  }
-
-  /* Tweak section headers on About & Settings */
-  .game-section-header {
-    font-size: 0.75rem;
-  }
-}
-
 

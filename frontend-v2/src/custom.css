@@ -183,3 +183,42 @@ body {
   .row.g-4 { flex-direction: column !important; }
 }
 
+/* 11. Auth & Page Wrappers */
+.auth-background {
+  min-height: 100vh;
+  background-color: var(--bg-page);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* 12. Leaderboard Table */
+.game-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--bg-card);
+  color: var(--text-dark);
+  font-family: 'Inter', sans-serif;
+}
+.game-table-header th {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  padding: 0.75rem 1rem;
+}
+.game-table td,
+.game-table th {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+.highlight-row {
+  background: linear-gradient(135deg, #d2f4ea, #e6fffa);
+}
+
+/* 13. Text Accent */
+.text-purple {
+  color: var(--accent-purple) !important;
+}

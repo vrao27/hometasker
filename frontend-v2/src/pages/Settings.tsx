@@ -120,10 +120,13 @@ const Settings = () => {
 
   return (
     <div className="container py-4">
-      <div className="card bg-mint shadow-sm rounded-3 mx-auto" style={{ maxWidth: 600 }}>
+      <div className="card bg-card shadow-sm rounded-3 mx-auto" style={{ maxWidth: 600 }}>
+
+         {/* Gradient header */}
         <div className="header-banner">
-          <h1 className="h4 mb-0">Settings ⚙️</h1>
+          <h1 className="h4 mb-0 text-white">Settings</h1>
         </div>
+        
         <div className="card-body">
           {loading && (
             <div className="d-flex justify-content-center py-2">
@@ -138,9 +141,12 @@ const Settings = () => {
             <h5 className="mb-3 game-section-header">Profile</h5>
 
             <div className="mb-3">
-              <label className="form-label">Name</label>
+              <label htmlFor="name" className="form-label">
+                Name
+              </label>
               <input
-                className="form-control game-input"
+                id="name"
+                className="form-control"        /* was game-input */
                 value={name}
                 onChange={e => setName(e.target.value)}
                 required
@@ -148,10 +154,11 @@ const Settings = () => {
             </div>
 
             <div className="mb-4">
-              <label className="form-label">Email</label>
-              <input
+              <label htmlFor="email" className="form-label">Email</label> 
+               <input
+                id="email"
                 type="email"
-                className="form-control game-input"
+                className="form-control"        /* was game-input */
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
@@ -160,7 +167,7 @@ const Settings = () => {
 
             <button
               type="submit"
-              className="game-btn game-btn-success me-2"
+              className="btn btn-success me-2"
               disabled={loading}
             >
               Save Profile
@@ -172,10 +179,10 @@ const Settings = () => {
             <h5 className="mb-3 game-section-header">Change Password</h5>
 
             <div className="mb-3">
-              <label className="form-label">Current Password</label>
+              <label htmlFor="currentPassword" className="form-label">Current Password</label>
               <input
                 type="password"
-                className="form-control game-input"
+                className="form-control"
                 value={currentPassword}
                 onChange={e => setCurrentPassword(e.target.value)}
                 required
@@ -183,10 +190,13 @@ const Settings = () => {
             </div>
 
             <div className="mb-4">
-              <label className="form-label">New Password</label>
-              <input
+              <label htmlFor="newPassword" className="form-label">
+               New Password
+              </label>
+               <input
+                id="newPassword"
                 type="password"
-                className="form-control game-input"
+                className="form-control"        /*was game-input */
                 value={newPassword}
                 onChange={e => setNewPassword(e.target.value)}
                 required
@@ -195,7 +205,7 @@ const Settings = () => {
 
             <button
               type="submit"
-              className="game-btn game-btn-secondary"
+              className="btn btn-secondary"
               disabled={loading}
             >
               Change Password

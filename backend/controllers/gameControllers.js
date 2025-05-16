@@ -75,6 +75,19 @@ exports.createTask = async (req, res) => {
   }
 };
 
+// export assign task 
+
+exports.assign = async (req, res) => {
+  try {
+    const { task } = await gameLogic.assignTask(req.user.userId, req.params.taskId);
+    return res.json(task);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+
+
 /**
  * Controller to return user statistics
  * Route: GET /users/me/stats

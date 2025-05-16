@@ -1,134 +1,147 @@
-// This file calls the gameLogic functions from the services folder 
-// to handle HTTP requests and responses. Each controller maps to a route
-// and uses authMiddleware to access the authenticated user's ID.
+// controllers/gameControllers.js
+
+/* Maps HTTP requests to gameLogic service functions,
+ enforcing request/response and error handling.
+ Each method assumes `req.user.userId` has been set
+ by authMiddleware (JWT). */
 
 const gameLogic = require('../service/gameLogic');
 
-/**
- * Controller to handle assigning a task to a user
- * Route: POST /tasks/:taskId/assign
- *
- * - This endpoint allows the currently logged-in user to "claim" a task.
- * - It reads the task ID from the URL param and the user ID from the decoded JWT (req.user.userId).
- * - The logic layer (gameLogic.assignTask) handles the DB update.
+/*
+ * GET /api/tasks
+ * List all tasks, including the assigned user’s name.
  */
-exports.assign = async (req, res) => {
+exports.getTasks = async (req, res) => {
   try {
-    const taskId = req.params.taskId;
-    //const userId = req.user.userId; // Set by your auth middleware after decoding JWT
-
-    const task = await gameLogic.createTask(
-      creatorId,
-      title,
-      points,
-      assignedTo || creatorId
-    );
-    return res.json({ task });
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
+    // Retrieves every task from the DB (no filtering)
+    const tasks = await gameLogic.listAllTasks();
+    return res.json(tasks);
+  } catch (err) {
+    console.error('ERROR getTasks:', err);
+    return res.status(500).json({ error: err.message });
   }
 };
 
-/**
- * Controller to handle completing a task
- * Route: POST /tasks/:taskId/complete
- *
- * - This endpoint marks a task as completed by the user.
- * - Only the user who claimed the task can complete it.
- * - Points are awarded and the user is updated accordingly.
- */
-exports.complete = async (req, res) => {
-  console.log('COMPLETE params:', req.params, 'user payload:', req.user);
-  try {
-    const taskId = req.params.taskId;
-    const userId = req.user.userId;
-
-    const { task, user } = await gameLogic.completeTask(userId, taskId);
-    return res.json({ task, user });
-  } catch (error) {
-    console.error('COMPLETE ERROR:', error.message);
-    return res.status(400).json({ error: error.message });
-  }
-};
-
-/**
- * Controller to handle creating a new task
- * Route: POST /tasks
- *
- * - This endpoint allows the logged-in user to create a new task.
- * - The task is automatically assigned to them (using req.user.userId).
- * - Task creation is handled in the gameLogic layer.
+/*
+ * POST /api/tasks
+ * Create a new task.
+ * Body: { taskName: string, points: number, assignedTo?: string }
  */
 exports.createTask = async (req, res) => {
   try {
-    //console.log('DEBUG req.user:', req.user);
-    const creatorId = req.user.userId; 
-    const { title, points, assignedTo } = req.body;
-    const userId = req.user.userId; 
+    const creatorId = req.user.userId;
+    const { taskName, points, assignedTo } = req.body;
 
-    const task = await gameLogic.createTask(userId, title, points);
-    res.status(201).json(task);
-    
+    // Create and optionally assign (defaults to creator)
+    const task = await gameLogic.createTask(
+      creatorId,
+      taskName,
+      Number(points),
+      assignedTo
+    );
 
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+    return res.status(201).json(task);
+  } catch (err) {
+    console.error('ERROR createTask:', err);
+    return res.status(400).json({ error: err.message });
   }
 };
-
-// export assign task 
-
-exports.assign = async (req, res) => {
-  try {
-    const { task } = await gameLogic.assignTask(req.user.userId, req.params.taskId);
-    return res.json(task);
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  }
-};
-
-
 
 /**
- * Controller to return user statistics
- * Route: GET /users/me/stats
- *
- * - Retrieves the total points, current level, and the top-10 leaderboard.
+ * POST /api/tasks/:taskId/assign
+ * Claim an unassigned task (or re-claim your own).
+ * No body needed.
+ */
+exports.assign = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const taskId = req.params.taskId;
+
+    // Mark the task as “in progress” under your userId
+    const task = await gameLogic.assignTask(userId, taskId);
+    return res.json(task);
+  } catch (err) {
+    console.error('ERROR assign:', err);
+    return res.status(400).json({ error: err.message });
+  }
+};
+
+/**
+ * POST /api/tasks/:taskId/complete
+ * Complete a task you’ve claimed, award points to the user.
+ */
+exports.complete = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const taskId = req.params.taskId;
+
+    // Returns { task, user } after updating both
+    const { task, user } = await gameLogic.completeTask(userId, taskId);
+    return res.json({ task, user });
+  } catch (err) {
+    console.error('ERROR complete:', err);
+    return res.status(400).json({ error: err.message });
+  }
+};
+
+/**
+ * DELETE /api/tasks/:id
+ * Delete a task you’ve claimed. Others’ tasks cannot be deleted.
+ */
+exports.deleteTask = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const taskId = req.params.id;
+
+    await gameLogic.deleteTask(userId, taskId);
+    return res.json({ message: 'Task deleted successfully' });
+  } catch (err) {
+    console.error('ERROR deleteTask:', err);
+    return res.status(400).json({ error: err.message });
+  }
+};
+
+/**
+ * GET /api/tasks/stats
+ * Retrieves overall stats for the current user (points, level, badges, etc.).
  */
 exports.stats = async (req, res) => {
   try {
-    const data = await gameLogic.getUserStats(req.user.userId);
+    const userId = req.user.userId;
+    const data = await gameLogic.getUserStats(userId);
     return res.json(data);
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
+  } catch (err) {
+    console.error('ERROR stats:', err);
+    return res.status(400).json({ error: err.message });
   }
 };
 
 /**
- * Controller to return weekly user stats
- * Route: GET /users/me/weekly
- *
- * - Calculates and returns weekly points and whether the user hit their goal.
+ * GET /api/tasks/weekly
+ * Retrieves this week’s points for the current user & whether they hit their goal.
  */
 exports.weeklyStats = async (req, res) => {
   try {
-    const data = await gameLogic.getWeeklyStats(req.user.userId);
-    res.json(data);
+    const userId = req.user.userId;
+    const data = await gameLogic.getWeeklyStats(userId);
+    return res.json(data);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error('ERROR weeklyStats:', err);
+    return res.status(400).json({ error: err.message });
   }
 };
 
 /**
- * Controller to return the weekly leaderboard
- * Route: GET /leaderboard/weekly
- *
- * - Fetches the top-10 users by points this week.
+ * GET /api/tasks/leaderboard
+ * Retrieves the top-10 users by points this week.
+ * Publicly visible (no auth middleware required if you mount it separately).
  */
 exports.weeklyLeader = async (req, res) => {
   try {
     const board = await gameLogic.getWeeklyLeaderboard();
-    res.json(board);
+    return res.json(board);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error('ERROR weeklyLeader:', err);
+    return res.status(400).json({ error: err.message });
   }
 };

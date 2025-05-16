@@ -184,7 +184,7 @@ const Dashboard: React.FC = () => {
                 return (
                   <li
                     key={task._id}
-                    className="list-group-item d-flex justify-content-between align-items-center"
+                    className="list-group-item bg-card shadow-sm rounded-3 mb-3 d-flex justify-content-between align-items-cente"
                   >
                     <div>
                       {/* Task name & points */}
@@ -195,7 +195,7 @@ const Dashboard: React.FC = () => {
                       >
                         {task.taskName}
                       </span>
-                      <span className="badge bg-light ms-2">
+                      <span className="stat-pill ms-2">
                         {task.points} pts
                       </span>
                       {/* Claimed by info */}
@@ -209,7 +209,7 @@ const Dashboard: React.FC = () => {
                       {/* Claim button for unassigned */}
                       {!task.assignedTo && (
                         <button
-                          className="btn btn-outline-primary btn-sm me-2"
+                          className="btn btn-secondary btn-sm me-2"
                           onClick={() => handleClaim(task._id)}
                         >
                           Claim
@@ -218,7 +218,7 @@ const Dashboard: React.FC = () => {
                       {/* Complete button for assignee */}
                       {isMine && !task.completed && (
                         <button
-                          className="btn btn-success btn-sm me-2"
+                          className="btn btn-secondary btn-sm me-2"
                           onClick={() => handleComplete(task._id)}
                         >
                           Complete

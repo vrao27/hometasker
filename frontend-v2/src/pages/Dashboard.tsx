@@ -77,7 +77,7 @@ const Dashboard: React.FC = () => {
         {/* ─── Left column: Add Task form + Rewards panel ─── */}
         <div className="col-lg-4">
           {/* Add Task Card */}
-          <div className="card bg-card p-4 mb-4">
+          <div className="card bg-card shadow-sm rounded-3 p-4 mb-4">
             <h5 className="mb-3">Add New Task</h5>
             <form onSubmit={handleAdd} className="row g-3 align-items-end">
               {/* Task Title input */}
@@ -143,7 +143,7 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Rewards Card */}
-          <div className="card bg-card p-4">
+          <div className="card bg-card shadow-sm rounded-3 p-4">
             <h5 className="mb-3">Rewards</h5>
             <ul className="rewards-list">
               <li>

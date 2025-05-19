@@ -17,20 +17,19 @@ const Signup: React.FC = () => {
     e.preventDefault(); // Prevent default form submission
     setLoading(true);
 
-    //password validation regex
+    // password validation regex
     const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
-if (!strongPasswordRegex.test(password)) {
-  toast.error(
-    'Password must be atleast 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number.'
-  );
-  setLoading(false);
-  return;
-}
+    if (!strongPasswordRegex.test(password)) {
+      toast.error(
+        'Password must be at least 6 characters long and contain uppercase, lowercase, and a number.'
+      );
+      setLoading(false);
+      return;
+    }
 
     try {
       // POST to your backend signup route 
       const API = process.env.REACT_APP_API_URL;
-      
       const resp = await fetch(`${API}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }, 
@@ -54,27 +53,30 @@ if (!strongPasswordRegex.test(password)) {
       setLoading(false);
     }
   };
-   
-   return (
-       <div className="auth-background">
-         {/* Toast messages */}
-         <ToastContainer position="top-center" />
 
+  return (
+    /* ─── Full-screen pastel auth background ───────────── */
+    <div className="auth-background">
+      {/* Toast messages */}
+      <ToastContainer position="top-center" />
+
+      {/* ─── Centered pastel-white card ─────────────────── */}
       <div
         className="card bg-card shadow-sm rounded-3 p-4"
-         style={{ width: '100%', maxWidth: '400px' }}
-       >
-          {/* Gradient header */}
+        style={{ width: '100%', maxWidth: '400px' }}
+      >
+        {/* ─── Gradient header/banner ───────────────────── */}
         <div className="header-banner mb-4">
           <h2 className="h5 mb-0 text-white">📝 Sign Up</h2>
         </div>
 
+        {/* ─── Signup form ───────────────────────────────── */}
         <form onSubmit={handleSubmit} className="d-flex flex-column">
           {/* Name Input */}
           <input
             type="text"
             placeholder="Full Name"
-            className="form-control mb-3"
+            className="form-control rounded-pill mb-3"
             value={name}
             onChange={e => setName(e.target.value)}
             required
@@ -84,7 +86,7 @@ if (!strongPasswordRegex.test(password)) {
           <input
             type="email"
             placeholder="Email"
-            className="form-control mb-3"
+            className="form-control rounded-pill mb-3"
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
@@ -94,7 +96,7 @@ if (!strongPasswordRegex.test(password)) {
           <input
             type="password"
             placeholder="Password"
-            className="form-control mb-4"
+            className="form-control rounded-pill mb-4"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
@@ -105,13 +107,14 @@ if (!strongPasswordRegex.test(password)) {
           {/* Submit Button */}
           <button
             type="submit"
-            className="btn btn-success w-100"
+            className="btn btn-success rounded-pill w-100"
             disabled={loading}
           >
             {loading ? 'Signing up…' : 'Create Account'}
           </button>
         </form>
 
+        {/* ─── Switch to login link ───────────────────────── */}
         <p className="text-center mt-3">
           Already have an account?{' '}
           <span
@@ -129,4 +132,6 @@ if (!strongPasswordRegex.test(password)) {
 };
 
 export default Signup;
+
+
   

@@ -48,27 +48,29 @@ const Login: React.FC = () => {
     }
   };
 
-   
   return (
+    /* ─── Full-screen pastel auth background ──────────────────── */
     <div className="auth-background">
       {/* Toast container */}
       <ToastContainer position="top-center" />
 
+      {/* ─── Centered pastel-white card ─────────────────────────── */}
       <div
         className="card bg-card shadow-sm rounded-3 p-4"
         style={{ width: '100%', maxWidth: '400px' }}
       >
-        {/* Gradient header */}
+        {/* ─── Gradient header/banner ─────────────────────────────── */}
         <div className="header-banner mb-4">
           <h2 className="h5 mb-0 text-white">🔑 Log In</h2>
         </div>
 
+        {/* ─── Login form ─────────────────────────────────────────── */}
         <form onSubmit={handleSubmit} className="d-flex flex-column">
           {/* Email Input */}
           <input
             type="email"
             placeholder="Email"
-            className="form-control mb-3"
+            className="form-control rounded-pill mb-3"
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
@@ -78,7 +80,7 @@ const Login: React.FC = () => {
           <input
             type="password"
             placeholder="Password"
-            className="form-control mb-3"
+            className="form-control rounded-pill mb-4"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
@@ -87,13 +89,14 @@ const Login: React.FC = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="btn btn-success w-100"
+            className="btn btn-success rounded-pill w-100"
             disabled={loading}
           >
             {loading ? 'Logging in…' : 'Log In'}
           </button>
         </form>
 
+        {/* ─── Switch to signup link ───── */}
         <p className="text-center mt-3">
           Don’t have an account?{' '}
           <span
@@ -111,4 +114,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-    

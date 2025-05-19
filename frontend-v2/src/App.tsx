@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
+import Navbar from './components/Navbar';   
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
@@ -8,12 +9,20 @@ import Settings from './pages/Settings';
 import About from './pages/About';
 import AddTask from './pages/AddTask';
 import ProtectedRoute from './components/ProtectedRoutes';
+import {getToken} from './services/authService'; 
+
 function App() {
+
+   const isLoggedIn = Boolean(getToken());
+
   return (
     <Router>
+       {/* ← Show navbar only after login */}
+      {isLoggedIn && <Navbar />}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+
         {/* Protected routes */}
 
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
@@ -21,7 +30,9 @@ function App() {
         <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
         <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
         <Route path="/add-task" element={<ProtectedRoute><AddTask /></ProtectedRoute>} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} /> // Redirect to dashboard for any unknown routes
+        <Route path="*"  element={
+            isLoggedIn ? <Navigate to="/dashboard" replace /> : <Navigate to="/" replace />
+          } /> // Redirect to dashboard for any unknown routes
 
 
       </Routes>

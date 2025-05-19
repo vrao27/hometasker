@@ -1,29 +1,27 @@
 // Scoreboard.tsx
-// This component fetches and displays the leaderboard from the server.
-// It uses the getLeaderboard function from the scoreboardService to fetch the data.
-// It also handles loading and error states.
-// It displays the leaderboard in a table format.
-// It uses React hooks to manage state and side effects. 
-
+// This component fetches and displays the weekly leaderboard from the server.
+// It uses getLeaderboard() to fetch entries and getMe() to highlight the current user.
+// Error, loading, and empty states are all handled gracefully.
+// Styling uses the pastel “bg-card” wrapper, gradient “header-banner,” and “game-table” utilities.
 
 import React, { useState, useEffect } from 'react';
 import { ScoreEntry, getLeaderboard } from '../services/scoreboardService';
-import { getMe } from '../services/authService';  
+import { getMe } from '../services/authService';
 
 const Scoreboard: React.FC = () => {
-  const [entries, setEntries] = useState<ScoreEntry[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  // ─── State ─────────────────────────────────────────────────────
+  const [entries, setEntries] = useState<ScoreEntry[]>([]);        // Leaderboard entries
+  const [loading, setLoading] = useState<boolean>(false);         // Loading spinner flag
+  const [error, setError] = useState<string | null>(null);        // Error message
+  const [meId, setMeId] = useState<string>('');                   // Current user’s ID
 
-  const [meId, setMeId] = useState<string>(''); // State to store the current user's ID
-
-  //Helper func to fetch the leaderboard
+  // ─── Data Fetching Helpers ──────────────────────────────────────
   const loadLeaderboard = async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await getLeaderboard();
-      setEntries(data); // Set the players state with the fetched data
+      const data = await getLeaderboard();                         // Fetch top entries
+      setEntries(data);
     } catch (err: any) {
       setError(err.message || 'Failed to load leaderboard');
     } finally {
@@ -31,60 +29,77 @@ const Scoreboard: React.FC = () => {
     }
   };
 
-  //Fetch once on component mount
+  // ─── Effects ───────────────────────────────────────────────────
   useEffect(() => {
-    // Fetch the current user's ID
+    // Fetch current user info for row highlighting
     getMe()
-      .then(u => setMeId(u._id))
+      .then((u) => setMeId(u._id))
       .catch(console.error);
-    // Fetch the leaderboard data when the component mounts
+    // Fetch leaderboard entries
     loadLeaderboard();
-  }, []);
+  }, []); // run once on mount
 
-  //Render
+  // ─── Render ────────────────────────────────────────────────────
   return (
     <div className="container py-4">
+      {/* ─── Pastel card wrapper ──────────────────────────────── */}
       <div
-        className="card bg-panel shadow-sm rounded-3 mx-auto"
+        className="card bg-card shadow-sm rounded-3 mx-auto"
         style={{ maxWidth: 800 }}
       >
+        {/* ─── Gradient header/banner ─────────────────────────── */}
         <div className="header-banner">
           <h1 className="h4 mb-0 text-white">Scoreboard</h1>
         </div>
 
+        {/* ─── Card body ─────────────────────────────────────── */}
         <div className="card-body">
+          {/* Error alert */}
           {error && (
             <div className="alert alert-danger" role="alert">
               {error}
             </div>
           )}
 
+          {/* Loading spinner */}
           {loading ? (
             <div className="d-flex justify-content-center py-5">
               <div className="spinner-border text-success" role="status" />
             </div>
           ) : (
-            <table className="table game-table mb-0">
-              <thead>
-                <tr className="game-table-header">
-                  <th style={{ width: '10%' }}>#</th>
-                  <th>Player</th>
-                  <th className="text-end" style={{ width: '25%' }}>Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                {entries.map((entry, idx) => ( //Iterates over entries array and starts on index 0 
-                  <tr
-                    key={entry.id}
-                     className={entry.id === meId ? 'highlight-row' : ''}  //UPDATED: highlight current user’s row - if  entry’s id matches meId (the logged-in user’s ID) then apy the special background
-                  >
-                    <td>{idx + 1}</td>   //Displays the user rank in the table: 1 for the first entry, 2 for the second, etc.
-                    <td>{entry.name}</td>
-                    <td className="text-end">{entry.points}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <>
+              {/* Responsive wrapper for horizontal overflow */}
+              <div className="table-responsive">
+                {/* ─── Pastel-styled leaderboard table ─────────── */}
+                <table className="game-table mb-0">
+                  <thead>
+                    <tr className="game-table-header">
+                      <th style={{ width: '10%' }}>#</th>
+                      <th>Player</th>
+                      <th className="text-end" style={{ width: '25%' }}>
+                        Points
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {entries.map((entry, idx) => (
+                      <tr
+                        key={entry.id}
+                        className={
+                          entry.id === meId ? 'highlight-row' : ''
+                        } /* Highlight “me” */
+                      >
+                        <td>{idx + 1}</td>             {/* Rank */}
+                        <td>{entry.name}</td>          {/* Player name */}
+                        <td className="text-end">
+                          {entry.points}
+                        </td>                         {/* Points */}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </div>
       </div>

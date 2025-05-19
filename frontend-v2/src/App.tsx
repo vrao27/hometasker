@@ -9,7 +9,7 @@ import Settings from './pages/Settings';
 import About from './pages/About';
 import AddTask from './pages/AddTask';
 import ProtectedRoute from './components/ProtectedRoutes';
-import {getToken} from './services/authService'; 
+import { getToken } from './services/authService'; 
 
 function App() {
 

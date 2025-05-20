@@ -7,7 +7,7 @@
 
   --bg-page:    #f0fcf9;        /* mint-cream page background */
   --bg-card:    #ffffff;        /* white cards */
-  --bg-panel:   #e6fffa;        /* very light mint panels */
+  --bg-panel:   #8fcbbf;        /* light mint panels */
 
   --accent-green:  #3fc979;     /* pastel green for Add/Redeem */
   --accent-purple: #d987e4;     /* pastel purple for “Cast” */
@@ -30,12 +30,29 @@ body {
 
 /* 3. Gradient Header + Avatar Badge */
 .navbar, .header-banner {
+  position: relative; /* anchor absolute children */
+}
+.navbar.header-banner .container {
   background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
   color: #fff !important;
-  border-radius: 0 0 1rem 1rem;
+  border-radius: 1rem;
   box-shadow: var(--shadow-soft);
-  position: relative;
+  margin: 1rem 0; 
+  padding: 0.5rem 1rem;
 }
+
+
+.header-banner {
+  /* Login/Signup banner on cards */
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  color: #fff;
+  /* only top corners round when inside a card */
+  border-radius: 1rem 1rem 0 0;      
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  padding: 1rem 0;
+}
+
 .header-banner .avatar-badge {
   position: absolute;
   top: 1rem;
@@ -50,6 +67,11 @@ body {
 .header-banner .avatar-badge img {
   width: 100%;
   height: auto;
+}
+
+
+.navbar.header-banner .btn-logout:hover {
+  background-color: #c776d9;
 }
 
 /* 4. Stat Ribbon */
@@ -105,6 +127,16 @@ body {
   padding: 0.5rem 1rem;
   box-shadow: var(--shadow-soft);
   text-transform: none;
+}
+
+/* NEW: Logout button style in navbar */
+.navbar.header-banner .btn-logout {
+  border-radius: 2rem;
+  font-weight: 500;
+  padding: 0.25rem 1rem;
+  background-color: var(--accent-purple);
+  border: 1px solid var(--accent-purple);
+  color: #fff;
 }
 
 /* Add / Redeem */
@@ -181,12 +213,17 @@ body {
 @media (max-width: 768px) {
   .stat-ribbon { flex-wrap: wrap; }
   .row.g-4 { flex-direction: column !important; }
+    /* Auth cards full-width on mobile */
+  .auth-background .card {
+  width: 90%;
+  max-width: none;
+ }
 }
 
 /* 11. Auth & Page Wrappers */
 .auth-background {
   min-height: 100vh;
-  background-color: var(--bg-page);
+  background-color: var(--bg-panel); /* light mint  */
   display: flex;
   align-items: center;
   justify-content: center;

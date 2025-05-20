@@ -10,6 +10,8 @@ import About from './pages/About';
 import AddTask from './pages/AddTask';
 import ProtectedRoute from './components/ProtectedRoutes';
 import { getToken } from './services/authService'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './custom.css';  
 
 function App() {
 
@@ -32,7 +34,7 @@ function App() {
         <Route path="/add-task" element={<ProtectedRoute><AddTask /></ProtectedRoute>} />
         <Route path="*"  element={
             isLoggedIn ? <Navigate to="/dashboard" replace /> : <Navigate to="/" replace />
-          } /> // Redirect to dashboard for any unknown routes
+          } /> 
 
 
       </Routes>

@@ -32,74 +32,54 @@ const Navbar: React.FC = () => {
 
   return (
     <header>
-      {/* ─── Gradient Header Banner ────────────────────────────────────────────── */}
-      <nav className="navbar navbar-expand-lg p-0">
-        <div className="header-banner w-100">
-          <div className="container d-flex justify-content-between align-items-center">
-            {/* Brand / Logo */}
-            <NavLink to="/dashboard" className="navbar-brand text-white">
-              HomeTasker
-            </NavLink>
-            {/* Logout */}
-            <button className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
+      {/* Single .header-banner on the <nav> */}
+      <nav className="navbar header-banner navbar-expand-lg p-0">
+        <div className="container d-flex justify-content-between align-items-center">
+          {/* Brand */}
+          <NavLink to="/dashboard" className="navbar-brand text-white">
+            HomeTasker
+          </NavLink>
+
+          {/* Stat Ribbon */}
+          {me && (
+            <div className="stat-ribbon">
+              <span className="stat-pill">❤️ {me.lives ?? 0}</span>
+              <span className="stat-pill">⭐ {me.xp ?? 0}</span>
+              <span className="stat-pill">⚡ {me.energy ?? 0}</span>
+            </div>
+          )}
+
+          {/* Nav Links */}
+          <div className="collapse navbar-collapse">
+            <ul className="navbar-nav ms-auto align-items-center">
+              <li className="nav-item">
+                <NavLink to="/dashboard" className={({ isActive }) => `nav-link${isActive ? ' active fw-bold' : ''}`}>Dashboard</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/scoreboard" className={({ isActive }) => `nav-link${isActive ? ' active fw-bold' : ''}`}>Scoreboard</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/settings" className={({ isActive }) => `nav-link${isActive ? ' active fw-bold' : ''}`}>Settings</NavLink>
+              </li>
+            </ul>
+          </div>
+
+          {/* Logout button & avatar */}
+          <div className="d-flex align-items-center gap-3">
+            <button className="btn btn-success btn-sm game-btn-success" onClick={handleLogout}>
               Logout
             </button>
+            {me && (
+              <div className="avatar-badge">
+                <img src={me.avatarUrl || '/default-avatar.png'} alt={`${me.name}'s avatar`} />
+              </div>
+            )}
           </div>
         </div>
-
-        {/* ─── Stat Ribbon ───────────────────────────────────────────────────────── */}
-        {me && (
-          <div className="stat-ribbon">
-            <span className="stat-pill">❤️ {me.lives ?? 0}</span>
-            <span className="stat-pill">⭐ {me.xp ?? 0}</span>
-            <span className="stat-pill">⚡ {me.energy ?? 0}</span>
-          </div>
-        )}
-
-        {/* ─── Collapsible Nav Links ─────────────────────────────────────────────── */}
-        <div className="collapse navbar-collapse">
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <NavLink
-                to="/dashboard"
-                className={({ isActive }) => `nav-link${isActive ? ' active fw-bold' : ''}`}
-              >
-                Dashboard
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/scoreboard"
-                className={({ isActive }) => `nav-link${isActive ? ' active fw-bold' : ''}`}
-              >
-                Scoreboard
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/settings"
-                className={({ isActive }) => `nav-link${isActive ? ' active fw-bold' : ''}`}
-              >
-                Settings
-              </NavLink>
-            </li>
-          </ul>
-        </div>
-
-        {/* ─── Avatar Badge ───────────────────────────────────────────────────────── */}
-        {me && (
-          <div className="avatar-badge">
-            <img
-              src={me.avatarUrl || '/default-avatar.png'}
-              alt={`${me.name}'s avatar`}
-            />
-          </div>
-        )}
       </nav>
     </header>
   );
-};
-
+}
 export default Navbar;
 
 

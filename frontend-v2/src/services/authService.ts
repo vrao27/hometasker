@@ -17,7 +17,9 @@ export async function getMe(): Promise<{ _id: string; name: string }> {
   const token = getToken();
   if (!token) throw new Error('Authorization token is missing');
 
-  const res = await fetch(`${BASE}/me`, {
+  
+    // NOTE: /api/users/me is the actual route for “Who am I?”
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/me`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

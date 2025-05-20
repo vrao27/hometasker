@@ -28,6 +28,15 @@ body {
   padding: 0;
 }
 
+/* 2.5 App Title for Auth Cards */
+.app-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.75rem;       /* adjust to taste */
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1rem;      /* space before the banner */
+}
+
 /* 3. Gradient Header + Avatar Badge */
 .navbar, .header-banner {
   position: relative; /* anchor absolute children */

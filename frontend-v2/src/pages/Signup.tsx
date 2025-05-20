@@ -57,12 +57,18 @@ const Signup: React.FC = () => {
   return (
     /* Full-screen pastel auth background*/
     <div className="auth-background">
-
+      
       {/* Centered pastel-white card */}
       <div
-        className="card bg-card shadow-sm rounded-3 p-4"
-        style={{ width: '100%', maxWidth: '400px' }}
-      >
+        className="card bg-card shadow-sm rounded-3 p-4 auth-card"
+        style={{ width: '100%', maxWidth: '400px' }}>
+        
+        {/* App title above the gradient banner */}
+        <h1 className="app-title text-center">HomeTasker</h1>
+
+
+
+
         {/* Gradient header/banner for form */}
         <div className="header-banner text-center py-3 mb-4">
           <h2 className="h5 mb-0 text-white">📝 Sign Up</h2>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';  
+
 
 const Signup: React.FC = () => {
   const navigate = useNavigate(); // useNavigate hook for navigation
@@ -55,22 +55,20 @@ const Signup: React.FC = () => {
   };
 
   return (
-    /* ─── Full-screen pastel auth background ───────────── */
+    /* Full-screen pastel auth background*/
     <div className="auth-background">
-      {/* Toast messages */}
-      <ToastContainer position="top-center" />
 
-      {/* ─── Centered pastel-white card ─────────────────── */}
+      {/* Centered pastel-white card */}
       <div
         className="card bg-card shadow-sm rounded-3 p-4"
         style={{ width: '100%', maxWidth: '400px' }}
       >
-        {/* ─── Gradient header/banner ───────────────────── */}
-        <div className="header-banner mb-4">
+        {/* Gradient header/banner for form */}
+        <div className="header-banner text-center py-3 mb-4">
           <h2 className="h5 mb-0 text-white">📝 Sign Up</h2>
         </div>
 
-        {/* ─── Signup form ───────────────────────────────── */}
+        {/* Signup form  */}
         <form onSubmit={handleSubmit} className="d-flex flex-column">
           {/* Name Input */}
           <input

@@ -121,7 +121,7 @@ const Dashboard: React.FC = () => {
                   value={assignedTo}
                   onChange={e => setAssignedTo(e.target.value)}
                 >
-                  <option value="">Me</option>
+                  <option value="">— assign to —</option>
                   {members.map(m => (
                     <option key={m._id} value={m._id}>
                       {m.name}

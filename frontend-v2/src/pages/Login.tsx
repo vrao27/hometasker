@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify'; // Importing toastify for notifications
-import 'react-toastify/dist/ReactToastify.css'; // Importing CSS for toast notifications
+import { toast } from 'react-toastify'; // keep toast only
+
 
 const Login: React.FC = () => {
   // Router hook to redirect after login - should go to dashboard
@@ -51,16 +52,13 @@ const Login: React.FC = () => {
   return (
     /* ─── Full-screen pastel auth background ──────────────────── */
     <div className="auth-background">
-      {/* Toast container */}
-      <ToastContainer position="top-center" />
-
       {/* ─── Centered pastel-white card ─────────────────────────── */}
       <div
         className="card bg-card shadow-sm rounded-3 p-4"
         style={{ width: '100%', maxWidth: '400px' }}
       >
-        {/* ─── Gradient header/banner ─────────────────────────────── */}
-        <div className="header-banner mb-4">
+        {/*  Gradient header/banner for the form */}
+        <div className="header-banner text-center py-3 mb-4">
           <h2 className="h5 mb-0 text-white">🔑 Log In</h2>
         </div>
 

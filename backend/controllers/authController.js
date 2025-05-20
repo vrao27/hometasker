@@ -1,37 +1,8 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Household = require('../models/householdModel');
 
-//Old Login method
-/*
-exports.login = async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(401).json({ message: "User not found" });
-
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(401).json({ message: "Invalid password" });
-    // Generate JWT token
-    const payload = {
-      id: user._id,
-      email: user.email,
-      name: user.name,
-    };
-
-    const token = jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: "1h" });
-    // Send the token back to the client
-    res.json({ accessToken: token });
-  } catch (error) {
-    //console.error(error);
-    res.status(500).json({ message: "Server error during login" });
-  }
-};
-*/
-
-//Updated LOGIN method using modek instance methods
-//docs: https://mongoosejs.com/docs/guide.html#methods
 
 exports.login = async (req, res) => { 
  const { email, password } = req.body;
@@ -55,56 +26,45 @@ exports.login = async (req, res) => {
 
 }
 
-//OLD Signup method -use for reference
-/*
-//signup a new user
-exports.signup = async (req, res) => {
 
-  //console.log("Signup attempt:", req.body); // Log the request body for debugging 
-
-  const { name, email, password } = req.body;
-
-  try {
-    //check if user exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email already in use" });
-    }
-
-    //if not, create new user
-    const newUser = new User({ name, email, password });
-    await newUser.save(); // password gets hashed via pre-save hook
-
-
-     // 3. Generate JWT token
-     const payload = {
-      id: newUser._id,
-      email: newUser.email,
-      name: newUser.name,
-    };
-
-    const token = jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: "1h" });
-
-    res.json({ accessToken: token });
-  } catch (error) {
-    console.error("Signup error", error);
-    res.status(500).json({ message: "Signup Failed", error: error.message });
-  }
-}
-  */
   //Updated SIGNUP method using model instance methods
 exports.signup = async (req, res) => {
   //signup a new user
-  const { name, email, password } = req.body;
+  const { name, email, password, householdId: incomingHhId } = req.body;// allow clients to pass an existing householdId to join, or omit to create a new one
   try {
     //check if user exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already in use" });
     }
-    //if not, create new user
-    const newUser = new User({ name, email, password });
-    await newUser.save(); // password gets hashed in user.js (pre-save hook)
+    //Find or create the Household 
+let household;
+if (incomingHhId) {
+  // join existing household
+  household = await Household.findById(incomingHhId);
+  if (!household) {
+    return res.status(400).json({ message: "Invalid household ID" });
+  }
+} else {
+  // create a new household for this user
+  household = await Household.create({
+    name: `${name}'s Household`,
+    members: []
+  });
+}
+    //create new user using housholdId
+    const newUser = new User({
+      name,
+      email,
+      password,
+      householdId: household._id // set the householdId to the new or existing household
+    });
+    await newUser.save(); // password is hashed in user.js pre-save hook
+
+    // Add the user to the household's members array
+    household.members.push(newUser._id);
+    await household.save();
+
     // Generate JWT token using the method defined in the user model
     const token = newUser.generateAuthToken();
 

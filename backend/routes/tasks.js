@@ -6,7 +6,8 @@ const { body, validationResult } = require('express-validator');
 const router                = express.Router();
 
 const authMiddleware        = require('../middleware/authMiddleware');
-const gameController        = require('../controllers/gameControllers');
+const gameController = require('../controllers/gameControllers');
+
 
 //Protect all /api/tasks routes
 router.use(authMiddleware);

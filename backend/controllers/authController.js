@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Household = require('../models/householdModel');
+const Household = require('../models/houseHold');
 
 
 exports.login = async (req, res) => { 

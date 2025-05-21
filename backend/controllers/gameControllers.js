@@ -5,6 +5,7 @@
  Each method assumes `req.user.userId` has been set
  by authMiddleware (JWT). */
 
+const Task = require('../models/task');
 const gameLogic = require('../service/gameLogic');
 
 /*
@@ -93,13 +94,24 @@ exports.deleteTask = async (req, res) => {
     const userId = req.user.userId;
     const taskId = req.params.id;
 
-    await gameLogic.deleteTask(userId, taskId);
-    return res.json({ message: 'Task deleted successfully' });
-  } catch (err) {
-    console.error('ERROR deleteTask:', err);
-    return res.status(400).json({ error: err.message });
-  }
-};
+    // find the task
+    const task = await Task.findById(taskId);
+    if (!task) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+    //check that only the assigned user can delete the task
+    if (!task.assignedTo || task.assignedTo.toString() !== userId) {
+      return res.status(403).json({ message: 'Only the assigned user can delete this task' });
+    }
+
+    // Delete the task
+       await Task.deleteOne({ _id: taskId });
+        return res.json({ message: 'Task deleted successfully' });
+      } catch (err) {
+        console.error('ERROR deleteTask:', err);
+        return res.status(500).json({ message: 'Server error deleting task' });
+      }
+}
 
 /**
  * GET /api/tasks/stats

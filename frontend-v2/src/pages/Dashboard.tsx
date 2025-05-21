@@ -22,24 +22,39 @@ const Dashboard: React.FC = () => {
 
 
   // Load tasks + members + current user
-  const loadAll = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const [tasksData, membersData, meData] = await Promise.all([
-        getTasks(),
-        getHouseholdMembers(),
-        getMe(),
-      ]);
-      setTasks(tasksData);
-      setMembers(membersData);
-      setMe(meData);
-    } catch (err: any) {
-      setError(err.message || 'Failed to load data');
-    } finally {
+    const loadAll = async () => {
+      setLoading(true);
+      setError(null);
+
+      // 1) Load tasks
+      try {
+        const tasksData = await getTasks();
+        setTasks(tasksData);
+      } catch (e: any) {
+        console.error('Failed to load tasks:', e);
+        setError(prev => (prev ? prev + '; tasks failed' : 'Tasks failed'));
+      }
+
+      // 2) Load household members
+      try {
+        const membersData = await getHouseholdMembers();
+        setMembers(membersData);
+      } catch (e: any) {
+        console.error('Failed to load household members:', e);
+        setError(prev => (prev ? prev + '; members failed' : 'Members failed'));
+      }
+
+      // 3) Load current user
+      try {
+        const meData = await getMe();
+        setMe(meData);
+      } catch (e: any) {
+        console.error('Failed to load current user:', e);
+        setError(prev => (prev ? prev + '; user failed' : 'User failed'));
+      }
+
       setLoading(false);
-    }
-  };
+    };
 
 
   useEffect(() => {

@@ -46,7 +46,7 @@ if (incomingHhId) {
     return res.status(400).json({ message: "Invalid household ID" });
   }
 } else {
-  // All new users go into the same “HomeTasker” household
+  // All new users go into the default “HomeTasker” household
   household = await Household.findOne({ name: "HomeTasker Default Household" });
   if (!household) {
     household = await Household.create({

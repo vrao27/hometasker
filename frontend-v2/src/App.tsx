@@ -17,13 +17,11 @@ import { ToastContainer } from 'react-toastify';
 
 function App() {
 
-   const isLoggedIn = Boolean(getToken());
+  
 
   return (
     <Router>
       <ToastContainer position="top-center" />
-       {/* ← Show navbar only after login */}
-      {isLoggedIn && <Navbar />}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -36,10 +34,8 @@ function App() {
         <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
         <Route path="/add-task" element={<ProtectedRoute><AddTask /></ProtectedRoute>} />
         <Route path="*"  element={
-            isLoggedIn ? <Navigate to="/dashboard" replace /> : <Navigate to="/" replace />
+            Boolean(getToken()) ? <Navigate to="/dashboard" replace /> : <Navigate to="/" replace />
           } /> 
-
-
       </Routes>
     </Router>
   );

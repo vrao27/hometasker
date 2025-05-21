@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import Navbar from './Navbar';
 
 interface ProtectedRouteProps {
     children: JSX.Element; //restricts the type of children to a single JSX element
@@ -16,9 +17,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     if (!token) {
         return <Navigate to="/" replace />; //use replace to prevent redirect history in browser - prevents the protected URL from remaining in your history,
     }
-
-    // If token exists, render the children (protected component)
-    return children;
+   
+    // when logged in, render Navbar + the child page
+    return (
+        <>
+            <Navbar />
+            {children}
+        </>
+    );
+    
 };
 
 export default ProtectedRoute;

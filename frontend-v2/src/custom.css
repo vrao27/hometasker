@@ -5,9 +5,9 @@
   --gradient-start: #6c63ff;    /* lavender */
   --gradient-end:   #8a76ff;    /* deeper purple */
 
-  --bg-page:    #f0fcf9;        /* mint-cream page background */
-  --bg-card:    #ffffff;        /* white cards */
-  --bg-panel:   #8fcbbf;        /* light mint panels */
+  --bg-page:    #85bdaf;        /* mint-cream page background */
+  --bg-card:    #f1bcbc;        /* white cards */
+  --bg-panel:   #e2e7a5;        /* light mint panels */
 
   --accent-green:  #3fc979;     /* pastel green for Add/Redeem */
   --accent-purple: #d987e4;     /* pastel purple for “Cast” */
@@ -223,18 +223,19 @@ body {
 }
 
 /* 10.0 two-column flex for desktop */
-.row.g-4 {
-  display: flex !important;
-  flex-wrap: wrap;
-  gap: 1.5rem !important;
-}
-.row.g-4 > .col-lg-4 {
-  flex: 0 0 auto;
-  width: 33.3333%;
-}
-.row.g-4 > .col-lg-8 {
-  flex: 0 0 auto;
-  width: 66.6667%;
+@media (min-width: 992px) {
+  .row.g-4 {
+    display: flex !important;
+    flex-wrap: wrap;
+  }
+  .row.g-4 > .col-lg-4 {
+    flex: 0 0 auto;
+    width: 33.3333%;
+  }
+  .row.g-4 > .col-lg-8 {
+    flex: 0 0 auto;
+    width: 66.6667%;
+  }
 }
 
 
@@ -288,4 +289,21 @@ body {
 /* 13. Text Accent */
 .text-purple {
   color: var(--accent-purple) !important;
+}
+
+/* 14. Add-Task-Form - in Dashboard.tsx */
+.add-task-form .col-sm-6 {
+  /* make the first field full-width */
+  flex: 0 0 auto;
+  width: 100% !important;
+}
+.add-task-form .col-sm-3 {
+  /* make the next two fields half-width */
+  flex: 0 0 auto;
+  width: 50% !important;
+}
+.add-task-form .col-12 {
+  /* keep the button full-width */
+  flex: 0 0 auto;
+  width: 100% !important;
 }

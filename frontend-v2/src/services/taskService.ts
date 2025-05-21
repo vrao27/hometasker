@@ -80,7 +80,7 @@ export async function deleteTask(_id: string): Promise<void> {
         Authorization: `Bearer ${token}`,
       },
     });
-    if (!res.ok) throw new Error('Unable to delete task');
+  if (!res.ok) throw new Error('Unable to delete task');
 }
   
   // POST /api/tasks/:id/assign → “claim” an unassigned task

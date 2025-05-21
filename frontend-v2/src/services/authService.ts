@@ -1,7 +1,9 @@
 // src/services/authService.ts
 
 const API = process.env.REACT_APP_API_URL;
-const BASE = `${API}/api/auth`;
+
+
+const USER_BASE = `${API}/api/users`;
 
 //Read the JWT from localStorage in one place.
 export function getToken(): string | null {
@@ -10,7 +12,7 @@ export function getToken(): string | null {
 
 /**
  * Fetch the current user’s profile.
- * GET /api/auth/me
+ * GET /api/users/me
  */
 
 export async function getMe(): Promise<{ _id: string; name: string }> {
@@ -19,7 +21,7 @@ export async function getMe(): Promise<{ _id: string; name: string }> {
 
   
     // NOTE: /api/users/me is the actual route for “Who am I?”
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/me`, {
+    const res = await fetch(`${USER_BASE}/me`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

@@ -82,7 +82,7 @@ userSchema.methods.comparePassword = async function (inputPassword) {
     return jwt.sign(
       payload,
     process.env.TOKEN_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "5h" }
     )
   };
 

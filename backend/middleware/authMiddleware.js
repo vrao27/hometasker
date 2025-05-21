@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/user");
 
-const authenticateToken = (req, res, next) => {
+const authenticateToken = async (req, res, next) => {
     // Check if the request has an authorization header
   const authHeader = req.headers["authorization"];
 
@@ -14,8 +15,20 @@ const authenticateToken = (req, res, next) => {
   try {
     //Decode and verify the token
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    // Fetch full user to get householdId
+    const user = await User.findById(decoded.userId, "householdId");
+    if (!user) {
+      return res.status(401).json({ message: "User no longer exists" });
+    }
+    // Attach both token info and actual householdId
+    req.user = {
+      userId: decoded.userId,
+      email: decoded.email,
+      name: decoded.name,
+      householdId: user.householdId, // Attach the householdId from the database
+    };
     
-    req.user = decoded; // Now req.user holds the info from the token
+    //req.user = decoded; // Now req.user holds the info from the token
     next(); // User is authenticated, move to the route handler
   } catch (err) {
     console.error("JWT Error:", err.message);

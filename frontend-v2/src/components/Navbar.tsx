@@ -40,6 +40,20 @@ const Navbar: React.FC = () => {
             HomeTasker
           </NavLink>
 
+          {/* Mobile menu toggler */}
+          <button
+            className="navbar-toggler border-0"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNav"
+            aria-controls="mainNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+        
+
           {/* Stat Ribbon */}
           {me && (
             <div className="stat-ribbon">
@@ -50,7 +64,7 @@ const Navbar: React.FC = () => {
           )}
 
           {/* Nav Links */}
-          <div className="collapse navbar-collapse">
+          <div className="collapse navbar-collapse" id="mainNav">
             <ul className="navbar-nav ms-auto align-items-center">
               <li className="nav-item">
                 <NavLink to="/dashboard" className={({ isActive }) => `nav-link${isActive ? ' active fw-bold' : ''}`}>Dashboard</NavLink>
@@ -66,7 +80,7 @@ const Navbar: React.FC = () => {
 
           {/* Logout button & avatar */}
           <div className="d-flex align-items-center gap-3">
-            <button className="btn btn-success btn-sm game-btn-success" onClick={handleLogout}>
+            <button className="btn btn-secondary btn-sm game-btn-secondary<" onClick={handleLogout}>
               Logout
             </button>
             {me && (

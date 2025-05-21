@@ -46,11 +46,15 @@ if (incomingHhId) {
     return res.status(400).json({ message: "Invalid household ID" });
   }
 } else {
-  // create a new household for this user
-  household = await Household.create({
-    name: `${name}'s Household`,
-    members: []
-  });
+  // All new users go into the same “HomeTasker” household
+  household = await Household.findOne({ name: "HomeTasker Default Household" });
+  if (!household) {
+    household = await Household.create({
+      name: "HomeTasker Default Household",
+      members: []
+    });
+  }
+
 }
     //create new user using housholdId
     const newUser = new User({

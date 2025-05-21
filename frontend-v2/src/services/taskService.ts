@@ -39,6 +39,12 @@ export async function getTasks(): Promise<Task[]> {
 export async function createTask(taskName: string, points: number, assignedTo?: string ): Promise<Task> {
 
   const token = localStorage.getItem('token');
+  if (!token) throw new Error('Authorization token is missing');
+   
+  //Note Only include assignedTo if it’s a non-empty string
+  const payload: any = { taskName, points };
+  if (assignedTo) payload.assignedTo = assignedTo;
+
   
     const res = await fetch(BASE, {
       method: 'POST',
@@ -46,7 +52,7 @@ export async function createTask(taskName: string, points: number, assignedTo?: 
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ taskName, points }),
+      body: JSON.stringify(payload),
     });
     if (!res.ok) throw new Error('Unable to create task');
     return res.json();  // The new Task object

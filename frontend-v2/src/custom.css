@@ -63,6 +63,7 @@ body {
  background: transparent; 
   margin: 0;  
   padding: 0 1rem;  
+  max-width: 100% !important;      /* ← force full-width of gradient */
 }
 
 .header-banner .avatar-badge {
@@ -221,16 +222,33 @@ body {
   border-bottom: none;
 }
 
-/* 10. Responsive Tweaks */
+/* 10.0 two-column flex for desktop */
+.row.g-4 {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 1.5rem !important;
+}
+.row.g-4 > .col-lg-4 {
+  flex: 0 0 auto;
+  width: 33.3333%;
+}
+.row.g-4 > .col-lg-8 {
+  flex: 0 0 auto;
+  width: 66.6667%;
+}
+
+
+/* 10.1 Responsive Tweaks */
 @media (max-width: 768px) {
   .stat-ribbon { flex-wrap: wrap; }
-  .row.g-4 
     /* Auth cards full-width on mobile */
   .auth-background .card {
   width: 90%;
   max-width: none;
  }
 }
+
+
 
 /* 11. Auth & Page Wrappers */
 .auth-background {

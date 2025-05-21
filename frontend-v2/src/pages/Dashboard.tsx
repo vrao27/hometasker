@@ -184,7 +184,7 @@ const Dashboard: React.FC = () => {
                 return (
                   <li
                     key={task._id}
-                    className="list-group-item bg-card shadow-sm rounded-3 mb-3 d-flex justify-content-between align-items-cente"
+                    className="list-group-item bg-card shadow-sm rounded-3 mb-3 d-flex justify-content-between align-items-center"
                   >
                     <div>
                       {/* Task name & points */}

@@ -15,7 +15,7 @@ export function getToken(): string | null {
  * GET /api/users/me
  */
 
-export async function getMe(): Promise<{ _id: string; name: string }> {
+export async function getMe(): Promise<{ _id: string; name: string; points: number; xp?: number; lives?: number; energy?: number; }> {
   const token = getToken();
   if (!token) throw new Error('Authorization token is missing');
 

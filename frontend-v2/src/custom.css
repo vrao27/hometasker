@@ -38,28 +38,31 @@ body {
 }
 
 /* 3. Gradient Header + Avatar Badge */
-.navbar, .header-banner {
-  position: relative; /* anchor absolute children */
-}
-.navbar.header-banner .container {
+/* Navbar gradient bar (only bottom corners rounded) */
+
+.navbar.header-banner {
   background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
   color: #fff !important;
-  border-radius: 1rem;
+  border-radius: 0 0 1rem 1rem;      /* only bottom corners */
   box-shadow: var(--shadow-soft);
-  margin: 1rem 0; 
-  padding: 0.5rem 1rem;
+  position: relative;
+  margin: 0;
+  padding: 0.5rem 0;
 }
-
-
+/* Card-top banners (top corners rounded) */
 .header-banner {
-  /* Login/Signup banner on cards */
   background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
   color: #fff;
-  /* only top corners round when inside a card */
-  border-radius: 1rem 1rem 0 0;      
+  border-radius: 1rem 1rem 0 0;      /* only top corners */
   box-shadow: var(--shadow-soft);
   text-align: center;
   padding: 1rem 0;
+}
+
+.navbar.header-banner .container {
+ background: transparent; 
+  margin: 0;  
+  padding: 0 1rem;  
 }
 
 .header-banner .avatar-badge {
@@ -221,7 +224,7 @@ body {
 /* 10. Responsive Tweaks */
 @media (max-width: 768px) {
   .stat-ribbon { flex-wrap: wrap; }
-  .row.g-4 { flex-direction: column !important; }
+  .row.g-4 
     /* Auth cards full-width on mobile */
   .auth-background .card {
   width: 90%;

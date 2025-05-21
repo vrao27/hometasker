@@ -17,9 +17,9 @@ exports.listHouseholdMembers = async (req, res) => {
 
 exports.getMe = async (req, res) => {
   try {
-    // Return only the basic profile for “me”
-    const { _id, name } = await User.findById(req.user.userId, '_id name');
-    res.json({ _id, name });
+    // Return the  points values for user upon task completeion
+    const me = await User.findById(req.user.userId, '_id name points xp lives energy');
+    res.json(me);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

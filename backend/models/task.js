@@ -20,11 +20,14 @@ const taskSchema = new mongoose.Schema({
     },
     
     // Current status of the task - available, in progress or completed
+    
     status: {
         type: String,
         enum: ['available', 'inProgress', 'completed'],
         default: 'available'
     },
+
+
 
     // Updated completedBy field 
     completedBy: {

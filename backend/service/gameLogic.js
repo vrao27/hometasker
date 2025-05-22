@@ -86,7 +86,7 @@ async function completeTask(userId, taskId) {
   }
 
   // 3) Prevent double‐completion: only award once
-  if (task.completed) {
+  if (task.status === 'completed') {
     throw new Error('Task already completed');
   }
 

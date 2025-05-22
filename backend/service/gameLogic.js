@@ -25,15 +25,22 @@ async function listAllTasks() {
  * @param {number} points     – reward points for completion
  * @param {string} [assignedTo] – optional userId to assign immediately
  */
-async function createTask(creatorId, taskName, points, assignedTo = creatorId) {
-  const status = assignedTo === creatorId ? 'inProgress' : 'available';
+async function createTask(creatorId, taskName, points, assignedTo) {
 
+  
+   // Don’t default to creatorId—only assign if the front end passed a different user
+  const assignee = (assignedTo && assignedTo !== creatorId) ? assignedTo : null;
+  // If we pre-assigned someone, status='inProgress', otherwise leave it 'available'
+  const status = assignedTo === creatorId ? 'inProgress' : 'available';
+  
+ 
   const task = new Task({
     creator:    creatorId,
     taskName,
     points,
-    assignedTo,
+    assignedTo: assignee, // null if not assigned
     status,
+
   });
 
   await task.save();

@@ -9,9 +9,6 @@ const taskSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
- //   completedBy: {
- //       type: String,
- //       default: null }
 
     // Schema to capture who is working on the task once a task has been claimed (ensures that only one user can work on a task at a time)
     //use Objectid to link to the user model i.e. the id of a user

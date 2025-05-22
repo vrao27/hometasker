@@ -74,32 +74,39 @@ async function assignTask(userId, taskId) {
  * @returns { task, user } – updated task and user with new points
  */
 async function completeTask(userId, taskId) {
-  //Load task 
-  const task = await Task.findById(taskId).populate('assignedTo')
-  if (!task) throw new Error('Task not found');
-  //Ownership of task check
+  // 1) Load task and its assignee
+  const task = await Task.findById(taskId).populate('assignedTo');
+  if (!task) {
+    throw new Error('Task not found');
+  }
+
+  // 2) Ownership check: must be the assigned user
   if (!task.assignedTo || task.assignedTo._id.toString() !== userId) {
     throw new Error('Not your task');
   }
 
+  // 3) Prevent double‐completion: only award once
   if (task.completed) {
     throw new Error('Task already completed');
   }
 
-  // Mark task as completed
+  // 4) Mark task complete
   task.completed   = true;
   task.completedBy = userId;
   task.completedAt = new Date();
   task.status      = 'completed';
   await task.save();
-  
+
+  // 5) Award points to user
   const user = await User.findById(userId);
-  user.points += task.points;
+  if (!user) {
+    throw new Error('User not found');
+  }
+  user.points = (user.points || 0) + (task.points || 0);
   await user.save();
 
   return { task, user };
 }
-
 
 /*
  * Delete a task (only if you’re the assignee).

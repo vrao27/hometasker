@@ -15,7 +15,7 @@ const gameLogic = require('../service/gameLogic');
 exports.getTasks = async (req, res) => {
   try {
     // Retrieves every task from the DB (no filtering)
-    const tasks = await gameLogic.listAllTasks();
+    let tasks = await gameLogic.listAllTasks();
     
     // Convert each to a plain object and add `completed`
     tasks = tasks.map(t => ({
@@ -23,7 +23,7 @@ exports.getTasks = async (req, res) => {
       completed: t.status === 'completed', // <-- boolean flag for UI
     }));
    //return the augmented array based on the patched boolean
-    return res.json(result);
+    return res.json(tasks);
   } catch (err) {
     console.error('ERROR getTasks:', err);
     return res.status(500).json({ error: err.message });

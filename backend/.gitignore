@@ -14,3 +14,6 @@ logs/
 .DS_Store  # macOS system file
 .idea/     # JetBrains IDE settings
 .vscode/   # VS Code settings
+
+__tests__/
+*.test.js

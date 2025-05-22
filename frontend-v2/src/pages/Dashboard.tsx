@@ -128,7 +128,7 @@ const Dashboard: React.FC = () => {
               {/* “Who’s Responsible?” dropdown */}
               <div className="col-sm-3">
                 <label htmlFor="assignedTo" className="form-label">
-                  Who’s Responsible?
+                  
                 </label>
                 <select
                   id="assignedTo"
@@ -221,15 +221,16 @@ const Dashboard: React.FC = () => {
                       )}
                     </div>
                     <div>
-                      {/* Claim button for unassigned */}
-                      {!task.assignedTo && (
+                      {/* Always render Claim button for unassigned, ONLY disable if the task is already asigned*/}
+                      
                         <button
                           className="btn btn-secondary btn-sm me-2"
-                          onClick={() => handleClaim(task._id)}
+                        onClick={() => handleClaim(task._id)}
+                          disabled={! task.assignedTo}
                         >
-                          Claim
+                          {task.assignedTo ? 'Claimed' : 'Claim'}
                         </button>
-                      )}
+                      
                       {/* Complete button for assignee */}
                       {isMine && !task.completed && (
                         <button

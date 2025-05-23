@@ -7,7 +7,7 @@
   points: number;
   status:     'available' | 'inProgress' | 'completed';
   completed: boolean;
-  assignedTo: { _id: string; name: string } | null; // The assigned user object or null if not assigned
+  assignedTo: string | null; // The assigned user object or null if not assigned
 }
 
 
@@ -33,7 +33,7 @@ export async function getTasks(): Promise<Task[]> {
   });
 
   if (!res.ok) throw new Error('Unable to fetch tasks');
-  return await res.json(); // Ensure the response is returned
+  return res.json(); // Ensure the response is returned
 }
 
 // POST /api/tasks/:id → creates a new task

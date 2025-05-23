@@ -195,7 +195,7 @@ const Dashboard: React.FC = () => {
           ) : (
             <ul className="list-group">
               {tasks.map(task => {
-                const isMine = me ? task.assignedTo?._id === me._id : false;
+                const isMine = me ? task.assignedTo === me.name : false;
                 return (
                   <li
                     key={task._id}
@@ -216,7 +216,7 @@ const Dashboard: React.FC = () => {
                       {/* Claimed by info */}
                       {task.assignedTo && (
                         <small className="text-muted d-block">
-                          Claimed by {task.assignedTo.name}
+                          Claimed by {task.assignedTo}
                         </small>
                       )}
                     </div>
@@ -252,7 +252,7 @@ const Dashboard: React.FC = () => {
                         </button>
                       )}
 
-                      //CHANGED: show Completed badge when status==='completed'
+                      
                       {task.status === 'completed' && (
                         <span className="badge bg-success ms-2">Completed</span>
                       )}

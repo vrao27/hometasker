@@ -70,8 +70,8 @@ const Signup: React.FC = () => {
 
 
         {/* Gradient header/banner for form */}
-        <div className="header-banner text-center py-3 mb-4">
-          <h2 className="h5 mb-0 text-white">📝 Sign Up</h2>
+        <div className="header-banner text-center py-8 mb-4">
+          <h2 className="h5 mb-0 text-black">📝 Sign Up</h2>
         </div>
 
         {/* Signup form  */}
@@ -123,7 +123,7 @@ const Signup: React.FC = () => {
           Already have an account?{' '}
           <span
             role="button"
-            className="text-purple"
+            className="text-black"
             style={{ cursor: 'pointer' }}
             onClick={() => navigate('/')}
           >

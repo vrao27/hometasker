@@ -60,8 +60,8 @@ const Login: React.FC = () => {
          {/* App title above the gradient banner */}
          <h1 className="app-title text-center">HomeTasker</h1>
         {/*  Gradient header/banner for the form */}
-        <div className="header-banner text-center py-3 mb-4">
-          <h2 className="h5 mb-0 text-white">🔑 Log In</h2>
+        <div className="header-banner text-center py-8 mb-4">
+          <h2 className="h5 mb-0 text-black">🔑 Log In</h2>
         </div>
 
         {/* ─── Login form ─────────────────────────────────────────── */}
@@ -101,7 +101,7 @@ const Login: React.FC = () => {
           Don’t have an account?{' '}
           <span
             role="button"
-            className="text-purple"
+            className="text-black"
             style={{ cursor: 'pointer' }}
             onClick={() => navigate('/signup')}
           >

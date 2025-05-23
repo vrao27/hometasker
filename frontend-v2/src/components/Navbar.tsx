@@ -81,16 +81,16 @@ const Navbar: React.FC = () => {
             )}
           </div>
         </div>
-        {/* STAT RIBBON OVERLAPPING NAVBAR BOTTOM*/}
-        {me && (
-              <div className="stat-ribbon">
-             <span className="stat-pill">❤️ {me.lives ?? 0}</span>
-              <span className="stat-pill">⭐ {me.xp ?? 0}</span>
-               <span className="stat-pill">⚡ {me.energy ?? 0}</span>
-        </div>
-        )}
-
+       
       </nav>
+       {/* STAT RIBBON OVERLAPPING NAVBAR BOTTOM*/}
+        {me && (
+          <div className="stat-ribbon">
+            <span className="stat-pill">❤️ {me.lives ?? 0}</span>
+            <span className="stat-pill">⭐ {me.xp ?? 0}</span>
+            <span className="stat-pill">⚡ {me.energy ?? 0}</span>
+          </div>
+        )}
     </header>
   );
 }

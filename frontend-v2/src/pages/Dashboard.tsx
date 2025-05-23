@@ -222,17 +222,19 @@ const Dashboard: React.FC = () => {
                     </div>
                     <div>
                       {/* Always render Claim button for unassigned, ONLY disable if the task is already asigned*/}
-                      
+                      {task.status === 'available' && (
                         <button
+                          // CHANGED: show Claim only when status==='available'
                           className="btn btn-secondary btn-sm me-2"
-                        onClick={() => handleClaim(task._id)}
-                          disabled={! task.assignedTo}
+                        
+                          onClick={() => handleClaim(task._id)}
                         >
-                          {task.assignedTo ? 'Claimed' : 'Claim'}
+                          Claim
                         </button>
+                      )}
                       
-                      {/* Complete button for assignee */}
-                      {isMine && !task.completed && (
+                    // CHANGED: show Complete only when inProgress and assigned to me
+                      {task.status === 'inProgress' && isMine && (
                         <button
                           className="btn btn-secondary btn-sm me-2"
                           onClick={() => handleComplete(task._id)}
@@ -240,7 +242,7 @@ const Dashboard: React.FC = () => {
                           Complete
                         </button>
                       )}
-                      {/* Delete button for assignee */}
+                     // CHANGED: show Delete only when assigned to me
                       {isMine && (
                         <button
                           className="btn btn-danger btn-sm"
@@ -248,6 +250,11 @@ const Dashboard: React.FC = () => {
                         >
                           Delete
                         </button>
+                      )}
+
+                      //CHANGED: show Completed badge when status==='completed'
+                      {task.status === 'completed' && (
+                        <span className="badge bg-success ms-2">Completed</span>
                       )}
                     </div>
                   </li>

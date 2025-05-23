@@ -5,6 +5,7 @@
   _id: string;
   taskName: string;
   points: number;
+  status:     'available' | 'inProgress' | 'completed';
   completed: boolean;
   assignedTo: { _id: string; name: string } | null; // The assigned user object or null if not assigned
 }

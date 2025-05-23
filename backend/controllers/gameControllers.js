@@ -16,19 +16,33 @@ exports.getTasks = async (req, res) => {
   try {
     // Retrieves every task from the DB (no filtering)
     let tasks = await gameLogic.listAllTasks();
-    
-    // Convert each to a plain object and add `completed`
-    tasks = tasks.map(t => ({
-      ...(t.toObject ? t.toObject() : {}), // spread operato -- turn doc into POJO
-      completed: t.status === 'completed', // <-- boolean flag for UI
-    }));
-   //return the augmented array based on the patched boolean
+
+    // Convert each document to a plain object and add `completed`
+    tasks = tasks.map(t => {
+      const obj = t.toObject ? t.toObject() : {}; // turn doc into POJO
+      return {
+        ...obj, // return all task properties - id, taskName, points, assignedTo.
+
+        // Expose the task’s “status” string so the frontend can decide:
+        //     - 'available'  → show Claim button
+        //     - 'inProgress' → show Complete button
+        //     - 'completed'  → show Completed badge
+        status: t.status, // <-- string for UI
+
+        // Expose the assignee’s name (or null) so the UI knows
+        // if the current user “me.name” matches and can complete it.
+        assignedTo: t.assignedTo && t.assignedTo.name ? t.assignedTo.name : null,
+        completed: t.status === 'completed', // <-- boolean flag for UI
+      };
+    });
+
+    // return the augmented array based on the patched boolean
     return res.json(tasks);
   } catch (err) {
     console.error('ERROR getTasks:', err);
     return res.status(500).json({ error: err.message });
   }
-};
+}
 
 /*
  * POST /api/tasks

@@ -142,6 +142,28 @@ body {
   text-transform: none;
 }
 
+/* NEW: Claim button style */
+.btn-primary {                         /* ← CHANGED */
+  background-color: var(--accent-green); /* reuse pastel green */
+  border-color: var(--accent-green);
+  color: #fff;
+}
+.btn-primary:hover {                   /* ← CHANGED */
+  background-color: #35b86a;
+}
+
+/* NEW: Complete button style (overrides secondary) */
+.btn-secondary, .game-btn-secondary {
+  background-color: var(--accent-purple);  /* ← CHANGED: pastel purple */
+  border-color: var(--accent-purple);
+  color: #fff;
+}
+.btn-secondary:hover {                    /* ← CHANGED */
+  background-color: #c776d9;
+}
+
+
+
 /* NEW: Logout button style in navbar */
 .navbar.header-banner .btn-logout {
   border-radius: 2rem;
@@ -175,6 +197,15 @@ body {
   color: #fff;
 }
 .btn-danger:hover { background-color: #ff7266; }
+
+
+/* NEW: Completed badge override */
+.badge.bg-success {                  /* ← CHANGED */
+  background-color: #64748b;         /* muted gray for completed */
+  color: #fff;
+}
+
+
 
 /* 8. Task List Items */
 .list-group-item {
@@ -222,21 +253,8 @@ body {
   border-bottom: none;
 }
 
-/* 10.0 two-column flex for desktop */
-@media (min-width: 992px) {
-  .row.g-4 {
-    display: flex !important;
-    flex-wrap: wrap;
-  }
-  .row.g-4 > .col-lg-4 {
-    flex: 0 0 auto;
-    width: 33.3333%;
-  }
-  .row.g-4 > .col-lg-8 {
-    flex: 0 0 auto;
-    width: 66.6667%;
-  }
-}
+
+
 
 
 /* 10.1 Responsive Tweaks */

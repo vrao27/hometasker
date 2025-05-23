@@ -90,7 +90,7 @@ const Dashboard: React.FC = () => {
       <div className="row g-4">
 
         {/* ─── Left column: Add Task form + Rewards panel ─── */}
-        <div className="col-lg-4">
+        <div className="col-md-4">
           {/* Add Task Card */}
           <div className="card bg-panel shadow-sm rounded-3 p-4 mb-4">
             <h5 className="mb-3">Add New Task</h5>
@@ -175,7 +175,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* ─── Right column: Error, Loading, Task List ─── */}
-        <div className="col-lg-8">
+        <div className="col-md-8">
           {/* Error Alert */}
           {error && (
             <div className="alert alert-danger" role="alert">
@@ -224,8 +224,8 @@ const Dashboard: React.FC = () => {
                       {/* Always render Claim button for unassigned, ONLY disable if the task is already asigned*/}
                       {task.status === 'available' && (
                         <button
-                          // CHANGED: show Claim only when status==='available'
-                          className="btn btn-secondary btn-sm me-2"
+                          
+                          className="btn btn-primary btn-sm me-2"
                         
                           onClick={() => handleClaim(task._id)}
                         >
@@ -233,7 +233,7 @@ const Dashboard: React.FC = () => {
                         </button>
                       )}
                       
-                    // CHANGED: show Complete only when inProgress and assigned to me
+                    
                       {task.status === 'inProgress' && isMine && (
                         <button
                           className="btn btn-secondary btn-sm me-2"
@@ -242,7 +242,7 @@ const Dashboard: React.FC = () => {
                           Complete
                         </button>
                       )}
-                     // CHANGED: show Delete only when assigned to me
+                      
                       {isMine && (
                         <button
                           className="btn btn-danger btn-sm"

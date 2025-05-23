@@ -10,10 +10,10 @@
   --bg-panel:   #e2e7a5;        /* light mint panels */
 
   --accent-green:  #3fc979;     /* pastel green for Add/Redeem */
-  --accent-purple: #d987e4;     /* pastel purple for “Cast” */
-  --accent-coral:  #ff9f80;     /* pastel coral for “Dismiss” */
+  --accent-purple: #d987e4;     /* pastel purple for Complete */
+  --accent-coral:  #ff9f80;     /* pastel coral for Delete */
 
-  --text-dark:   #1e293b;       /* dark slate text */
+  --text-dark:   #4271be;       /* dark slate text */
   --text-muted:  #64748b;       /* muted captions */
 
   --shadow-soft: 0 2px 8px rgba(0,0,0,0.06);
@@ -31,44 +31,43 @@ body {
 /* 2.5 App Title for Auth Cards */
 .app-title {
   font-family: 'Inter', sans-serif;
-  font-size: 1.75rem;       /* adjust to taste */
+  font-size: 1.75rem;
   font-weight: 600;
   color: var(--text-dark);
-  margin-bottom: 1rem;      /* space before the banner */
+  margin-bottom: 1rem;
 }
 
 /* 3. Gradient Header + Avatar Badge */
 /* Navbar gradient bar (only bottom corners rounded) */
-
 .navbar.header-banner {
-  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-  color: #fff !important;
-  border-radius: 0 0 1rem 1rem;      /* only bottom corners */
-  box-shadow: var(--shadow-soft);
   position: relative;
-  margin: 0;
+  /* DELETED: no width rule, caused centering artifact */
+  /* ADDED: full-bleed across viewport */
+  width: 100vw;                   /* ADDED */
+  left: 50%;                      /* ADDED */
+  transform: translateX(-50%);    /* ADDED */
+
   padding: 0.5rem 0;
-}
-/* Card-top banners (top corners rounded) */
-.header-banner {
-  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-  color: #fff;
-  border-radius: 1rem 1rem 0 0;      /* only top corners */
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)) !important;
+  border-radius: 0 0 1rem 1rem;
   box-shadow: var(--shadow-soft);
-  text-align: center;
-  padding: 1rem 0;
+  z-index: 1;                     /* ADDED: sit above page content */
 }
 
+
+
+/* ADDED: let gradient span full width */
 .navbar.header-banner .container {
- background: transparent; 
-  margin: 0;  
-  padding: 0 1rem;  
-  max-width: 100% !important;      /* ← force full-width of gradient */
+  background: transparent;
+  margin: 0;
+  padding: 0 1rem;
+  max-width: unset !important;    /* ADDED */
 }
 
-.header-banner .avatar-badge {
+/* Avatar badge now sits inside the purple bar */
+.navbar.header-banner .avatar-badge {
   position: absolute;
-  top: 1rem;
+  top: 0.75rem;                   /* ADDED: lift into header */
   left: 1rem;
   width: 3rem;
   height: 3rem;
@@ -76,12 +75,12 @@ body {
   border: 3px solid #fff;
   overflow: hidden;
   background: #fff;
+  z-index: 2;                     /* ADDED: above ribbon and cards */
 }
 .header-banner .avatar-badge img {
   width: 100%;
   height: auto;
 }
-
 
 .navbar.header-banner .btn-logout:hover {
   background-color: #c776d9;
@@ -89,14 +88,19 @@ body {
 
 /* 4. Stat Ribbon */
 .stat-ribbon {
+  position: relative;             /* ADDED: allow negative margin */
+  /* DELETED: original margin-top (0) */
+  margin-top: -1.5rem;            /* ADDED: tuck under navbar */
+  margin-bottom: 1.5rem;          /* ADDED: spacing below ribbon */
+
   background: var(--bg-card);
   border-radius: 0 0 1rem 1rem;
   box-shadow: var(--shadow-soft);
-  margin-top: -1rem;  /* tuck under header */
   padding: 0.5rem 1rem;
   display: flex;
   gap: 1rem;
   justify-content: center;
+  z-index: 1;                     /* ADDED */
 }
 .stat-pill {
   background: #fff;
@@ -142,70 +146,41 @@ body {
   text-transform: none;
 }
 
-/* NEW: Claim button style */
-.btn-primary {                         /* ← CHANGED */
-  background-color: var(--accent-green); /* reuse pastel green */
-  border-color: var(--accent-green);
-  color: #fff;
-}
-.btn-primary:hover {                   /* ← CHANGED */
-  background-color: #35b86a;
-}
-
-/* NEW: Complete button style (overrides secondary) */
-.btn-secondary, .game-btn-secondary {
-  background-color: var(--accent-purple);  /* ← CHANGED: pastel purple */
-  border-color: var(--accent-purple);
-  color: #fff;
-}
-.btn-secondary:hover {                    /* ← CHANGED */
-  background-color: #c776d9;
-}
-
-
-
-/* NEW: Logout button style in navbar */
-.navbar.header-banner .btn-logout {
-  border-radius: 2rem;
-  font-weight: 500;
-  padding: 0.25rem 1rem;
-  background-color: var(--accent-purple);
-  border: 1px solid var(--accent-purple);
-  color: #fff;
-}
-
-/* Add / Redeem */
-.btn-success, .game-btn-success {
+/* Claim button (green) */
+.btn-primary {
   background-color: var(--accent-green);
   border-color: var(--accent-green);
   color: #fff;
 }
-.btn-success:hover { background-color: #35b86a; }
+.btn-primary:hover {
+  background-color: #35b86a;
+}
 
-/* Cast (Complete) */
+/* Complete button (purple) */
 .btn-secondary, .game-btn-secondary {
   background-color: var(--accent-purple);
   border-color: var(--accent-purple);
   color: #fff;
 }
-.btn-secondary:hover { background-color: #c776d9; }
+.btn-secondary:hover {
+  background-color: #c776d9;
+}
 
-/* Dismiss (Delete) */
+/* Delete button (coral) */
 .btn-danger {
   background-color: var(--accent-coral);
   border-color: var(--accent-coral);
   color: #fff;
 }
-.btn-danger:hover { background-color: #ff7266; }
-
-
-/* NEW: Completed badge override */
-.badge.bg-success {                  /* ← CHANGED */
-  background-color: #64748b;         /* muted gray for completed */
-  color: #fff;
+.btn-danger:hover {
+  background-color: #ff7266;
 }
 
-
+/* Completed badge override */
+.badge.bg-success {
+  background-color: #64748b;
+  color: #fff;
+}
 
 /* 8. Task List Items */
 .list-group-item {
@@ -219,22 +194,13 @@ body {
   align-items: center;
   padding: 1rem;
 }
-.list-group-item .task-icon {
+.list-group-item .task-icon { /* unused – safe to leave */
   width: 2rem;
   height: 2rem;
   margin-right: 0.75rem;
 }
-.list-group-item .task-content {
+.list-group-item .task-content { /* unused – safe to leave */
   flex: 1;
-}
-.progress {
-  height: 0.5rem;
-  border-radius: 1rem;
-  overflow: hidden;
-  background: #e9ecef;
-}
-.progress .progress-bar {
-  background-color: var(--accent-green);
 }
 
 /* 9. Rewards Panel */
@@ -253,26 +219,21 @@ body {
   border-bottom: none;
 }
 
-
-
-
-
-/* 10.1 Responsive Tweaks */
+/* 10. Responsive Tweaks */
 @media (max-width: 768px) {
-  .stat-ribbon { flex-wrap: wrap; }
-    /* Auth cards full-width on mobile */
+  .stat-ribbon {
+    flex-wrap: wrap;
+  }
   .auth-background .card {
-  width: 90%;
-  max-width: none;
- }
+    width: 90%;
+    max-width: none;
+  }
 }
-
-
 
 /* 11. Auth & Page Wrappers */
 .auth-background {
   min-height: 100vh;
-  background-color: var(--bg-panel); /* light mint  */
+  background-color: var(--bg-panel);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -309,19 +270,16 @@ body {
   color: var(--accent-purple) !important;
 }
 
-/* 14. Add-Task-Form - in Dashboard.tsx */
+/* 14. Add-Task-Form Layout */
 .add-task-form .col-sm-6 {
-  /* make the first field full-width */
   flex: 0 0 auto;
   width: 100% !important;
 }
 .add-task-form .col-sm-3 {
-  /* make the next two fields half-width */
   flex: 0 0 auto;
   width: 50% !important;
 }
 .add-task-form .col-12 {
-  /* keep the button full-width */
   flex: 0 0 auto;
   width: 100% !important;
 }

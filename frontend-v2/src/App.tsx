@@ -10,8 +10,8 @@ import About from './pages/About';
 import AddTask from './pages/AddTask';
 import ProtectedRoute from './components/ProtectedRoutes';
 import { getToken } from './services/authService'; 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './custom.css';  
+
+
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 

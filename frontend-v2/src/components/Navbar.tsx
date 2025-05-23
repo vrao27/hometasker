@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
     <header>
       {/* Single .header-banner on the <nav> */}
       <nav className="navbar header-banner navbar-expand-lg p-0">
-        <div className="container d-flex justify-content-between align-items-center">
+        <div className="container-fluid d-flex justify-content-between align-items-center">
           {/* Brand */}
           <NavLink to="/dashboard" className="navbar-brand text-white">
             HomeTasker
@@ -53,16 +53,7 @@ const Navbar: React.FC = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
         
-
-          {/* Stat Ribbon */}
-          {me && (
-            <div className="stat-ribbon">
-              <span className="stat-pill">❤️ {me.lives ?? 0}</span>
-              <span className="stat-pill">⭐ {me.xp ?? 0}</span>
-              <span className="stat-pill">⚡ {me.energy ?? 0}</span>
-            </div>
-          )}
-
+          
           {/* Nav Links */}
           <div className="collapse navbar-collapse" id="mainNav">
             <ul className="navbar-nav ms-auto align-items-center">
@@ -80,7 +71,7 @@ const Navbar: React.FC = () => {
 
           {/* Logout button & avatar */}
           <div className="d-flex align-items-center gap-3">
-            <button className="btn btn-secondary btn-sm game-btn-secondary<" onClick={handleLogout}>
+            <button className="btn btn-logout" onClick={handleLogout}>
               Logout
             </button>
             {me && (
@@ -90,6 +81,15 @@ const Navbar: React.FC = () => {
             )}
           </div>
         </div>
+        {/* STAT RIBBON OVERLAPPING NAVBAR BOTTOM*/}
+        {me && (
+              <div className="stat-ribbon">
+             <span className="stat-pill">❤️ {me.lives ?? 0}</span>
+              <span className="stat-pill">⭐ {me.xp ?? 0}</span>
+               <span className="stat-pill">⚡ {me.energy ?? 0}</span>
+        </div>
+        )}
+
       </nav>
     </header>
   );

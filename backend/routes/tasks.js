@@ -1,11 +1,11 @@
 // routes/tasks.js
 // Endpoints for game‐flow, CRUD, and stats under /api/tasks
 
-const express               = require('express');
+const express = require('express');
 const { body, validationResult } = require('express-validator');
-const router                = express.Router();
+const router = express.Router();
 
-const authMiddleware        = require('../middleware/authMiddleware');
+const authMiddleware = require('../middleware/authMiddleware');
 const gameController = require('../controllers/gameControllers');
 
 

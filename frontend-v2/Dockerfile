@@ -23,4 +23,11 @@ COPY src    ./src
 RUN npm run build
 
 
-#stage 2: serve stage
+#stage 2: prod stage
+FROM nginx:alpine
+
+# Copy the build output to the Nginx html directory
+COPY --from=build /app/build /usr/share/nginx/html
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

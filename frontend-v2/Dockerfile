@@ -22,3 +22,5 @@ COPY src    ./src
 # Build production bundle (runs the TS compiler)
 RUN npm run build
 
+
+#stage 2: serve stage

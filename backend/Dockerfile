@@ -22,7 +22,15 @@ RUN npm install --production
 #application code
 COPY . .
 
-#server port - process.env.PORT || 5000 in server.js
+# inject default .env from example file at build time
+RUN cp .env.example .env
+
+#entrypoint script
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+
+# expose server port - process.env.PORT || 5000 in server.js
 EXPOSE 5000
 
 # Start the application

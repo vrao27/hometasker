@@ -42,7 +42,7 @@ const Login: React.FC = () => {
       }
     } catch (err) {
       // Network or unexpected error
-      console.error(err);
+      //console.error(err);
       toast.error('Network error — please try again');
     } finally {
       setLoading(false);

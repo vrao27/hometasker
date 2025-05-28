@@ -1,7 +1,5 @@
-#stage 1: build
 
-#Base Image
-FROM ubuntu:22.04
+FROM ubuntu:22.04 AS build
 
 WORKDIR /app
 

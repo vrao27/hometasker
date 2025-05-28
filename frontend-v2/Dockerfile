@@ -1,11 +1,18 @@
 #stahe 1 build stage
 FROM ubuntu:22.04 AS build
 
+# install curl, Node.js & npm
+RUN apt-get update \
+    && apt-get install -y curl ca-certificates \
+    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 COPY package*.json tsconfig.json ./
 
-RUN npm ci
+RUN npm install
 
 # Copy source (including .tsx/.ts files)
 COPY public ./public

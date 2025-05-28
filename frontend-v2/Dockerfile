@@ -1,4 +1,4 @@
-
+#stahe 1 build stage
 FROM ubuntu:22.04 AS build
 
 WORKDIR /app
@@ -12,8 +12,8 @@ COPY public ./public
 COPY src    ./src
 
 # If you bake in your API URL at build time, uncomment:
-# ARG REACT_APP_API_URL
-# ENV REACT_APP_API_URL=${REACT_APP_API_URL}
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 
 
 

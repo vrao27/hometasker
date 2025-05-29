@@ -1,8 +1,8 @@
 // eslint.config.js
-import js from '@eslint/js';
-import ts from '@typescript-eslint/eslint-plugin';
-import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
-import globals from 'globals';
+const js = require('@eslint/js');
+const ts = require('@typescript-eslint/eslint-plugin');
+const reactRecommended = require('eslint-plugin-react/configs/recommended');
+const globals = require('globals');
 
 export default [
   // Base ignores and settings

@@ -1,57 +1,28 @@
+import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
-import tsPlugin from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
-import reactPlugin from 'eslint-plugin-react';
-import globals from 'globals';
-
-// Explicit plugin initialization
-const typescriptPlugin = {
-  name: '@typescript-eslint',
-  ...tsPlugin
-};
 
 export default [
-  js.configs.recommended,
+  // First - ignore config file itself
   {
-    files: ['**/*.{ts,tsx}'],
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        project: true,
-        tsconfigRootDir: import.meta.dirname
-      }
-    },
-    plugins: {
-      '@typescript-eslint': typescriptPlugin
-    }
+    files: ['**/*.{js,cjs,mjs}'],
+    ignores: ['eslint.config.js']
   },
-  {
-    files: ['**/*.{js,jsx,ts,tsx}'],
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.es2021
-      },
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-        ecmaVersion: 'latest'
-      }
-    },
-    plugins: {
-      react: reactPlugin
-    },
+  
+  // Then - apply rules
+  ...compat.config({
+    extends: [
+      'plugin:@typescript-eslint/recommended',
+      'plugin:react/recommended'
+    ],
     rules: {
-      'react/jsx-uses-react': 'off',
-      'react/react-in-jsx-scope': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': [
-        'warn',
+        'warn', 
         { 
           argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^_'
+          varsIgnorePattern: '^_'
         }
-      ],
-      'no-unused-vars': 'off'
+      ]
     }
-  }
+  })
 ];

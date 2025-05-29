@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --passWithNoTests"
+    "lint": "eslint \"src/**/*.js\"",
+    "test": "jest --passWithNoTests",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

@@ -3,7 +3,7 @@ import js from '@eslint/js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// 1. Initialize compatibility layer
+// Initialize compatibility layer
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
@@ -12,22 +12,32 @@ const compat = new FlatCompat({
 });
 
 export default [
-  // 2. Ignore config file from linting
+  {
+    ignores: ['**/eslint.config.js']  // or '**/eslint.config.cjs' if you renamed it
+  },
+  // 1. First - explicitly ignore config and config files
   {
     files: ['**/*.{js,cjs,mjs}'],
-    ignores: ['eslint.config.js']
+    ignores: [
+      '**/eslint.config.js', 
+      '**/.eslintrc.*',
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/build/**'
+    ]
   },
-  
-  // 3. Apply all other rules
+
+  // 2. Apply TypeScript and React rules
   ...compat.config({
     extends: [
       'plugin:@typescript-eslint/recommended',
       'plugin:react/recommended',
-      'plugin:react/jsx-runtime' // For React 17+ JSX transform
+      'plugin:react/jsx-runtime'
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
       project: './tsconfig.json',
+      tsconfigRootDir: __dirname,
       ecmaFeatures: {
         jsx: true
       }
@@ -38,17 +48,26 @@ export default [
       }
     },
     rules: {
-      '@typescript-eslint/no-explicit-any': 'warn',
+      // Disable no-explicit-any completely
+      '@typescript-eslint/no-explicit-any': 'off',
+      
+      // Other TypeScript rules
       '@typescript-eslint/no-unused-vars': [
         'warn',
-        {
+        { 
           argsIgnorePattern: '^_',
           varsIgnorePattern: '^_',
           caughtErrorsIgnorePattern: '^_'
         }
       ],
+      
+      // React rules
       'react/react-in-jsx-scope': 'off',
-      'react/jsx-uses-react': 'off'
+      'react/jsx-uses-react': 'off',
+      
+      // Disable conflicting base rules
+      'no-unused-vars': 'off',
+      'no-undef': 'off'
     }
   })
 ];

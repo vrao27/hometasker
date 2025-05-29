@@ -25,7 +25,7 @@ export default [
       ...reactRecommended.languageOptions,
       globals: {
         ...globals.browser,
-        ...globals.es2025
+        ...globals.es2022
       },
       parserOptions: {
         ecmaFeatures: {
@@ -40,29 +40,27 @@ export default [
   // TypeScript configuration
   {
     files: ['**/*.{ts,tsx}'],
-    ...ts.configs['eslint-recommended'],
-    ...ts.configs['recommended'],
+    ...tsPlugin.configs['eslint-recommended'],
+    ...tsPlugin.configs['recommended'],
     languageOptions: {
-      parser: ts.parser,
+      parser: tsPlugin.parser,
       parserOptions: {
-        project: true // Enable TS project resolution
+        project: './tsconfig.json' // Explicit path to tsconfig
       }
     }
   },
 
   // Custom rules
   {
-    files: ['src/**/*.{js,jsx,ts,tsx}'],
+    files: ['**/*.{js,jsx,ts,tsx}'],
     rules: {
-      '@typescript-eslint/no-unused-vars': [
-        'warn',
-        { argsIgnorePattern: '^_' }
-      ],
-      'react/jsx-uses-react': 'off', 
-      'react/react-in-jsx-scope': 'off', 
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-vars': 'error',
-      'react/jsx-no-undef': 'error'
+      'react/jsx-no-undef': 'error',
+      'react/no-unknown-property': ['error', { ignore: ['css'] }] // Added for CSS-in-JS support
     }
   }
 ];
-
+ 

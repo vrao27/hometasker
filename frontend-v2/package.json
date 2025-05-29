@@ -3,6 +3,9 @@
   "version": "0.2.0",
   "type": "module",
   "private": true,
+  "exports": {
+    "./eslint.config.js": "./eslint.config.js"
+  },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

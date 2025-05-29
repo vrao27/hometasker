@@ -4,6 +4,12 @@ import tsParser from '@typescript-eslint/parser';
 import reactPlugin from 'eslint-plugin-react';
 import globals from 'globals';
 
+// Explicit plugin initialization
+const typescriptPlugin = {
+  name: '@typescript-eslint',
+  ...tsPlugin
+};
+
 export default [
   js.configs.recommended,
   {
@@ -11,12 +17,12 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: './tsconfig.json',
-        ecmaFeatures: { jsx: true }
+        project: true,
+        tsconfigRootDir: import.meta.dirname
       }
     },
     plugins: {
-      '@typescript-eslint': tsPlugin
+      '@typescript-eslint': typescriptPlugin
     }
   },
   {
@@ -25,6 +31,10 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.es2021
+      },
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+        ecmaVersion: 'latest'
       }
     },
     plugins: {
@@ -33,8 +43,15 @@ export default [
     rules: {
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off',
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      'no-unused-vars': 'off' // Disable in favor of TypeScript version
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { 
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_'
+        }
+      ],
+      'no-unused-vars': 'off'
     }
   }
 ];

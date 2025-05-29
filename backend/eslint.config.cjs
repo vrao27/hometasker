@@ -1,36 +1,42 @@
-
-/**
- * Flat‐format ESLint config for backend JS.
- * Placed at the root of the backend folder.
- */
-
-const { rules: baseRules } = require("eslint/conf/eslint-recommended"); 
+// eslint.config.cjs
+const { configs: eslintConfigs } = require('@eslint/js');
+const globals = require('globals');
 
 module.exports = [
-
+  // Base ignores
   {
-    ignores: ["node_modules/**"],
-    languageOptions: {
-      ecmaVersion: 12,
-      sourceType: "module",
-    },
-    linterOptions: {
-      reportUnusedDisableDirectives: true,
-    },
+    ignores: ["**/node_modules/**"]
   },
 
+  // ESLint recommended rules
+  eslintConfigs.recommended,
+
+  // Node.js environment rules
   {
     files: ["**/*.js"],
-    rules: {
-      
-      ...baseRules,
-    
-      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-      "no-console":     ["warn", { allow: ["warn", "error"] }],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "script",
+      globals: {
+        ...globals.node
+      }
     },
+    rules: {
+      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "no-console": ["warn", { allow: ["warn", "error"] }]
+    }
   },
+
+  // Jest test environment rules
+  {
+    files: ["**/__tests__/**/*.js"],
+    languageOptions: {
+      globals: {
+      }
+    }
+  }
 ];
 
 
 // This configuration file sets up ESLint for a Node.js backend project.
-// It enables ES2021 features, allows module imports, and applies core recommended rules.
+// It enables ES2021 features, allows module imports, and applies core recommended rules. 

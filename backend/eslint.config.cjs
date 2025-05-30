@@ -26,17 +26,16 @@ module.exports = [
       "no-console": ["warn", { allow: ["warn", "error"] }]
     }
   },
-
   // Jest test environment rules
   {
     files: ["**/__tests__/**/*.js"],
     languageOptions: {
       globals: {
+        ...globals.jest // This adds all Jest globals (describe, it, expect, etc.)
       }
     }
   }
 ];
-
 
 // This configuration file sets up ESLint for a Node.js backend project.
 // It enables ES2021 features, allows module imports, and applies core recommended rules. 

@@ -186,12 +186,8 @@ const Dashboard: React.FC = () => {
           {/* Loading state */}
           {loading && !tasks.length ? (
             <div className="text-center">Loading tasks…</div>
-
-            /* Empty state */
           ) : tasks.length === 0 ? (
             <p className="text-center">No tasks yet.</p>
-
-            /* Task List */
           ) : (
             <ul className="list-group">
               {tasks.map(task => {

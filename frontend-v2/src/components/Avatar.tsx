@@ -22,7 +22,11 @@ export const Avatar: React.FC<AvatarProps> = ({
       width={size}
       height={size}
       className="rounded-full bg-gray-100"
-      style={{ objectFit: "cover" }}
+          style={{ objectFit: "cover" }}
+          onError={(e) => {
+    // when the DiceBear URL fails, use the local default
+    (e.currentTarget as HTMLImageElement).src = "/avatar/default-avatar.png";
+  }}
     />
   );
 };

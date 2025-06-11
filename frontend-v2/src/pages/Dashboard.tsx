@@ -218,7 +218,9 @@ const Dashboard: React.FC = () => {
                     </div>
                     <div>
                       {/* Always render Claim button for unassigned, ONLY disable if the task is already asigned*/}
-                      {task.status === 'available' && (
+                      
+                      {!task.assignedTo && (
+                        //only show Claim button if the task is available
                         <button
                           
                           className="btn btn-primary btn-sm me-2"

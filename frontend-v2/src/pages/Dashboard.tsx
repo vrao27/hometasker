@@ -1,61 +1,59 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent } from "react";
 import {
   Task,
   getTasks,
   createTask,
   claimTask,
   completeTask,
-  deleteTask
-} from '../services/taskService';
-import { getHouseholdMembers, User } from '../services/userService';
-import { getMe } from '../services/authService';
+  deleteTask,
+} from "../services/taskService";
+import { getHouseholdMembers, User } from "../services/userService";
+import { getMe } from "../services/authService";
 
 const Dashboard: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [newTitle, setNewTitle] = useState<string>('');
+  const [newTitle, setNewTitle] = useState<string>("");
   const [newPoints, setNewPoints] = useState<number>(1);
   const [members, setMembers] = useState<User[]>([]);
-  const [assignedTo, setAssignedTo] = useState<string>('');
+  const [assignedTo, setAssignedTo] = useState<string>("");
   const [me, setMe] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-
   // Load tasks + members + current user
-    const loadAll = async () => {
-      setLoading(true);
-      setError(null);
+  const loadAll = async () => {
+    setLoading(true);
+    setError(null);
 
-      // 1) Load tasks
-      try {
-        const tasksData = await getTasks();
-        setTasks(tasksData);
-      } catch (e: any) {
-        console.error('Failed to load tasks:', e);
-        setError(prev => (prev ? prev + '; tasks failed' : 'Tasks failed'));
-      }
+    // 1) Load tasks
+    try {
+      const tasksData = await getTasks();
+      setTasks(tasksData);
+    } catch (e: any) {
+      console.error("Failed to load tasks:", e);
+      setError((prev) => (prev ? prev + "; tasks failed" : "Tasks failed"));
+    }
 
-      // 2) Load household members
-      try {
-        const membersData = await getHouseholdMembers();
-        setMembers(membersData);
-      } catch (e: any) {
-        console.error('Failed to load household members:', e);
-        setError(prev => (prev ? prev + '; members failed' : 'Members failed'));
-      }
+    // 2) Load household members
+    try {
+      const membersData = await getHouseholdMembers();
+      setMembers(membersData);
+    } catch (e: any) {
+      console.error("Failed to load household members:", e);
+      setError((prev) => (prev ? prev + "; members failed" : "Members failed"));
+    }
 
-      // 3) Load current user
-      try {
-        const meData = await getMe();
-        setMe(meData);
-      } catch (e: any) {
-        console.error('Failed to load current user:', e);
-        setError(prev => (prev ? prev + '; user failed' : 'User failed'));
-      }
+    // 3) Load current user
+    try {
+      const meData = await getMe();
+      setMe(meData);
+    } catch (e: any) {
+      console.error("Failed to load current user:", e);
+      setError((prev) => (prev ? prev + "; user failed" : "User failed"));
+    }
 
-      setLoading(false);
-    };
-
+    setLoading(false);
+  };
 
   useEffect(() => {
     loadAll();
@@ -67,19 +65,23 @@ const Dashboard: React.FC = () => {
     if (!title) return;
     try {
       await createTask(title, newPoints, assignedTo || undefined);
-      setNewTitle('');
+      setNewTitle("");
       setNewPoints(1);
-      setAssignedTo('');
+      setAssignedTo("");
       await loadAll();
     } catch (err: any) {
-      setError(err.message || 'Create Task failed');
+      setError(err.message || "Create Task failed");
     }
   };
 
-  const handleClaim = async (id: string) => { await claimTask(id).then(loadAll).catch(console.error); };
-  const handleComplete = async (id: string) => { await completeTask(id).then(loadAll).catch(console.error); };
+  const handleClaim = async (id: string) => {
+    await claimTask(id).then(loadAll).catch(console.error);
+  };
+  const handleComplete = async (id: string) => {
+    await completeTask(id).then(loadAll).catch(console.error);
+  };
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Delete this task?')) return;
+    if (!window.confirm("Delete this task?")) return;
     await deleteTask(id).then(loadAll).catch(console.error);
   };
 
@@ -88,13 +90,15 @@ const Dashboard: React.FC = () => {
     <div className="container py-4">
       {/* ─── Two-column layout ─── */}
       <div className="row g-4">
-
         {/* ─── Left column: Add Task form + Rewards panel ─── */}
         <div className="col-md-4">
           {/* Add Task Card */}
           <div className="card bg-panel shadow-sm rounded-3 p-4 mb-4">
             <h5 className="mb-3">Add New Task</h5>
-            <form onSubmit={handleAdd} className="add-task-form row g-3 align-items-end">
+            <form
+              onSubmit={handleAdd}
+              className="add-task-form row g-3 align-items-end"
+            >
               {/* Task Title input */}
               <div className="col-sm-6">
                 <label htmlFor="newTask" className="form-label">
@@ -106,7 +110,7 @@ const Dashboard: React.FC = () => {
                   className="form-control"
                   placeholder="New task title…"
                   value={newTitle}
-                  onChange={e => setNewTitle(e.target.value)}
+                  onChange={(e) => setNewTitle(e.target.value)}
                   required
                 />
               </div>
@@ -121,23 +125,21 @@ const Dashboard: React.FC = () => {
                   min={1}
                   className="form-control"
                   value={newPoints}
-                  onChange={e => setNewPoints(Number(e.target.value))}
+                  onChange={(e) => setNewPoints(Number(e.target.value))}
                   required
                 />
               </div>
               {/* “Who’s Responsible?” dropdown */}
               <div className="col-sm-3">
-                <label htmlFor="assignedTo" className="form-label">
-                  
-                </label>
+                <label htmlFor="assignedTo" className="form-label"></label>
                 <select
                   id="assignedTo"
                   className="form-select"
                   value={assignedTo}
-                  onChange={e => setAssignedTo(e.target.value)}
+                  onChange={(e) => setAssignedTo(e.target.value)}
                 >
                   <option value="">— assign to —</option>
-                  {members.map(m => (
+                  {members.map((m) => (
                     <option key={m._id} value={m._id}>
                       {m.name}
                     </option>
@@ -151,7 +153,7 @@ const Dashboard: React.FC = () => {
                   className="btn btn-success w-100"
                   disabled={loading}
                 >
-                  {loading ? 'Adding…' : 'Add Task'}
+                  {loading ? "Adding…" : "Add Task"}
                 </button>
               </div>
             </form>
@@ -190,7 +192,7 @@ const Dashboard: React.FC = () => {
             <p className="text-center">No tasks yet.</p>
           ) : (
             <ul className="list-group">
-              {tasks.map(task => {
+              {tasks.map((task) => {
                 const isMine = me ? task.assignedTo === me.name : false;
                 return (
                   <li
@@ -201,14 +203,12 @@ const Dashboard: React.FC = () => {
                       {/* Task name & points */}
                       <span
                         className={
-                          task.completed ? 'text-decoration-line-through' : ''
+                          task.completed ? "text-decoration-line-through" : ""
                         }
                       >
                         {task.taskName}
                       </span>
-                      <span className="stat-pill ms-2">
-                        {task.points} pts
-                      </span>
+                      <span className="stat-pill ms-2">{task.points} pts</span>
                       {/* Claimed by info */}
                       {task.assignedTo && (
                         <small className="text-muted d-block">
@@ -218,21 +218,18 @@ const Dashboard: React.FC = () => {
                     </div>
                     <div>
                       {/* Always render Claim button for unassigned, ONLY disable if the task is already asigned*/}
-                      
+
                       {!task.assignedTo && (
                         //only show Claim button if the task is available
                         <button
-                          
                           className="btn btn-primary btn-sm me-2"
-                        
                           onClick={() => handleClaim(task._id)}
                         >
                           Claim
                         </button>
                       )}
-                      
-                    
-                      {task.status === 'inProgress' && isMine && (
+
+                      {task.status === "inProgress" && isMine && (
                         <button
                           className="btn btn-secondary btn-sm me-2"
                           onClick={() => handleComplete(task._id)}
@@ -240,7 +237,7 @@ const Dashboard: React.FC = () => {
                           Complete
                         </button>
                       )}
-                      
+
                       {isMine && (
                         <button
                           className="btn btn-danger btn-sm"
@@ -250,8 +247,7 @@ const Dashboard: React.FC = () => {
                         </button>
                       )}
 
-                      
-                      {task.status === 'completed' && (
+                      {task.status === "completed" && (
                         <span className="badge bg-success ms-2">Completed</span>
                       )}
                     </div>
@@ -264,6 +260,6 @@ const Dashboard: React.FC = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Dashboard;

@@ -33,3 +33,34 @@ This is an evolving project aimed at demonstrating:
 - Hands-on backend engineering skills
 - Real-world DevOps practices (Docker, CI/CD, IaC)
 - Continuous learning and practical implementation of cloud-native development
+
+##Get Started
+
+prerequisites
+
+- Node.js
+- Docker
+- Docker compose
+
+1. Clone repo
+
+- git clone https://github.com/<your-org>/hometasker.git
+- cd hometasker
+
+#(edit your .env file and set your MongoDB URI, JWT secret, etc.)
+
+- cp .env.example .env
+
+- docker-compose up --build -d
+
+Frontend
+
+- http://localhost:3000
+
+Backend
+
+- http://localhost:5000
+
+MongoDB
+
+- localhost:27017

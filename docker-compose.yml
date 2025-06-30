@@ -1,7 +1,7 @@
 services:
-  mongo:
+  db:
     image: mongo:6.0
-    container_name: hometasker-mongo
+    container_name: hometasker-db
     ports:
       - "27017:27017"
     volumes:
@@ -17,7 +17,13 @@ services:
     env_file:
       - ./backend/.env
     depends_on:
-      - mongo
+      - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
 
   frontend:
     build:
@@ -29,7 +35,8 @@ services:
     ports:
       - "3000:80"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
 
 volumes:
   mongo_data:

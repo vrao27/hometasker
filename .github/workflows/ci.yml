@@ -10,7 +10,7 @@ jobs:
   test-backend:
     runs-on: ubuntu-22.04
     services:
-      mongo:
+      db:
         image: mongo:6.0
         ports: ["27017:27017"]
     steps:

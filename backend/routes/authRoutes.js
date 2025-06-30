@@ -60,10 +60,6 @@ const { login, signup } = require("../controllers/authController");
  *         description: Invalid credentials
  */
 
-
-
-
-
 // POST /auth/login
 router.post("/login", login);
 router.post("/signup", signup);

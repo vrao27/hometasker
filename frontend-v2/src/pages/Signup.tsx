@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';  
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Signup: React.FC = () => {
   const navigate = useNavigate(); // useNavigate hook for navigation
-  // Controlled inputs for name, email, password 
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  // Controlled inputs for name, email, password
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false); // Loading state for button
 
   // Handles form submission
@@ -18,37 +17,37 @@ const Signup: React.FC = () => {
     setLoading(true);
 
     // password validation regex
-    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+    const strongPasswordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
     if (!strongPasswordRegex.test(password)) {
       toast.error(
-        'Password must be at least 6 characters long and contain uppercase, lowercase, and a number.'
+        "Password must be at least 6 characters long and contain uppercase, lowercase, and a number."
       );
       setLoading(false);
       return;
     }
 
     try {
-      // POST to your backend signup route 
-      const API = process.env.REACT_APP_API_URL;
-      const resp = await fetch(`${API}/api/auth/signup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }, 
-        body: JSON.stringify({ name, email, password }), 
+      // POST to your backend signup route
+      const resp = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
       });
       const data = await resp.json();
 
       if (!resp.ok) {
         // Backend returned an error
-        toast.error(data.message || 'Signup failed');
+        toast.error(data.message || "Signup failed");
       } else {
         // Success! Store token & redirect
-        localStorage.setItem('token', data.accessToken);
-        toast.success('Account created!');
-        navigate('/dashboard');
+        localStorage.setItem("token", data.accessToken);
+        toast.success("Account created!");
+        navigate("/dashboard");
       }
     } catch (err) {
       console.error(err);
-      toast.error('Network error — please try again');
+      toast.error("Network error — please try again");
     } finally {
       setLoading(false);
     }
@@ -57,17 +56,13 @@ const Signup: React.FC = () => {
   return (
     /* Full-screen pastel auth background*/
     <div className="auth-background">
-      
       {/* Centered pastel-white card */}
       <div
         className="card bg-card shadow-sm rounded-3 p-4 auth-card"
-        style={{ width: '100%', maxWidth: '400px' }}>
-        
+        style={{ width: "100%", maxWidth: "400px" }}
+      >
         {/* App title above the gradient banner */}
         <h1 className="app-title text-center">HomeTasker</h1>
-
-
-
 
         {/* Gradient header/banner for form */}
         <div className="header-banner text-center py-8 mb-4">
@@ -82,7 +77,7 @@ const Signup: React.FC = () => {
             placeholder="Full Name"
             className="form-control rounded-pill mb-3"
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             required
           />
 
@@ -92,7 +87,7 @@ const Signup: React.FC = () => {
             placeholder="Email"
             className="form-control rounded-pill mb-3"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
 
@@ -102,7 +97,7 @@ const Signup: React.FC = () => {
             placeholder="Password"
             className="form-control rounded-pill mb-4"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$"
             title="Password must be at least 6 characters, include uppercase, lowercase, and a number."
@@ -114,18 +109,18 @@ const Signup: React.FC = () => {
             className="btn btn-success rounded-pill w-100"
             disabled={loading}
           >
-            {loading ? 'Signing up…' : 'Create Account'}
+            {loading ? "Signing up…" : "Create Account"}
           </button>
         </form>
 
         {/* ─── Switch to login link ───────────────────────── */}
         <p className="text-center mt-3">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <span
             role="button"
             className="text-black"
-            style={{ cursor: 'pointer' }}
-            onClick={() => navigate('/')}
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/")}
           >
             Log In
           </span>
@@ -136,6 +131,3 @@ const Signup: React.FC = () => {
 };
 
 export default Signup;
-
-
-  

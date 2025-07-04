@@ -1,12 +1,9 @@
 const User = require("../models/user");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const Household = require('../models/houseHold');
+const Household = require("../models/houseHold");
 
-
-exports.login = async (req, res) => { 
- const { email, password } = req.body;
-   //find user based on email 
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+  //find user based on email
   try {
     const user = await User.findOne({ email });
     if (!user) return res.status(401).json({ message: "User not found" });
@@ -23,45 +20,44 @@ exports.login = async (req, res) => {
     console.error("Login error", error);
     res.status(500).json({ message: "Server error during login" });
   }
+};
 
-}
-
-
-  //Updated SIGNUP method using model instance methods
+//Updated SIGNUP method using model instance methods
 exports.signup = async (req, res) => {
   //signup a new user
-  const { name, email, password, householdId: incomingHhId } = req.body;// allow clients to pass an existing householdId to join, or omit to create a new one
+  const { name, email, password, householdId: incomingHhId } = req.body; // allow clients to pass an existing householdId to join, or omit to create a new one
   try {
     //check if user exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already in use" });
     }
-    //Find or create the Household 
-let household;
-if (incomingHhId) {
-  // join existing household
-  household = await Household.findById(incomingHhId);
-  if (!household) {
-    return res.status(400).json({ message: "Invalid household ID" });
-  }
-} else {
-  // All new users go into the default “HomeTasker” household
-  household = await Household.findOne({ name: "HomeTasker Default Household" });
-  if (!household) {
-    household = await Household.create({
-      name: "HomeTasker Default Household",
-      members: []
-    });
-  }
-
-}
+    //Find or create the Household
+    let household;
+    if (incomingHhId) {
+      // join existing household
+      household = await Household.findById(incomingHhId);
+      if (!household) {
+        return res.status(400).json({ message: "Invalid household ID" });
+      }
+    } else {
+      // All new users go into the default “HomeTasker” household
+      household = await Household.findOne({
+        name: "HomeTasker Default Household",
+      });
+      if (!household) {
+        household = await Household.create({
+          name: "HomeTasker Default Household",
+          members: [],
+        });
+      }
+    }
     //create new user using housholdId
     const newUser = new User({
       name,
       email,
       password,
-      householdId: household._id // set the householdId to the new or existing household
+      householdId: household._id, // set the householdId to the new or existing household
     });
     await newUser.save(); // password is hashed in user.js pre-save hook
 
@@ -77,6 +73,4 @@ if (incomingHhId) {
     console.error("Signup error", error);
     res.status(500).json({ message: "Signup Failed", error: error.message });
   }
-
- }
-
+};

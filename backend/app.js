@@ -23,10 +23,22 @@ app.use(
   cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
-); // Allows requests from FRONTEND_URL
+);
+
+app.options(
+  "*",
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+); // Pre-flight request handling
+// This allows the browser to make pre-flight requests to check if the server accepts the actual request
+// This is necessary for CORS to work properly, especially for non-simple requests like PUT or
+
+// Allows requests from FRONTEND_URL
 //the allowed request prevent browsers from sending any other request types unless specified
 app.use(express.json()); // Allows parsing JSON requests
 

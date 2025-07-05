@@ -11,6 +11,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    image: "${DOCKERHUB_USERNAME}/hometasker-backend:${VERSION}"
     container_name: hometasker-backend
     ports:
       - "5000:5000"
@@ -29,6 +30,7 @@ services:
     build:
       context: ./frontend-v2
       dockerfile: Dockerfile
+    image: "${DOCKERHUB_USERNAME}/hometasker-frontend:${VERSION}"
     container_name: hometasker-frontend
     ports:
       - "80:80"

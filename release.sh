@@ -21,8 +21,14 @@ if [ ! -f backend/.env ]; then
   mkdir -p backend
   touch backend/.env
 fi
-docker compose build
-docker compose push
+docker compose \
+  -f docker-compose.yml \  # Use the main compose file
+  -f docker-compose.build.yml \  # Use the build override file
+  build
+docker compose \
+  -f docker-compose.yml \  # Use the main compose file
+  -f docker-compose.build.yml \  # Use the build override file
+  push
 #tag the realease in git rrepo
 git tag "${VERSION}"
 git push origin "${VERSION}"

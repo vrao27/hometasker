@@ -7,14 +7,12 @@ if [ -f .env ]; then
   source .env
   set +o allexport
 fi
-
-#add release tags v1, v2 etc
 count=$(git tag -l 'v[0-9]*' | wc -l | xargs)
-#version count 
+
 next=$((count + 1))
 VERSION="v${next}"
 echo "🛠 Releasing ${VERSION}"
-#added in .env file at root of project
+
 export VERSION
 export DOCKERHUB_USERNAME 
 if [ ! -f backend/.env ]; then
@@ -22,14 +20,14 @@ if [ ! -f backend/.env ]; then
   touch backend/.env
 fi
 docker compose \
-  -f docker-compose.yml \  # Use the main compose file
-  -f docker-compose.build.yml \  # Use the build override file
+  -f docker-compose.yml \ 
+  -f docker-compose.build.yml \ 
   build
 docker compose \
-  -f docker-compose.yml \  # Use the main compose file
-  -f docker-compose.build.yml \  # Use the build override file
+  -f docker-compose.yml \  
+  -f docker-compose.build.yml \ 
   push
-#tag the realease in git rrepo
+
 git tag "${VERSION}"
 git push origin "${VERSION}"
 echo "Published images with tag ${VERSION}"

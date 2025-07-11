@@ -17,6 +17,10 @@ echo "🛠 Releasing ${VERSION}"
 #added in .env file at root of project
 export VERSION
 export DOCKERHUB_USERNAME 
+if [ ! -f backend/.env ]; then
+  mkdir -p backend
+  touch backend/.env
+fi
 docker compose build
 docker compose push
 #tag the realease in git rrepo

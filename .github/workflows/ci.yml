@@ -75,7 +75,8 @@ jobs:
         run: chmod +x ./release.sh
 
       - name: Create dummy backend/.env for build
-        run: mkdir -p backend
+        run: |
+          mkdir -p backend
           touch backend/.env
 
       - name: Run release script

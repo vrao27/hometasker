@@ -55,7 +55,7 @@ jobs:
     name: Release Docker Images
     runs-on: ubuntu-latest
     needs: [test-backend, test-frontend]
-    if: github.ref == 'refs/heads/main' # only on main
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout code with full history
         uses: actions/checkout@v3

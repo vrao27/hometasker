@@ -1,3 +1,3 @@
 .DS_Store
 .DS_Store
-/backend/__tests__/
+/backend/__tests__/infra/.terraform/

@@ -18,6 +18,8 @@ cd /home/ubuntu
 git clone https://github.com/vrao27/hometasker.git
 cd hometasker
 
+chown -R ubuntu:ubuntu /home/ubuntu/hometasker
+
 docker-compose up -d
 
 docker ps -a

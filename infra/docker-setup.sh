@@ -15,5 +15,10 @@ docker --version
 docker-compose --version
 
 cd /home/ubuntu
-git clone 
+git clone https://github.com/vrao27/hometasker.git
 cd hometasker
+
+docker-compose up -d
+
+docker ps -a
+

@@ -4,7 +4,20 @@ variable "region" {
   default     = "eu-central-1"
 }
 
+variable "availability_zone" {
+  default = "eu-central-1a"
+}
+
 variable "domain_name" {
-  description = "The domain to manage in Lightsail DNS (e.g. hometasker.org)"
+  description = "hometasker.org"
   type        = string
 }
+
+variable "instance_name" {
+  default = "hometasker-app"
+}
+
+variable "key_pair_name" {
+  description = "Hometasker-key.pem"
+}
+

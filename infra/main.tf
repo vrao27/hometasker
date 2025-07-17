@@ -9,7 +9,6 @@ terraform {
 provider "aws" {
   region = var.region
 }
-
 resource "aws_lightsail_instance" "app_server" {
   name              = var.instance_name
   availability_zone = var.availability_zone
@@ -34,4 +33,7 @@ resource "aws_lightsail_instance_public_ports" "web" {
     from_port = 443
     to_port   = 443
   }
+}
+output "debug_keypair" {
+  value = var.key_pair_name
 }

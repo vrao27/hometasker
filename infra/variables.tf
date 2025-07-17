@@ -18,6 +18,8 @@ variable "instance_name" {
 }
 
 variable "key_pair_name" {
-  description = "Hometasker-key.pem"
+  description = "Name of Lightsail SSH key pair (as shown in Lightsail console)"
+  type        = string
+  default     = "hometasker-key"
 }
 

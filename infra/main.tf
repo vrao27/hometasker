@@ -24,13 +24,11 @@ resource "aws_lightsail_instance" "app_server" {
 }
 resource "aws_lightsail_instance_public_ports" "web" {
   instance_name = aws_lightsail_instance.app_server.name
-
   port_info {
     protocol  = "tcp"
     from_port = 80
     to_port   = 80
   }
-
   port_info {
     protocol  = "tcp"
     from_port = 443

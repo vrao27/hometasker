@@ -1,9 +1,3 @@
-#cloud-config
-write_files:
-  - path: /home/ubuntu/docker-setup.sh
-    owner: ubuntu:ubuntu
-    permissions: "0755"
-    content: |
       #!/bin/bash
       set -e
 
@@ -26,6 +20,3 @@ write_files:
       cd hometasker
       docker-compose pull
       docker-compose up -d
-
-runcmd:
-  - [sh, -c, "/home/ubuntu/docker-setup.sh >> /var/log/custom-setup.log 2>&1"]

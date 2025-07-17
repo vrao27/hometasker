@@ -23,12 +23,6 @@ resource "aws_lightsail_instance" "app_server" {
 }
 resource "aws_lightsail_instance_public_ports" "web" {
   instance_name = aws_lightsail_instance.app_server.name
-  
-    port_info {
-    protocol  = "SSH"
-    from_port = 22
-    to_port   = 22
-  }
     port_info {
     protocol  = "tcp"
     from_port = 80

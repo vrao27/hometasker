@@ -15,7 +15,7 @@ resource "aws_lightsail_instance" "app_server" {
   blueprint_id      = "ubuntu_22_04"
   bundle_id         = "small_2_0"
   key_pair_name     = var.key_pair_name
-  user_data         = file("${path.module}/cloud-config.yaml")
+  user_data         = file("${path.module}/docker-setup.sh")
 
   tags = {
     Name = var.instance_name
@@ -23,7 +23,13 @@ resource "aws_lightsail_instance" "app_server" {
 }
 resource "aws_lightsail_instance_public_ports" "web" {
   instance_name = aws_lightsail_instance.app_server.name
-  port_info {
+  
+    port_info {
+    protocol  = "SSH"
+    from_port = 22
+    to_port   = 22
+  }
+    port_info {
     protocol  = "tcp"
     from_port = 80
     to_port   = 80

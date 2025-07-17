@@ -15,7 +15,7 @@ resource "aws_lightsail_instance" "app_server" {
   blueprint_id      = "ubuntu_22_04"
   bundle_id         = "small_2_0"
   key_pair_name     = var.key_pair_name
-  user_data         = file("${path.module}/docker-setup.sh")
+  user_data         = file("${path.module}/cloud-config.yaml")
 
   tags = {
     Name = var.instance_name

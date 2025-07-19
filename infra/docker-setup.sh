@@ -16,6 +16,12 @@ ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 cd /home/ubuntu
 git clone https://github.com/vrao27/hometasker.git || true
+cat <<EOF > hometasker/backend/.env
+PORT=5000
+NODE_ENV=development
+DB_URI=mongodb://localhost:27017/hometaskerDB
+TOKEN_SECRET=$(head -c 32 /dev/urandom | base64)
+EOF
 chown -R ubuntu:ubuntu hometasker
 cd hometasker
 docker-compose pull

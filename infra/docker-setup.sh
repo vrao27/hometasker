@@ -31,7 +31,7 @@ apt-get install -y \
     docker-ce \
     docker-ce-cli \
     containerd.io \
-    docker-compose-plugin
+    docker-compose
 
 # 4) Provide legacy `docker-compose` if needed
 ln -sf /usr/lib/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose

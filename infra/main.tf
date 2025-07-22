@@ -18,12 +18,16 @@ resource "aws_lightsail_instance" "app_server" {
   tags = {
     Name = var.instance_name
   }
+  provisioner "file" {
+    source      = "${path.module}/docker-setup.sh"
+    destination = "/home/ubuntu/docker-setup.sh"
+  }
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
       host        = self.public_ip_address
-      private_key = file(var.ssh_private_key_path)
+      agent       = true
     }
     inline = [
       "chmod +x /home/ubuntu/docker-setup.sh",

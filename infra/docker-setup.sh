@@ -54,21 +54,21 @@ git clone https://github.com/vrao27/hometasker.git hometasker || true
 chown -R ubuntu:ubuntu hometasker
 
 # 8) Build the .env file
-cat <<EOF > hometasker/.env
+cat <<EOF > hometasker/backend/.env
 PORT=5000
 NODE_ENV=development
 DB_URI=mongodb://localhost:27017/hometaskerDB
 TOKEN_SECRET=$(head -c32 /dev/urandom | base64)
 EOF
-chown ubuntu:ubuntu hometasker/.env
+chown ubuntu:ubuntu hometasker/backend/.env
 
 # 9) Pull & launch containers with Compose
 cd hometasker
 export DOCKERHUB_USERNAME="satchrao"
 export VERSION="v3"
 
-docker compose pull
-docker compose up -d
+sudo docker compose pull
+sudo docker compose up -d
 
 echo "📦 Containers launched:"
 docker ps -a

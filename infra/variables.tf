@@ -23,3 +23,10 @@ variable "key_pair_name" {
   default     = "hometasker-key"
 }
 
+variable "ssh_private_key_path" {
+  description = "Path to the SSH private key used for provisioning"
+  type        = string
+  default     = "~/.ssh/hometasker-key.pem"
+}
+
+

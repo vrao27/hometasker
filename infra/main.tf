@@ -15,10 +15,20 @@ resource "aws_lightsail_instance" "app_server" {
   blueprint_id      = "ubuntu_22_04"
   bundle_id         = "small_2_0"
   key_pair_name     = var.key_pair_name
-  user_data         = file("${path.module}/docker-setup.sh")
-
   tags = {
     Name = var.instance_name
+  }
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      host        = self.public_ip_address
+      private_key = file(var.ssh_private_key_path)
+    }
+    inline = [
+      "chmod +x /home/ubuntu/docker-setup.sh",
+      "sudo /home/ubuntu/docker-setup.sh",
+    ]
   }
 }
 resource "aws_lightsail_instance_public_ports" "web" {
@@ -39,6 +49,7 @@ resource "aws_lightsail_instance_public_ports" "web" {
     to_port   = 443
   }
 }
+
 output "debug_keypair" {
   value = var.key_pair_name
 }

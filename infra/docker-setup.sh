@@ -31,10 +31,9 @@ apt-get install -y \
     docker-ce \
     docker-ce-cli \
     containerd.io \
-    docker-compose
+    docker-buildx-plugin docker-compose-plugin
 
-# 4) Provide legacy `docker-compose` if needed
-ln -sf /usr/lib/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
+
 
 # 5) Add 'ubuntu' user to docker & sudo groups; enable passwordless sudo
 usermod -aG docker,sudo ubuntu
@@ -44,31 +43,32 @@ chmod 440 /etc/sudoers.d/ubuntu-nopasswd
 # 6) Start Docker & wait until it's ready
 systemctl enable docker
 systemctl start docker
-echo "⏳ Waiting for Docker daemon to be ready…"
-until docker info > /dev/null 2>&1; do sleep 2; done
-echo "✅ Docker is ready."
 
 # 7) Clone or update your app repo
 cd /home/ubuntu
 git clone https://github.com/vrao27/hometasker.git hometasker || true
 chown -R ubuntu:ubuntu hometasker
 
-# 8) Build the .env file
+# 8) Build the .env file for interpolation
 cat <<EOF > hometasker/.env
+DOCKERHUB_USERNAME=satchrao
+VERSION=v3
+EOF
+chown ubuntu:ubuntu hometasker/.env
+
+
+cat <<EOF > hometasker/backend/.env
 PORT=5000
 NODE_ENV=development
 DB_URI=mongodb://localhost:27017/hometaskerDB
 TOKEN_SECRET=$(head -c32 /dev/urandom | base64)
 EOF
-chown ubuntu:ubuntu hometasker/.env
+chown ubuntu:ubuntu hometasker/backend/.env
 
 # 9) Pull & launch containers with Compose
 cd hometasker
-export DOCKERHUB_USERNAME="satchrao"
-export VERSION="v3"
+docker compose --env-file .env up -d --build
 
-sudo docker compose pull
-sudo docker compose up -d
 
 echo "📦 Containers launched:"
 docker ps -a

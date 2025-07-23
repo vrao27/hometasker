@@ -29,4 +29,14 @@ variable "ssh_private_key_path" {
   default     = "~/.ssh/hometasker-key.pem"
 }
 
+variable "db_uri" {
+  description = "MongoDB connection string for Lightsail deployment"
+  type        = string
+  default     = "mongodb://db:27017/hometaskerDB"
+}
 
+variable "token_secret" {
+  description = "JWT token secret for production"
+  type        = string
+  default     = ""
+}

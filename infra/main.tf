@@ -36,8 +36,9 @@ resource "aws_lightsail_instance" "app_server" {
       agent = true
     }
     inline = [
-      "chmod +x /home/ubuntu/docker-setup.sh",
-      "sudo /home/ubuntu/docker-setup.sh",
+    "cat > /home/ubuntu/hometasker/backend/.env <<EOM\nMONGO_URI=${var.db_uri}\nPORT=5000\nNODE_ENV=production\nTOKEN_SECRET=${var.token_secret}\nFRONTEND_URL=http://${self.public_ip_address}:80\nEOM",
+    "chmod +x /home/ubuntu/docker-setup.sh",
+    "sudo /home/ubuntu/docker-setup.sh",
     ]
   }
 }

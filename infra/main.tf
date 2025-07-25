@@ -58,8 +58,9 @@ resource "aws_lightsail_instance_public_ports" "web" {
     from_port = 443
     to_port   = 443
   }
+    port_info {
+    protocol  = "tcp"
+    from_port = 5000
+    to_port   = 5000
 }
-
-output "debug_keypair" {
-  value = var.key_pair_name
 }

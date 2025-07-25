@@ -19,14 +19,14 @@ resource "aws_lightsail_instance" "app_server" {
     Name = var.instance_name
   }
   provisioner "file" {
+    source      = "${path.module}/docker-setup.sh"
+    destination = "/home/ubuntu/docker-setup.sh"
     connection {
       type  = "ssh"
       user  = "ubuntu"
       host  = self.public_ip_address
       agent = true
     }
-    source      = "${path.module}/docker-setup.sh"
-    destination = "/home/ubuntu/docker-setup.sh"
   }
   provisioner "remote-exec" {
     connection {
@@ -36,9 +36,8 @@ resource "aws_lightsail_instance" "app_server" {
       agent = true
     }
     inline = [
-    "cat > /home/ubuntu/hometasker/backend/.env <<EOM\nMONGO_URI=${var.db_uri}\nPORT=5000\nNODE_ENV=production\nTOKEN_SECRET=${var.token_secret}\nFRONTEND_URL=http://${self.public_ip_address}:80\nEOM",
-    "chmod +x /home/ubuntu/docker-setup.sh",
-    "sudo /home/ubuntu/docker-setup.sh",
+      "chmod +x /home/ubuntu/docker-setup.sh",
+      "sudo /home/ubuntu/docker-setup.sh",
     ]
   }
 }

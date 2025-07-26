@@ -1,42 +1,29 @@
-variable "region" {
-  description = "AWS region for Lightsail resources"
-  type        = string
+variable "aws_region" {
+  description = "AWS region for Lightsail"
   default     = "eu-central-1"
 }
 
-variable "availability_zone" {
-  default = "eu-central-1a"
-}
-
-variable "domain_name" {
-  description = "hometasker.org"
-  type        = string
-}
-
 variable "instance_name" {
-  default = "hometasker-app"
+  description = "Name for the Lightsail instance"
+  default     = "hometasker-app"
+}
+
+variable "availability_zone" {
+  description = "Availability Zone for Lightsail instance"
+  default     = "eu-central-1a"
+}
+
+variable "blueprint_id" {
+  description = "Lightsail blueprint ID (Ubuntu, etc)"
+  default     = "ubuntu_22_04"
+}
+
+variable "bundle_id" {
+  description = "Lightsail plan (nano_2_0, small_2_0, etc)"
+  default     = "small_2_0"
 }
 
 variable "key_pair_name" {
-  description = "Name of Lightsail SSH key pair (as shown in Lightsail console)"
-  type        = string
-  default     = "hometasker-key"
-}
-
-variable "ssh_private_key_path" {
-  description = "Path to the SSH private key used for provisioning"
-  type        = string
-  default     = "~/.ssh/hometasker-key.pem"
-}
-
-variable "db_uri" {
-  description = "MongoDB connection string for Lightsail deployment"
-  type        = string
-  default     = "mongodb://db:27017/hometaskerDB"
-}
-
-variable "token_secret" {
-  description = "JWT token secret for production"
-  type        = string
-  default     = ""
+  description = "hometasker-key"
+  default     = "LightsailDefaultKey-eu-central-1"
 }

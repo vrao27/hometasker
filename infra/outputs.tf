@@ -1,3 +1,4 @@
 output "instance_ip" {
-  value = aws_lightsail_static_ip.ip.ip_address
+  description = "Public IP (static) of the Lightsail instance"
+  value       = aws_lightsail_instance.app_server.public_ip_address
 }

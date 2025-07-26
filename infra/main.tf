@@ -2,10 +2,6 @@ provider "aws" {
   region = var.aws_region
 }
 
-resource "aws_lightsail_static_ip" "ip" {
-  name = "hometasker-static-ip"
-}
-
 resource "aws_lightsail_instance" "app_server" {
   name              = var.instance_name
   availability_zone = var.availability_zone
@@ -22,7 +18,7 @@ resource "aws_lightsail_instance" "app_server" {
 
 resource "aws_lightsail_static_ip_attachment" "attach" {
   instance_name  = aws_lightsail_instance.app_server.name
-  static_ip_name = aws_lightsail_static_ip.ip.name
+  static_ip_name = var.static_ip_name
 }
 
 resource "aws_lightsail_instance_public_ports" "open" {
@@ -54,5 +50,3 @@ resource "aws_lightsail_instance_public_ports" "open" {
     to_port   = 3000
   }
 }
-
-

@@ -14,7 +14,7 @@ variable "availability_zone" {
 }
 
 variable "blueprint_id" {
-  description = "Lightsail blueprint ID (Ubuntu, etc)"
+  description = "Lightsail blueprint ID (e.g., ubuntu_22_04)"
   default     = "ubuntu_22_04"
 }
 
@@ -24,6 +24,11 @@ variable "bundle_id" {
 }
 
 variable "key_pair_name" {
-  description = "hometasker-key"
-  default     = "LightsailDefaultKey-eu-central-1"
+  description = "Name of your Lightsail SSH keypair"
+  default     = "my-ssh-key"  # ← replace with the actual name from `aws lightsail get-key-pairs`
+}
+
+variable "static_ip_name" {
+  description = "Name of your existing Lightsail Static IP"
+  default     = "hometasker-static-ip"
 }

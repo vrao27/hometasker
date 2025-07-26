@@ -60,7 +60,7 @@ chown ubuntu:ubuntu hometasker/.env
 cat <<EOF > hometasker/backend/.env
 PORT=5000
 NODE_ENV=development
-MONGO_URI=mongodb://localhost:27017/hometaskerDB
+MONGO_URI=mongodb://db:27017/hometaskerDB
 TOKEN_SECRET=$(head -c32 /dev/urandom | base64)
 EOF
 chown ubuntu:ubuntu hometasker/backend/.env

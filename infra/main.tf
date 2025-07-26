@@ -6,9 +6,11 @@ terraform {
     }
   }
 }
+
 provider "aws" {
   region = var.region
 }
+
 resource "aws_lightsail_instance" "app_server" {
   name              = var.instance_name
   availability_zone = var.availability_zone
@@ -18,29 +20,8 @@ resource "aws_lightsail_instance" "app_server" {
   tags = {
     Name = var.instance_name
   }
-  provisioner "file" {
-    source      = "${path.module}/docker-setup.sh"
-    destination = "/home/ubuntu/docker-setup.sh"
-    connection {
-      type  = "ssh"
-      user  = "ubuntu"
-      host  = self.public_ip_address
-      agent = true
-    }
-  }
-  provisioner "remote-exec" {
-    connection {
-      type  = "ssh"
-      user  = "ubuntu"
-      host  = self.public_ip_address
-      agent = true
-    }
-    inline = [
-      "chmod +x /home/ubuntu/docker-setup.sh",
-      "sudo /home/ubuntu/docker-setup.sh",
-    ]
-  }
 }
+
 resource "aws_lightsail_instance_public_ports" "web" {
   instance_name = aws_lightsail_instance.app_server.name
   port_info {
@@ -63,4 +44,34 @@ resource "aws_lightsail_instance_public_ports" "web" {
     from_port = 5000
     to_port   = 5000
   }
+}
+
+resource "null_resource" "docker_provisioner" {
+  triggers = {
+    instance_id = aws_lightsail_instance.app_server.id
+  }
+
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    host        = aws_lightsail_instance.app_server.public_ip_address
+    private_key = file(var.ssh_private_key_path)
+    timeout     = "10m"
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/docker-setup.sh"
+    destination = "/home/ubuntu/docker-setup.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/ubuntu/docker-setup.sh",
+      "sudo /home/ubuntu/docker-setup.sh",
+    ]
+  }
+
+  depends_on = [
+    aws_lightsail_instance_public_ports.web
+  ]
 }

@@ -21,11 +21,11 @@ if [ ! -f backend/.env ]; then
 fi
 docker compose \
   -f docker-compose.yml \
-  -f docker-compose.build.yml \
+  #-f docker-compose.build.yml \
   build
 docker compose \
   -f docker-compose.yml \
-  -f docker-compose.build.yml \
+  #-f docker-compose.build.yml \
   push
 
 git tag "${VERSION}"

@@ -58,9 +58,13 @@ resource "aws_lightsail_instance_public_ports" "web" {
     from_port = 443
     to_port   = 443
   }
-    port_info {
+  port_info {
     protocol  = "tcp"
     from_port = 5000
     to_port   = 5000
+  }
 }
+
+output "instance_ip" {
+  value = aws_lightsail_instance.app_server.public_ip_address
 }

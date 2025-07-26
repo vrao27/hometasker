@@ -17,6 +17,7 @@ resource "aws_lightsail_instance" "app_server" {
   blueprint_id      = "ubuntu_22_04"
   bundle_id         = "small_2_0"
   key_pair_name     = var.key_pair_name
+  
   tags = {
     Name = var.instance_name
   }
@@ -24,21 +25,25 @@ resource "aws_lightsail_instance" "app_server" {
 
 resource "aws_lightsail_instance_public_ports" "web" {
   instance_name = aws_lightsail_instance.app_server.name
+  
   port_info {
     protocol  = "tcp"
     from_port = 22
     to_port   = 22
   }
+  
   port_info {
     protocol  = "tcp"
     from_port = 80
     to_port   = 80
   }
+  
   port_info {
     protocol  = "tcp"
     from_port = 443
     to_port   = 443
   }
+  
   port_info {
     protocol  = "tcp"
     from_port = 5000
@@ -46,9 +51,17 @@ resource "aws_lightsail_instance_public_ports" "web" {
   }
 }
 
+resource "time_sleep" "wait_for_network" {
+  depends_on = [aws_lightsail_instance_public_ports.web]
+  
+  create_duration = "2m" # Wait 2 minutes for network stabilization
+}
+
 resource "null_resource" "docker_provisioner" {
+  depends_on = [time_sleep.wait_for_network]
+
   triggers = {
-    instance_id = aws_lightsail_instance.app_server.id
+    instance_ip = aws_lightsail_instance.app_server.public_ip_address
   }
 
   connection {
@@ -70,8 +83,4 @@ resource "null_resource" "docker_provisioner" {
       "sudo /home/ubuntu/docker-setup.sh",
     ]
   }
-
-  depends_on = [
-    aws_lightsail_instance_public_ports.web
-  ]
 }

@@ -4,7 +4,8 @@ output "instance_ip" {
   depends_on  = [null_resource.docker_provisioner]
 }
 
-output "instance_status" {
-  value       = aws_lightsail_instance.app_server.state
-  description = "Current state of the instance"
+output "instance_details" {
+  value       = aws_lightsail_instance.app_server
+  description = "All available instance attributes"
+  sensitive   = true
 }

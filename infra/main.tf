@@ -64,7 +64,3 @@ resource "aws_lightsail_instance_public_ports" "web" {
     to_port   = 5000
   }
 }
-
-output "instance_ip" {
-  value = aws_lightsail_instance.app_server.public_ip_address
-}

@@ -15,6 +15,8 @@ git clone https://github.com/vrao27/hometasker.git
 cd hometasker
 git checkout terraform
 
+mkdir -p backend frontend
+
 cat <<EOF > /home/ubuntu/hometasker/.env
 DOCKERHUB_USERNAME=satchrao
 VERSION=v3

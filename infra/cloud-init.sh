@@ -14,4 +14,13 @@ cd /home/ubuntu
 
 git clone https://github.com/vrao27/hometasker.git
 
+cat <<EOF > /home/ubuntu/hometasker/.env
+DOCKERHUB_USERNAME=satchrao
+VERSION=v3
+EOF
+
 sudo chown -R ubuntu:ubuntu /home/ubuntu/hometasker
+
+cd /home/ubuntu/hometasker
+sudo docker compose pull
+sudo docker compose up -d

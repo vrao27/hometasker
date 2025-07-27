@@ -11,8 +11,9 @@ sudo chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
 sudo usermod -aG docker ubuntu
 
 cd /home/ubuntu
-
 git clone https://github.com/vrao27/hometasker.git
+cd hometasker
+git checkout terraform
 
 cat <<EOF > /home/ubuntu/hometasker/.env
 DOCKERHUB_USERNAME=satchrao

@@ -19,6 +19,17 @@ DOCKERHUB_USERNAME=satchrao
 VERSION=v3
 EOF
 
+cat <<EOF > /home/ubuntu/hometasker/backend/.env
+MONGO_URI=mongodb://localhost:27017/
+PORT=5000
+TOKEN_SECRET=changeme
+FRONTEND_URL=http://localhost:3000
+EOF
+
+cat <<EOF > /home/ubuntu/hometasker/frontend/.env
+REACT_APP_API_URL=http://localhost:5000
+EOF
+
 sudo chown -R ubuntu:ubuntu /home/ubuntu/hometasker
 
 cd /home/ubuntu/hometasker

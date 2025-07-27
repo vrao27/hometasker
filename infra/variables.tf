@@ -25,7 +25,7 @@ variable "bundle_id" {
 
 variable "key_pair_name" {
   description = "Name of your Lightsail SSH keypair"
-  default     = "my-ssh-key"  # ← replace with the actual name from `aws lightsail get-key-pairs`
+  default     = "hometasker-key"
 }
 
 variable "static_ip_name" {

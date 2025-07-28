@@ -19,14 +19,9 @@ if [ ! -f backend/.env ]; then
   mkdir -p backend
   touch backend/.env
 fi
-docker compose \
-  -f docker-compose.yml \
-  #-f docker-compose.build.yml \
-  build
-docker compose \
-  -f docker-compose.yml \
-  #-f docker-compose.build.yml \
-  push
+
+docker compose -f docker-compose.yml build
+docker compose -f docker-compose.yml push
 
 git tag "${VERSION}"
 git push origin "${VERSION}"

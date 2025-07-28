@@ -12,7 +12,6 @@ sudo usermod -aG docker ubuntu
 cd /home/ubuntu
 git clone https://github.com/vrao27/hometasker.git
 cd hometasker
-git checkout terraform
 
 mkdir -p backend frontend
 

@@ -23,6 +23,10 @@ fi
 docker compose -f docker-compose.yml build
 docker compose -f docker-compose.yml push
 
-git tag "${VERSION}"
-git push origin "${VERSION}"
+if git rev-parse "$VERSION" >/dev/null 2>&1; then
+  echo "Tag $VERSION already exists. Skipping tag creation."
+else
+  git tag "$VERSION"
+  git push origin "$VERSION"
+fi
 echo "Published images with tag ${VERSION}"

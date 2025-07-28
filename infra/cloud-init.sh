@@ -22,7 +22,7 @@ VERSION=v3
 EOF
 
 cat <<EOF > /home/ubuntu/hometasker/backend/.env
-MONGO_URI=mongodb://mongo:27017/
+MONGO_URI=mongodb://db:27017/
 PORT=5000
 TOKEN_SECRET=changeme
 FRONTEND_URL=http://localhost:3000

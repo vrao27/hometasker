@@ -12,7 +12,10 @@ sudo usermod -aG docker ubuntu
 cd /home/ubuntu
 git clone https://github.com/vrao27/hometasker.git
 cd hometasker
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 
 mkdir -p backend frontend
 

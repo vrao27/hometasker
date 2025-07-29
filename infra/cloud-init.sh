@@ -34,5 +34,5 @@ EOF
 sudo chown -R ubuntu:ubuntu /home/ubuntu/hometasker
 
 cd /home/ubuntu/hometasker
-sudo docker compose pull
-sudo docker compose up -d
+docker compose pull
+docker compose up -d

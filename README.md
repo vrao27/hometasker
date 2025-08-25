@@ -79,5 +79,3 @@ Notes
 
 Questions / Issues?
 Open an issue on GitHub or contact me at vrao8912@gmail.com
-
-> CI smoke test – <today>

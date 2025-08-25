@@ -1,6 +1,3 @@
-provider "aws" {
-  region = var.aws_region
-}
 
 resource "aws_lightsail_instance" "app_server" {
   name              = var.instance_name

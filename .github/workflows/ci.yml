@@ -6,6 +6,7 @@ on:
       - terraform
       - dev
       - main
+      - cicd-trial
   pull_request:
     branches:
       - terraform

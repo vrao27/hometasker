@@ -79,3 +79,5 @@ Notes
 
 Questions / Issues?
 Open an issue on GitHub or contact me at vrao8912@gmail.com
+
+--Add this line to commit

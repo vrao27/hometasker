@@ -65,7 +65,7 @@ Frontend:
 http://hometasker.org
 
 Backend API docs:
-http://hometasker.org:5000/api-docs
+http://hometasker.org:5000/api-docsdocker
 
 6. Cleanup
 
